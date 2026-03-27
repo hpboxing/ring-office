@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RING OFFICE</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Josefin+Sans:wght@200;300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0A0908; --deep:#111009; --surf:#18160F; --card:#1E1C14;
+  --l1:#272318; --l2:#332F22; --l3:#46402E;
+  --gold:#C4933A; --gold2:#DBA94E; --gold3:#EDD080; --goldf:rgba(196,147,58,0.10);
+  --ivory:#EDE8DC; --iv2:#C4B99E; --iv3:#8A8070; --iv4:#504840;
+  --red:#C0392B; --redf:rgba(192,57,43,0.10);
+  --grn:#219150; --grnf:rgba(33,145,80,0.10);
+  --blu:#2980B9; --bluf:rgba(41,128,185,0.10);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--ivory);font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:13px;min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='.035'/%3E%3C/svg%3E");background-size:200px;pointer-events:none;z-index:9000}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:var(--l2)}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+/* ══════════════════════════════════════
+   HEADER
+══════════════════════════════════════ */
+.hd{position:fixed;top:0;left:0;right:0;height:56px;background:var(--ink);border-bottom:1px solid var(--l1);display:flex;align-items:center;justify-content:space-between;padding:0 32px;z-index:800}
+.hd::after{content:'';position:absolute;bottom:0;left:32px;right:32px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.3}
+.logo{display:flex;flex-direction:column;line-height:1}
+.logo-main{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;letter-spacing:6px;color:var(--ivory);text-transform:uppercase}
+.logo-main span{color:var(--gold2)}
+.logo-sub{font-size:7px;font-weight:400;letter-spacing:5px;color:var(--iv3);text-transform:uppercase;margin-top:1px}
+.hd-r{display:flex;gap:8px;align-items:center}
+.hd-date{font-size:10px;letter-spacing:2px;color:var(--iv3);margin-right:12px;font-family:'Cormorant Garamond',serif;font-style:italic}
+
+/* ── ALERT BADGE ── */
+.alert-badge{position:relative;cursor:pointer}
+.alert-dot{position:absolute;top:-3px;right:-3px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1px solid var(--ink)}
+
+/* ══════════════════════════════════════
+   SHELL
+══════════════════════════════════════ */
+.shell{display:flex;padding-top:56px;min-height:100vh}
+
+/* ══════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════ */
+.sb{width:232px;flex-shrink:0;background:var(--deep);border-right:1px solid var(--l1);position:fixed;top:56px;bottom:0;left:0;overflow-y:auto;padding:20px 0 60px}
+.sb::-webkit-scrollbar{width:0}
+.sb-sec{margin-top:4px}
+.sb-lbl{font-size:7px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--iv4);padding:16px 22px 5px}
+.nav{display:flex;align-items:center;gap:10px;padding:9px 22px;cursor:pointer;color:var(--iv3);font-size:10px;font-weight:400;letter-spacing:2px;text-transform:uppercase;transition:all .18s;border-right:2px solid transparent}
+.nav:hover{color:var(--iv2);background:rgba(196,147,58,.04)}
+.nav.on{color:var(--gold2);border-right-color:var(--gold);background:var(--goldf)}
+.nav-ico{font-size:14px;width:18px;flex-shrink:0}
+.nav-pill{margin-left:auto;background:var(--l1);color:var(--iv3);font-size:8px;padding:1px 5px;letter-spacing:0}
+.sb-div{height:1px;background:var(--l1);margin:10px 18px}
+
+/* MODULE SWITCH */
+.mod-tabs{display:flex;margin:16px 14px 4px}
+.mod-tab{flex:1;text-align:center;padding:8px 0;font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid var(--l1);color:var(--iv3);transition:all .2s}
+.mod-tab:first-child{border-right:none}
+.mod-tab.on{background:var(--goldf);border-color:var(--gold);color:var(--gold2)}
+
+/* ══════════════════════════════════════
+   CONTENT
+══════════════════════════════════════ */
+.cnt{margin-left:232px;flex:1;padding:36px 40px;min-height:calc(100vh - 56px)}
+
+/* ══════════════════════════════════════
+   VIEWS
+══════════════════════════════════════ */
+.view{display:none;animation:fu .28s ease}
+.view.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══════════════════════════════════════
+   PAGE HEADER
+══════════════════════════════════════ */
+.ph{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--l1);position:relative}
+.ph::after{content:'';position:absolute;bottom:-1px;left:0;width:64px;height:1px;background:var(--gold)}
+.ph-t{font-family:'Playfair Display',serif;font-size:33px;font-weight:700;color:var(--ivory);letter-spacing:.5px;line-height:1}
+.ph-t em{font-style:italic;color:var(--gold2)}
+.ph-s{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--iv3);margin-top:5px;font-weight:300}
+
+/* ══════════════════════════════════════
+   KPI ROW
+══════════════════════════════════════ */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px}
+.kpi{background:var(--card);border:1px solid var(--l1);padding:20px 18px 16px;position:relative;overflow:hidden;transition:border-color .2s}
+.kpi:hover{border-color:var(--l2)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.kpi-v{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:var(--gold2);line-height:1;letter-spacing:-1px}
+.kpi-l{font-size:8px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--iv3);margin-top:5px}
+.kpi-hint{font-family:'Cormorant Garamond',serif;font-size:12px;color:var(--iv4);margin-top:1px;font-style:italic}
+
+/* ══════════════════════════════════════
+   TOOLBAR
+══════════════════════════════════════ */
+.tb{display:flex;gap:9px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.sw{flex:1;min-width:160px;position:relative}
+.sw::before{content:'⊙';position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--iv4);font-size:13px;pointer-events:none}
+.sw input{width:100%;background:var(--surf);border:1px solid var(--l1);color:var(--ivory);font-family:'Josefin Sans',sans-serif;font-size:11px;font-weight:300;letter-spacing:1px;padding:9px 10px 9px 33px;outline:none;transition:border-color .2s}
+.sw input::placeholder{color:var(--iv4)}
+.sw input:focus{border-color:var(--gold)}
+sel,select,.isel{background:var(--surf);border:1px solid var(--l1);color:var(--iv2);font-family:'Josefin Sans',sans-serif;font-size:11px;font-weight:300;letter-spacing:1px;padding:9px 28px 9px 11px;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%2346402E'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;transition:border-color .2s}
+select:focus{border-color:var(--gold)}
+
+/* ══════════════════════════════════════
+   TABLE
+══════════════════════════════════════ */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--surf);border-bottom:1px solid var(--l1);padding:9px 14px;text-align:left;font-size:8px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--iv3);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--l1);cursor:pointer;transition:background .15s}
+tbody tr:hover{background:var(--goldf)}
+tbody td{padding:12px 14px;vertical-align:middle}
+.tn{font-family:'Playfair Display',serif;font-size:14px;font-weight:600}
+.ta{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--iv3)}
+.ts{font-size:11px;color:var(--iv2)}
+.tm{font-size:10px;color:var(--iv3)}
+
+/* ══════════════════════════════════════
+   BADGES
+══════════════════════════════════════ */
+.b{display:inline-flex;align-items:center;padding:2px 7px;font-size:7px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:1px solid}
+.ba{border-color:var(--grn);color:var(--grn);background:var(--grnf)}
+.bi{border-color:var(--iv4);color:var(--iv3)}
+.be{border-color:var(--grn);color:var(--grn);background:var(--grnf)}
+.bn{border-color:var(--red);color:var(--red);background:var(--redf)}
+.bp{border-color:var(--gold2);color:var(--gold2);background:var(--goldf)}
+.bac{border-color:var(--grn);color:var(--grn);background:var(--grnf)}
+.br{border-color:var(--red);color:var(--red);background:var(--redf)}
+.bx{border-color:var(--iv4);color:var(--iv3)}
+.bb{border-color:var(--blu);color:var(--blu);background:var(--bluf)}
+
+/* ══════════════════════════════════════
+   RECORD
+══════════════════════════════════════ */
+.rec{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;letter-spacing:1px}
+.rw{color:var(--grn)}.rl{color:var(--red)}.rd{color:var(--gold2)}
+
+/* ══════════════════════════════════════
+   FIGHT CARD
+══════════════════════════════════════ */
+.fc{background:var(--card);border:1px solid var(--l1);padding:20px 24px;margin-bottom:10px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.fc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity .2s}
+.fc:hover{border-color:var(--l2);background:var(--surf)}
+.fc:hover::before{opacity:1}
+.fc-mu{display:grid;grid-template-columns:1fr 70px 1fr;align-items:center;gap:14px;margin-bottom:14px}
+.fc-bn{font-family:'Playfair Display',serif;font-size:17px;font-weight:600}
+.fc-bs{font-size:9px;color:var(--iv3);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.fc-vs{text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:26px;color:var(--gold);font-weight:400}
+.fc-ft{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--l1);font-size:10px;color:var(--iv3);letter-spacing:1px}
+
+/* ══════════════════════════════════════
+   CONTACT CARD
+══════════════════════════════════════ */
+.cc{background:var(--card);border:1px solid var(--l1);padding:18px 22px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;gap:16px;cursor:pointer;transition:border-color .2s}
+.cc:hover{border-color:var(--l2)}
+.cc-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;letter-spacing:.5px}
+.cc-role{font-size:9px;color:var(--iv3);letter-spacing:3px;text-transform:uppercase;margin-top:2px}
+.cc-meta{font-size:11px;color:var(--iv3);margin-top:8px;line-height:1.9}
+.cc-meta strong{color:var(--iv2)}
+.cc-last{text-align:right}
+.cc-ld{font-family:'Playfair Display',serif;font-size:19px;color:var(--gold2);font-weight:600}
+.cc-ll{font-size:8px;color:var(--iv3);letter-spacing:2px;text-transform:uppercase}
+.cc-lc{font-size:10px;color:var(--iv3);margin-top:4px}
+
+/* ══════════════════════════════════════
+   ATHLETE CARD
+══════════════════════════════════════ */
+.athl-card{background:var(--card);border:1px solid var(--l1);padding:20px 24px;margin-bottom:10px;cursor:pointer;transition:all .2s;position:relative}
+.athl-card:hover{border-color:var(--l2);background:var(--surf)}
+.athl-card::after{content:'';position:absolute;bottom:0;left:24px;right:24px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:.2}
+.athl-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.athl-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;letter-spacing:.5px}
+.athl-cat{font-size:9px;color:var(--iv3);letter-spacing:3px;text-transform:uppercase;margin-top:2px}
+.athl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.athl-stat{background:var(--surf);border:1px solid var(--l1);padding:11px 13px}
+.athl-sl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--iv3);margin-bottom:4px}
+.athl-sv{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--ivory)}
+
+/* ══════════════════════════════════════
+   INCOME PROJECTION
+══════════════════════════════════════ */
+.proj-bar-wrap{margin-top:8px}
+.proj-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;padding:10px 0;border-bottom:1px solid var(--l1)}
+.proj-label{font-family:'Cormorant Garamond',serif;font-size:14px;min-width:180px}
+.proj-bar-bg{flex:1;height:6px;background:var(--l1);position:relative}
+.proj-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold3));transition:width .6s ease}
+.proj-amount{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold2);min-width:90px;text-align:right}
+.proj-status{min-width:80px;text-align:right}
+
+/* ══════════════════════════════════════
+   INVOICE REMINDER
+══════════════════════════════════════ */
+.inv-card{background:var(--card);border:1px solid var(--l1);border-left:3px solid var(--gold);padding:16px 20px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.inv-card.urgent{border-left-color:var(--red)}
+.inv-card.done{border-left-color:var(--grn);opacity:.6}
+.inv-info{}
+.inv-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:600}
+.inv-meta{font-size:10px;color:var(--iv3);letter-spacing:1px;margin-top:3px}
+.inv-amount{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold2);font-weight:700}
+.inv-due{font-size:9px;color:var(--iv3);letter-spacing:2px;text-transform:uppercase;text-align:right;margin-top:2px}
+
+/* ══════════════════════════════════════
+   MODAL
+══════════════════════════════════════ */
+.mo{display:none;position:fixed;inset:0;background:rgba(5,5,4,.88);z-index:900;align-items:center;justify-content:center;padding:20px}
+.mo.open{display:flex}
+.mbox{background:var(--deep);border:1px solid var(--l1);width:680px;max-width:100%;max-height:90vh;overflow-y:auto;animation:fu .2s ease}
+.mbox::-webkit-scrollbar{width:0}
+.mbox.wide{width:820px}
+.mh{padding:22px 26px;border-bottom:1px solid var(--l1);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--deep);z-index:2}
+.mh::after{content:'';position:absolute;bottom:0;left:26px;right:26px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:.3}
+.mt{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;letter-spacing:.5px}
+.mc{background:none;border:none;color:var(--iv3);font-size:20px;cursor:pointer;padding:2px 8px;transition:color .2s;line-height:1}
+.mc:hover{color:var(--ivory)}
+.mb{padding:26px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg.full,.f-full{grid-column:1/-1}
+.fl{display:flex;flex-direction:column;gap:5px}
+label{font-size:8px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--iv3)}
+input[type=text],input[type=date],input[type=number],input[type=email],textarea,select.isel{background:var(--surf);border:1px solid var(--l1);color:var(--ivory);padding:9px 11px;font-family:'Josefin Sans',sans-serif;font-size:12px;font-weight:300;outline:none;transition:border-color .2s;width:100%}
+input:focus,textarea:focus,select.isel:focus{border-color:var(--gold)}
+textarea{resize:vertical;min-height:72px;line-height:1.6}
+.fa{display:flex;gap:9px;justify-content:flex-end;margin-top:22px;padding-top:18px;border-top:1px solid var(--l1)}
+
+/* ══════════════════════════════════════
+   PROFILE INSIDE MODAL
+══════════════════════════════════════ */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ps{background:var(--surf);border:1px solid var(--l1);padding:13px 15px}
+.psl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--iv3);margin-bottom:5px}
+.psv{font-family:'Cormorant Garamond',serif;font-size:17px}
+
+/* TIMELINE */
+.tl{margin-top:18px}
+.tl-hd{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--iv3);margin-bottom:10px}
+.tli{display:flex;gap:13px;padding:10px 0;border-bottom:1px solid var(--l1)}
+.tld{width:7px;height:7px;border-radius:50%;background:var(--gold);margin-top:4px;flex-shrink:0}
+.tld.r{background:var(--red)}.tld.g{background:var(--grn)}.tld.b{background:var(--blu)}
+.tlc{flex:1}
+.tl-date{font-size:9px;color:var(--iv3);margin-bottom:1px;letter-spacing:1px}
+.tl-txt{font-size:12px;color:var(--ivory)}
+.tl-note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--iv3);margin-top:2px}
+
+/* ══════════════════════════════════════
+   DOCUMENT ROW
+══════════════════════════════════════ */
+.dr{background:var(--card);border:1px solid var(--l1);padding:15px 20px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;transition:border-color .2s}
+.dr:hover{border-color:var(--l2)}
+.dr-t{font-family:'Playfair Display',serif;font-size:14px;font-weight:600}
+.dr-m{font-size:10px;color:var(--iv3);margin-top:3px;letter-spacing:.5px}
+
+/* ══════════════════════════════════════
+   DASHBOARD PANELS
+══════════════════════════════════════ */
+.dash-2col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px}
+.panel{background:var(--card);border:1px solid var(--l1)}
+.panel-hd{padding:14px 18px;border-bottom:1px solid var(--l1);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--iv3);display:flex;justify-content:space-between;align-items:center}
+.panel-hd strong{color:var(--gold2)}
+.panel-body{padding:14px 18px}
+.panel-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--l1);font-size:11px}
+.panel-row:last-child{border-bottom:none}
+
+/* CA CHART */
+.ca-chart{padding:16px 18px}
+.ca-total{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--gold2);line-height:1}
+.ca-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--iv3);margin-bottom:20px;margin-top:4px}
+.ca-bars{display:flex;align-items:flex-end;gap:6px;height:80px}
+.ca-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.ca-bar{width:100%;background:linear-gradient(to top,var(--gold),var(--gold3));transition:height .5s ease;border-radius:1px 1px 0 0;min-height:2px}
+.ca-bar-lbl{font-size:8px;color:var(--iv3);letter-spacing:1px}
+.ca-bar-v{font-size:8px;color:var(--gold2)}
+
+/* EMPTY */
+.empty{text-align:center;padding:50px 20px;color:var(--iv3)}
+.empty-ico{font-size:36px;opacity:.3;margin-bottom:10px}
+.empty-txt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px}
+
+/* UTILS */
+.sep{height:1px;background:var(--l1);margin:20px 0}
+.gold{color:var(--gold2)}
+.muted{color:var(--iv3)}
+.small{font-size:10px}
+.mt8{margin-top:8px}
+.mt16{margin-top:16px}
+.mt24{margin-top:24px}
+.flex{display:flex;align-items:center;gap:8px}
+.spacer{flex:1}
+
+@media(max-width:900px){.shell{flex-direction:column}.sb{display:none}.cnt{margin-left:0}.kpi-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="hd">
+  <div class="logo">
+    <div class="logo-main">Ring <span>Office</span></div>
+    <div class="logo-sub">Matchmaking & Athlete Intelligence</div>
+  </div>
+  <div class="hd-r">
+    <div class="hd-date" id="hd-date"></div>
+    <div id="fb-status" style="font-size:9px;letter-spacing:2px;color:var(--iv3);margin-right:8px;font-family:'Josefin Sans',sans-serif">⟳ Connexion...</div>
+    <div class="alert-badge" onclick="showView('facturas');setNav('n-facturas')" title="Rappels de facturation">
+      <button class="hbtn" style="background:transparent;border:1px solid var(--l2);color:var(--iv2);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;cursor:pointer">⏰ Rappels</button>
+      <div class="alert-dot" id="alert-dot"></div>
+    </div>
+    <button class="hbtn" onclick="openQuickAdd()" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;cursor:pointer;font-weight:600">+ Ajouter</button>
+  </div>
+</header>
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<div class="shell">
+<aside class="sb">
+  <!-- MODULE TABS -->
+  <div class="mod-tabs">
+    <div class="mod-tab on" id="mod-match" onclick="switchMod('match')">⚔ Match</div>
+    <div class="mod-tab" id="mod-athlete" onclick="switchMod('athlete')">🏆 Athlète</div>
+  </div>
+
+  <!-- MODULE MATCHMAKING -->
+  <div id="nav-match">
+    <div class="sb-sec">
+      <div class="sb-lbl">Vue générale</div>
+      <div class="nav on" id="n-dash" onclick="showView('dash');setNav('n-dash')"><span class="nav-ico">◈</span> Dashboard</div>
+    </div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Boxeurs</div>
+      <div class="nav" id="n-boxeurs" onclick="showView('boxeurs');setNav('n-boxeurs')"><span class="nav-ico">🥊</span> Profils <span class="nav-pill" id="cnt-box">0</span></div>
+      <div class="nav" id="n-eligib" onclick="showView('eligib');setNav('n-eligib')"><span class="nav-ico">🇫🇷</span> Éligibilité FR</div>
+    </div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Activité</div>
+      <div class="nav" id="n-combats" onclick="showView('combats');setNav('n-combats')"><span class="nav-ico">⚔</span> Propositions <span class="nav-pill" id="cnt-cbt">0</span></div>
+      <div class="nav" id="n-contacts" onclick="showView('contacts');setNav('n-contacts')"><span class="nav-ico">☎</span> CRM Contacts <span class="nav-pill" id="cnt-cts">0</span></div>
+      <div class="nav" id="n-incidents" onclick="showView('incidents');setNav('n-incidents')"><span class="nav-ico">⚠</span> Incidents</div>
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Finance</div>
+      <div class="nav" id="n-ca" onclick="showView('ca');setNav('n-ca')"><span class="nav-ico">📈</span> Projection CA</div>
+      <div class="nav" id="n-facturas" onclick="showView('facturas');setNav('n-facturas')"><span class="nav-ico">🧾</span> Facturation</div>
+    </div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Documents</div>
+      <div class="nav" id="n-docs" onclick="showView('docs');setNav('n-docs')"><span class="nav-ico">📄</span> Tous les docs</div>
+    </div>
+  </div>
+
+  <!-- MODULE ATHLETE -->
+  <div id="nav-athlete" style="display:none">
+    <div class="sb-sec">
+      <div class="sb-lbl">Athlètes</div>
+      <div class="nav on" id="n-athletes" onclick="showView('athletes');setNav('n-athletes')"><span class="nav-ico">🏆</span> Mes athlètes</div>
+      <div class="nav" id="n-scouting" onclick="showView('scouting');setNav('n-scouting')"><span class="nav-ico">🔭</span> Scouting <span class="nav-pill" id="cnt-sct">0</span></div>
+      <div class="nav" id="n-sponsors" onclick="showView('sponsors');setNav('n-sponsors')"><span class="nav-ico">💼</span> Sponsors</div>
+      <div class="nav" id="n-rdv" onclick="showView('rdv');setNav('n-rdv')"><span class="nav-ico">📅</span> Rendez-vous</div>
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Communication</div>
+      <div class="nav" id="n-social" onclick="showView('social');setNav('n-social')"><span class="nav-ico">📱</span> Réseaux sociaux</div>
+      <div class="nav" id="n-activite" onclick="showView('activite');setNav('n-activite')"><span class="nav-ico">📊</span> Analyse activité</div>
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Finance athlète</div>
+      <div class="nav" id="n-ca-ath" onclick="showView('ca');setNav('n-ca-ath')"><span class="nav-ico">📈</span> Projection CA</div>
+      <div class="nav" id="n-fact-ath" onclick="showView('facturas');setNav('n-fact-ath')"><span class="nav-ico">🧾</span> Facturation</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════ CONTENT ══════════ -->
+<main class="cnt">
+
+<!-- ─────────── DASHBOARD ─────────── -->
+<div class="view on" id="view-dash">
+  <div class="ph">
+    <div><div class="ph-t">Dashboard</div><div class="ph-s">Vue d'ensemble · Matchmaking actif</div></div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-v" id="k-box">0</div><div class="kpi-l">Boxeurs en base</div></div>
+    <div class="kpi"><div class="kpi-v" id="k-cbt">0</div><div class="kpi-l">Négociations actives</div></div>
+    <div class="kpi"><div class="kpi-v" id="k-ca">0€</div><div class="kpi-l">CA projeté</div></div>
+    <div class="kpi"><div class="kpi-v" id="k-inv" style="color:var(--red)">0</div><div class="kpi-l">Factures à émettre</div><div class="kpi-hint">Rappels en attente</div></div>
+  </div>
+  <div class="dash-2col">
+    <div class="panel">
+      <div class="panel-hd">Dernières propositions <strong id="d-cbt-count"></strong></div>
+      <div class="panel-body" id="d-cbt-list"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-hd">Rappels facturation urgents</div>
+      <div class="panel-body" id="d-inv-list"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-hd">Contacts récents</div>
+      <div class="panel-body" id="d-cts-list"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-hd">Prochains RDV</div>
+      <div class="panel-body" id="d-rdv-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────── BOXEURS ─────────── -->
+<div class="view" id="view-boxeurs">
+  <div class="ph">
+    <div><div class="ph-t">Boxeurs</div><div class="ph-s">Profils · Palmarès · Liens BoxRec</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openBoxeurModal()">+ Nouveau boxeur</button>
+  </div>
+  <div class="tb">
+    <div class="sw"><input type="text" placeholder="Rechercher un boxeur..." oninput="filterBoxeurs(this.value)"></div>
+    <select onchange="filterBoxeurs(null,this.value)">
+      <option value="">Toutes catégories</option>
+      <option>Poids mouche</option><option>Poids coq</option><option>Poids plume</option><option>Poids léger</option><option>Super léger</option><option>Poids welter</option><option>Super welter</option><option>Poids moyen</option><option>Super moyen</option><option>Mi-lourd</option><option>Lourd-léger</option><option>Poids lourd</option>
+    </select>
+    <select onchange="filterBoxeurs(null,null,this.value)">
+      <option value="">Tous statuts</option><option>Actif</option><option>Inactif</option>
+    </select>
+  </div>
+  <div class="tw">
+    <table><thead><tr>
+      <th>Boxeur</th><th>Nationalité</th><th>Catégorie</th><th>Bilan</th><th>Statut</th><th>Manager / Promoteur</th><th>BoxRec</th>
+    </tr></thead><tbody id="tb-box"></tbody></table>
+  </div>
+  <div class="empty" id="empty-box" style="display:none"><div class="empty-ico">🥊</div><div class="empty-txt">Aucun boxeur en base. Créez votre premier profil.</div></div>
+</div>
+
+<!-- ─────────── ÉLIGIBILITÉ ─────────── -->
+<div class="view" id="view-eligib">
+  <div class="ph"><div><div class="ph-t">Éligibilité <em>France</em></div><div class="ph-s">Filtres réglementaires CTB · FFBoxe</div></div></div>
+  <div style="background:var(--card);border:1px solid var(--l1);border-left:3px solid var(--gold);padding:14px 18px;margin-bottom:20px;font-size:11px;color:var(--iv3);line-height:1.9">
+    <strong style="color:var(--gold2)">Règles appliquées :</strong> · Minimum 5 combats professionnels · Inactivité max 18 mois · Nationalité française ou résidence pour titres FR · Classement FFBoxe requis pour championnats nationaux
+  </div>
+  <div class="tb">
+    <div class="sw"><input type="text" placeholder="Rechercher..." oninput="filterEligib(this.value)"></div>
+    <select onchange="filterEligib(null,this.value)"><option value="">Tous</option><option value="ok">Éligibles</option><option value="ko">Non éligibles</option></select>
+  </div>
+  <div class="tw"><table><thead><tr>
+    <th>Boxeur</th><th>Nationalité</th><th>Nb combats</th><th>Statut</th><th>Titre FR</th><th>Éligibilité</th><th>Motif</th>
+  </tr></thead><tbody id="tb-el"></tbody></table></div>
+</div>
+
+<!-- ─────────── COMBATS ─────────── -->
+<div class="view" id="view-combats">
+  <div class="ph">
+    <div><div class="ph-t">Propositions</div><div class="ph-s">Combats proposés · Négociations · Suivi</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openCombatModal()">+ Nouvelle proposition</button>
+  </div>
+  <div class="tb">
+    <select onchange="filterCombats(this.value)">
+      <option value="">Tous statuts</option><option>En négociation</option><option>Accepté</option><option>Refusé</option><option>Sans réponse</option>
+    </select>
+    <select onchange="filterCombats(null,this.value)">
+      <option value="">Toutes catégories</option>
+      <option>Poids mouche</option><option>Poids coq</option><option>Poids plume</option><option>Poids léger</option><option>Super léger</option><option>Poids welter</option><option>Super welter</option><option>Poids moyen</option><option>Super moyen</option><option>Mi-lourd</option><option>Lourd-léger</option><option>Poids lourd</option>
+    </select>
+  </div>
+  <div id="list-cbt"></div>
+  <div class="empty" id="empty-cbt" style="display:none"><div class="empty-ico">⚔</div><div class="empty-txt">Aucune proposition enregistrée.</div></div>
+</div>
+
+<!-- ─────────── CONTACTS ─────────── -->
+<div class="view" id="view-contacts">
+  <div class="ph">
+    <div><div class="ph-t">CRM <em>Contacts</em></div><div class="ph-s">Managers · Promoteurs · Agents · Entraîneurs</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openContactModal()">+ Nouveau contact</button>
+  </div>
+  <div class="tb">
+    <div class="sw"><input type="text" placeholder="Rechercher un contact..." oninput="filterContacts(this.value)"></div>
+    <select onchange="filterContacts(null,this.value)"><option value="">Tous rôles</option><option>Manager</option><option>Promoteur</option><option>Entraîneur</option><option>Agent</option><option>Autre</option></select>
+  </div>
+  <div id="list-cts"></div>
+  <div class="empty" id="empty-cts" style="display:none"><div class="empty-ico">☎</div><div class="empty-txt">Aucun contact enregistré.</div></div>
+</div>
+
+<!-- ─────────── INCIDENTS ─────────── -->
+<div class="view" id="view-incidents">
+  <div class="ph">
+    <div><div class="ph-t">Incidents</div><div class="ph-s">Litiges · Forfaits · Couacs · Suivi</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openIncidentModal()">+ Signaler</button>
+  </div>
+  <div id="list-inc"></div>
+  <div class="empty" id="empty-inc" style="display:none"><div class="empty-ico">⚠</div><div class="empty-txt">Aucun incident enregistré.</div></div>
+</div>
+
+<!-- ─────────── PROJECTION CA ─────────── -->
+<div class="view" id="view-ca">
+  <div class="ph">
+    <div><div class="ph-t">Projection <em>CA</em></div><div class="ph-s">Revenus estimés par combat · Évolution annuelle</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openCAModal()">+ Ajouter revenu</button>
+  </div>
+  <div class="kpi-row" style="grid-template-columns:repeat(3,1fr)">
+    <div class="kpi"><div class="kpi-v" id="ca-total-v">0€</div><div class="kpi-l">CA Total projeté</div></div>
+    <div class="kpi"><div class="kpi-v" id="ca-encaisse-v" style="color:var(--grn)">0€</div><div class="kpi-l">CA encaissé</div></div>
+    <div class="kpi"><div class="kpi-v" id="ca-attente-v" style="color:var(--gold2)">0€</div><div class="kpi-l">En attente</div></div>
+  </div>
+  <!-- BAR CHART by month -->
+  <div class="panel" style="margin-bottom:16px">
+    <div class="panel-hd">Évolution mensuelle</div>
+    <div class="ca-chart" id="ca-chart"></div>
+  </div>
+  <!-- LIST -->
+  <div class="proj-bar-wrap" id="ca-list"></div>
+  <div class="empty" id="empty-ca" style="display:none"><div class="empty-ico">📈</div><div class="empty-txt">Aucun revenu projeté. Liez un montant à chaque combat.</div></div>
+</div>
+
+<!-- ─────────── FACTURATION ─────────── -->
+<div class="view" id="view-facturas">
+  <div class="ph">
+    <div><div class="ph-t">Facturation</div><div class="ph-s">Rappels post-combat · Suivi règlements</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openInvModal()">+ Nouvelle facture</button>
+  </div>
+  <div class="tb">
+    <select onchange="filterInv(this.value)"><option value="">Toutes</option><option value="A émettre">À émettre</option><option value="Envoyée">Envoyée</option><option value="Réglée">Réglée</option><option value="En retard">En retard</option></select>
+  </div>
+  <div id="list-inv"></div>
+  <div class="empty" id="empty-inv" style="display:none"><div class="empty-ico">🧾</div><div class="empty-txt">Aucune facture enregistrée.</div></div>
+</div>
+
+<!-- ─────────── DOCUMENTS ─────────── -->
+<div class="view" id="view-docs">
+  <div class="ph">
+    <div><div class="ph-t">Documents</div><div class="ph-s">Contrats · Accords · Pièces par combat et par athlète</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openDocModal()">+ Référencer</button>
+  </div>
+  <div class="tb">
+    <div class="sw"><input type="text" placeholder="Rechercher..." oninput="filterDocs(this.value)"></div>
+    <select onchange="filterDocs(null,this.value)"><option value="">Tous types</option><option>Contrat de combat</option><option>Contrat de management</option><option>Accord promoteur</option><option>Accord sponsor</option><option>Accréditation</option><option>Autre</option></select>
+  </div>
+  <div id="list-docs"></div>
+  <div class="empty" id="empty-docs" style="display:none"><div class="empty-ico">📄</div><div class="empty-txt">Aucun document référencé.</div></div>
+</div>
+
+<!-- ════════════ MODULE ATHLÈTE ════════════ -->
+
+<!-- ─────────── ATHLÈTES ─────────── -->
+<div class="view" id="view-athletes">
+  <div class="ph">
+    <div><div class="ph-t">Mes <em>Athlètes</em></div><div class="ph-s">Suivi individuel · Performance · Contrats</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openAthleteModal()">+ Nouvel athlète</button>
+  </div>
+  <div id="list-ath"></div>
+  <div class="empty" id="empty-ath" style="display:none"><div class="empty-ico">🏆</div><div class="empty-txt">Aucun athlète suivi.</div></div>
+</div>
+
+<!-- ─────────── SPONSORS ─────────── -->
+<div class="view" id="view-sponsors">
+  <div class="ph">
+    <div><div class="ph-t">Sponsors</div><div class="ph-s">Partenariats · Contrats · Valorisation</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openSponsorModal()">+ Nouveau sponsor</button>
+  </div>
+  <div class="tw"><table><thead><tr>
+    <th>Sponsor</th><th>Athlète(s)</th><th>Secteur</th><th>Valeur / an</th><th>Fin contrat</th><th>Statut</th><th>Contact</th>
+  </tr></thead><tbody id="tb-sp"></tbody></table></div>
+  <div class="empty" id="empty-sp" style="display:none"><div class="empty-ico">💼</div><div class="empty-txt">Aucun sponsor enregistré.</div></div>
+</div>
+
+<!-- ─────────── RDV ─────────── -->
+<div class="view" id="view-rdv">
+  <div class="ph">
+    <div><div class="ph-t">Rendez-vous</div><div class="ph-s">Agenda · Réunions · Négociations</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openRdvModal()">+ Nouveau RDV</button>
+  </div>
+  <div class="tw"><table><thead><tr>
+    <th>Date</th><th>Titre / Objet</th><th>Avec</th><th>Athlète(s) concerné(s)</th><th>Type</th><th>Statut</th><th>Notes</th>
+  </tr></thead><tbody id="tb-rdv"></tbody></table></div>
+  <div class="empty" id="empty-rdv" style="display:none"><div class="empty-ico">📅</div><div class="empty-txt">Aucun rendez-vous planifié.</div></div>
+</div>
+
+<!-- ─────────── RÉSEAUX SOCIAUX ─────────── -->
+<div class="view" id="view-social">
+  <div class="ph">
+    <div><div class="ph-t">Réseaux <em>Sociaux</em></div><div class="ph-s">Stratégie de contenu · Planning publications</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openSocialModal()">+ Nouvelle action</button>
+  </div>
+  <div class="tw"><table><thead><tr>
+    <th>Date prévue</th><th>Athlète</th><th>Plateforme</th><th>Type de contenu</th><th>Objectif</th><th>Statut</th><th>Notes</th>
+  </tr></thead><tbody id="tb-soc"></tbody></table></div>
+  <div class="empty" id="empty-soc" style="display:none"><div class="empty-ico">📱</div><div class="empty-txt">Aucune action réseaux sociaux planifiée.</div></div>
+</div>
+
+<!-- ─────────── ANALYSE ACTIVITÉ ─────────── -->
+<div class="view" id="view-activite">
+  <div class="ph">
+    <div><div class="ph-t">Analyse <em>Activité</em></div><div class="ph-s">Suivi des indicateurs par athlète</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openActiviteModal()">+ Saisir indicateurs</button>
+  </div>
+  <div id="list-act"></div>
+  <div class="empty" id="empty-act" style="display:none"><div class="empty-ico">📊</div><div class="empty-txt">Aucun indicateur d'activité enregistré.</div></div>
+</div>
+
+<!-- ─────────── SCOUTING ─────────── -->
+<div class="view" id="view-scouting">
+  <div class="ph">
+    <div><div class="ph-t">Scouting</div><div class="ph-s">Talents à suivre · Prospects · Opportunités</div></div>
+    <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;padding:8px 16px;cursor:pointer;font-weight:600" onclick="openScoutModal()">+ Ajouter prospect</button>
+  </div>
+  <div class="tb">
+    <div class="sw"><input type="text" placeholder="Rechercher un prospect..." oninput="filterScouts(this.value)"></div>
+    <select onchange="filterScouts(null,this.value)">
+      <option value="">Toutes catégories</option>
+      <option>Poids mouche</option><option>Poids coq</option><option>Poids plume</option><option>Poids léger</option><option>Super léger</option><option>Poids welter</option><option>Super welter</option><option>Poids moyen</option><option>Super moyen</option><option>Mi-lourd</option><option>Lourd-léger</option><option>Poids lourd</option>
+    </select>
+    <select onchange="filterScouts(null,null,this.value)">
+      <option value="">Toutes priorités</option>
+      <option value="🔴 Haute">Haute priorité</option>
+      <option value="🟡 Moyenne">Moyenne priorité</option>
+      <option value="🟢 Veille">Veille</option>
+    </select>
+  </div>
+  <div id="list-sct"></div>
+  <div class="empty" id="empty-sct" style="display:none"><div class="empty-ico">🔭</div><div class="empty-txt">Aucun prospect en suivi. Ajoutez vos premières cibles.</div></div>
+</div>
+
+</main>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODALS
+══════════════════════════════════════ -->
+
+<!-- QUICK ADD -->
+<div class="mo" id="mo-quick">
+  <div class="mbox" style="width:440px">
+    <div class="mh"><div class="mt">Ajouter rapidement</div><button class="mc" onclick="closeModal('mo-quick')">✕</button></div>
+    <div class="mb" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button class="qa-btn" onclick="closeModal('mo-quick');openBoxeurModal()">🥊 Boxeur</button>
+      <button class="qa-btn" onclick="closeModal('mo-quick');openContactModal()">☎ Contact</button>
+      <button class="qa-btn" onclick="closeModal('mo-quick');openCombatModal()">⚔ Proposition</button>
+      <button class="qa-btn" onclick="closeModal('mo-quick');openInvModal()">🧾 Facture</button>
+      <button class="qa-btn" onclick="closeModal('mo-quick');openRdvModal()">📅 RDV</button>
+      <button class="qa-btn" onclick="closeModal('mo-quick');openSponsorModal()">💼 Sponsor</button>
+      <button class="qa-btn" onclick="closeModal('mo-quick');openScoutModal()" style="grid-column:1/-1">🔭 Prospect scouting</button>
+    </div>
+  </div>
+</div>
+<style>.qa-btn{background:var(--surf);border:1px solid var(--l2);color:var(--iv2);font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:16px;cursor:pointer;transition:all .2s;width:100%}.qa-btn:hover{border-color:var(--gold);color:var(--gold2);background:var(--goldf)}</style>
+
+<!-- BOXEUR MODAL -->
+<div class="mo" id="mo-box">
+  <div class="mbox wide">
+    <div class="mh"><div class="mt" id="mo-box-t">Nouveau boxeur</div><button class="mc" onclick="closeModal('mo-box')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl"><label>Prénom</label><input type="text" id="b-pre" placeholder="Raphaël"></div>
+      <div class="fl"><label>Nom</label><input type="text" id="b-nom" placeholder="Monny"></div>
+      <div class="fl"><label>Surnom</label><input type="text" id="b-ali" placeholder='"The Predator"'></div>
+      <div class="fl"><label>Nationalité</label><input type="text" id="b-nat" placeholder="Française"></div>
+      <div class="fl"><label>Catégorie</label><select class="isel" id="b-cat"><option>Poids mouche</option><option>Poids coq</option><option>Poids plume</option><option>Poids léger</option><option>Super léger</option><option>Poids welter</option><option>Super welter</option><option>Poids moyen</option><option>Super moyen</option><option>Mi-lourd</option><option>Lourd-léger</option><option>Poids lourd</option></select></div>
+      <div class="fl"><label>Statut</label><select class="isel" id="b-sta"><option>Actif</option><option>Inactif</option></select></div>
+      <div class="fl"><label>Victoires</label><input type="number" id="b-v" placeholder="0" min="0"></div>
+      <div class="fl"><label>Défaites</label><input type="number" id="b-d" placeholder="0" min="0"></div>
+      <div class="fl"><label>Nuls</label><input type="number" id="b-n" placeholder="0" min="0"></div>
+      <div class="fl"><label>KO infligés</label><input type="number" id="b-ko" placeholder="0" min="0"></div>
+      <div class="fl"><label>Manager</label><input type="text" id="b-man"></div>
+      <div class="fl"><label>Promoteur</label><input type="text" id="b-pro"></div>
+      <div class="fl"><label>Entraîneur</label><input type="text" id="b-ent"></div>
+      <div class="fl"><label>ID BoxRec <span style="color:var(--iv3);font-size:8px">(ex: 659842)</span></label><input type="text" id="b-bid" placeholder="Numéro dans l'URL BoxRec"></div>
+      <div class="fl f-full"><label>Notes internes</label><textarea id="b-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-box')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveBoxeur()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="mo" id="mo-cts">
+  <div class="mbox wide">
+    <div class="mh"><div class="mt">Nouveau contact</div><button class="mc" onclick="closeModal('mo-cts')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl"><label>Prénom</label><input type="text" id="c-pre"></div>
+      <div class="fl"><label>Nom</label><input type="text" id="c-nom"></div>
+      <div class="fl"><label>Rôle</label><select class="isel" id="c-rol"><option>Manager</option><option>Promoteur</option><option>Entraîneur</option><option>Agent</option><option>Autre</option></select></div>
+      <div class="fl"><label>Pays</label><input type="text" id="c-pay"></div>
+      <div class="fl"><label>Email</label><input type="email" id="c-eml"></div>
+      <div class="fl"><label>Téléphone / WhatsApp</label><input type="text" id="c-tel"></div>
+      <div class="fl"><label>Boxeurs représentés</label><input type="text" id="c-box"></div>
+      <div class="fl"><label>Canal préféré</label><select class="isel" id="c-can"><option>Email</option><option>WhatsApp</option><option>Appel</option><option>Instagram</option><option>Autre</option></select></div>
+      <div class="fl"><label>Date dernier contact</label><input type="date" id="c-dat"></div>
+      <div class="fl"><label>Objet dernier contact</label><input type="text" id="c-obj"></div>
+      <div class="fl f-full"><label>Notes / historique</label><textarea id="c-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-cts')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveContact()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMBAT MODAL -->
+<div class="mo" id="mo-cbt">
+  <div class="mbox wide">
+    <div class="mh"><div class="mt">Nouvelle proposition</div><button class="mc" onclick="closeModal('mo-cbt')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl"><label>Boxeur A (notre camp)</label><input type="text" id="f-ba"></div>
+      <div class="fl"><label>Boxeur B (adversaire)</label><input type="text" id="f-bb"></div>
+      <div class="fl"><label>Catégorie</label><select class="isel" id="f-cat"><option>Poids mouche</option><option>Poids coq</option><option>Poids plume</option><option>Poids léger</option><option>Super léger</option><option>Poids welter</option><option>Super welter</option><option>Poids moyen</option><option>Super moyen</option><option>Mi-lourd</option><option>Lourd-léger</option><option>Poids lourd</option></select></div>
+      <div class="fl"><label>Type de combat</label><select class="isel" id="f-typ"><option>Combat de classement</option><option>Titre national</option><option>Titre régional</option><option>Titre international</option><option>Titre WBC/WBA/IBF/WBO</option><option>Combat de préparation</option></select></div>
+      <div class="fl"><label>Date proposée</label><input type="date" id="f-dat"></div>
+      <div class="fl"><label>Lieu / Pays</label><input type="text" id="f-lie"></div>
+      <div class="fl"><label>Contact adverse</label><input type="text" id="f-con"></div>
+      <div class="fl"><label>Statut</label><select class="isel" id="f-sta"><option>En négociation</option><option>Accepté</option><option>Refusé</option><option>Sans réponse</option></select></div>
+      <div class="fl"><label>Bourse estimée (€)</label><input type="number" id="f-brs" placeholder="0"></div>
+      <div class="fl"><label>Commission agence (%)</label><input type="number" id="f-com" placeholder="15" min="0" max="100"></div>
+      <div class="fl f-full"><label>Notes / négociation</label><textarea id="f-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-cbt')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveCombat()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- INCIDENT MODAL -->
+<div class="mo" id="mo-inc">
+  <div class="mbox">
+    <div class="mh"><div class="mt">Signaler un incident</div><button class="mc" onclick="closeModal('mo-inc')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl f-full"><label>Titre</label><input type="text" id="i-tit"></div>
+      <div class="fl"><label>Sévérité</label><select class="isel" id="i-sev"><option>Faible</option><option>Moyen</option><option>Grave</option></select></div>
+      <div class="fl"><label>Statut</label><select class="isel" id="i-sta"><option>Ouvert</option><option>En cours</option><option>Résolu</option></select></div>
+      <div class="fl"><label>Parties</label><input type="text" id="i-par"></div>
+      <div class="fl"><label>Date</label><input type="date" id="i-dat"></div>
+      <div class="fl f-full"><label>Description</label><textarea id="i-des"></textarea></div>
+      <div class="fl f-full"><label>Actions / suivi</label><textarea id="i-act"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-inc')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveIncident()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- CA MODAL -->
+<div class="mo" id="mo-ca">
+  <div class="mbox">
+    <div class="mh"><div class="mt">Ajouter un revenu projeté</div><button class="mc" onclick="closeModal('mo-ca')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl f-full"><label>Libellé / combat associé</label><input type="text" id="ca-lib" placeholder="Commission Monny vs Carter"></div>
+      <div class="fl"><label>Athlète</label><input type="text" id="ca-ath"></div>
+      <div class="fl"><label>Date prévue</label><input type="date" id="ca-dat"></div>
+      <div class="fl"><label>Montant (€)</label><input type="number" id="ca-mnt" placeholder="0"></div>
+      <div class="fl"><label>Statut</label><select class="isel" id="ca-sta"><option>Projeté</option><option>Confirmé</option><option>Encaissé</option></select></div>
+      <div class="fl"><label>Type</label><select class="isel" id="ca-typ"><option>Commission combat</option><option>Management fee</option><option>Sponsor</option><option>Consulting</option><option>Autre</option></select></div>
+      <div class="fl f-full"><label>Notes</label><textarea id="ca-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-ca')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveCA()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- INVOICE MODAL -->
+<div class="mo" id="mo-inv">
+  <div class="mbox">
+    <div class="mh"><div class="mt">Nouvelle facture</div><button class="mc" onclick="closeModal('mo-inv')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl f-full"><label>Titre</label><input type="text" id="inv-tit" placeholder="Commission combat — Monny vs Carter"></div>
+      <div class="fl"><label>Athlète / Combat</label><input type="text" id="inv-ath"></div>
+      <div class="fl"><label>Destinataire (promoteur/manager)</label><input type="text" id="inv-des"></div>
+      <div class="fl"><label>Montant (€)</label><input type="number" id="inv-mnt" placeholder="0"></div>
+      <div class="fl"><label>Date du combat</label><input type="date" id="inv-dc"></div>
+      <div class="fl"><label>Date d'émission prévue</label><input type="date" id="inv-dat"></div>
+      <div class="fl"><label>Statut</label><select class="isel" id="inv-sta"><option>A émettre</option><option>Envoyée</option><option>Réglée</option><option>En retard</option></select></div>
+      <div class="fl"><label>Rappel automatique J+1 combat</label><select class="isel" id="inv-rap"><option value="1">Oui — rappel activé</option><option value="0">Non</option></select></div>
+      <div class="fl f-full"><label>Notes</label><textarea id="inv-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-inv')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveInv()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- DOC MODAL -->
+<div class="mo" id="mo-doc">
+  <div class="mbox">
+    <div class="mh"><div class="mt">Référencer un document</div><button class="mc" onclick="closeModal('mo-doc')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl f-full"><label>Titre</label><input type="text" id="d-tit"></div>
+      <div class="fl"><label>Type</label><select class="isel" id="d-typ"><option>Contrat de combat</option><option>Contrat de management</option><option>Accord promoteur</option><option>Accord sponsor</option><option>Accréditation</option><option>Autre</option></select></div>
+      <div class="fl"><label>Athlète / Combat lié</label><input type="text" id="d-ath"></div>
+      <div class="fl"><label>Parties</label><input type="text" id="d-par"></div>
+      <div class="fl"><label>Date signature</label><input type="date" id="d-dat"></div>
+      <div class="fl"><label>Lien / emplacement</label><input type="text" id="d-lnk" placeholder="Drive, Dropbox, chemin..."></div>
+      <div class="fl f-full"><label>Notes</label><textarea id="d-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-doc')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveDoc()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ATHLETE MODAL -->
+<div class="mo" id="mo-ath">
+  <div class="mbox wide">
+    <div class="mh"><div class="mt">Fiche athlète</div><button class="mc" onclick="closeModal('mo-ath')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl"><label>Nom complet</label><input type="text" id="a-nom"></div>
+      <div class="fl"><label>Catégorie de poids</label><select class="isel" id="a-cat"><option>Poids mouche</option><option>Poids coq</option><option>Poids plume</option><option>Poids léger</option><option>Super léger</option><option>Poids welter</option><option>Super welter</option><option>Poids moyen</option><option>Super moyen</option><option>Mi-lourd</option><option>Lourd-léger</option><option>Poids lourd</option></select></div>
+      <div class="fl"><label>Nationalité</label><input type="text" id="a-nat"></div>
+      <div class="fl"><label>Date début contrat</label><input type="date" id="a-dcd"></div>
+      <div class="fl"><label>Date fin contrat</label><input type="date" id="a-dcf"></div>
+      <div class="fl"><label>Commission agence (%)</label><input type="number" id="a-com" placeholder="15"></div>
+      <div class="fl"><label>Instagram</label><input type="text" id="a-ig" placeholder="@"></div>
+      <div class="fl"><label>Abonnés Instagram</label><input type="number" id="a-igs" placeholder="0"></div>
+      <div class="fl"><label>TikTok</label><input type="text" id="a-tt" placeholder="@"></div>
+      <div class="fl"><label>Abonnés TikTok</label><input type="number" id="a-tts" placeholder="0"></div>
+      <div class="fl"><label>Objectif prochain combat</label><input type="text" id="a-obj"></div>
+      <div class="fl"><label>Statut contrat</label><select class="isel" id="a-sta"><option>Actif</option><option>En négociation</option><option>Expiré</option></select></div>
+      <div class="fl f-full"><label>Notes stratégiques</label><textarea id="a-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-ath')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveAthlete()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- SPONSOR MODAL -->
+<div class="mo" id="mo-sp">
+  <div class="mbox">
+    <div class="mh"><div class="mt">Nouveau sponsor</div><button class="mc" onclick="closeModal('mo-sp')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl"><label>Nom du sponsor</label><input type="text" id="sp-nom"></div>
+      <div class="fl"><label>Secteur</label><input type="text" id="sp-sec" placeholder="Sport, Finance, Mode..."></div>
+      <div class="fl"><label>Athlète(s) concerné(s)</label><input type="text" id="sp-ath"></div>
+      <div class="fl"><label>Contact</label><input type="text" id="sp-con"></div>
+      <div class="fl"><label>Valeur annuelle (€)</label><input type="number" id="sp-val" placeholder="0"></div>
+      <div class="fl"><label>Fin de contrat</label><input type="date" id="sp-fin"></div>
+      <div class="fl f-full"><label>Statut</label><select class="isel" id="sp-sta"><option>Actif</option><option>En négociation</option><option>Expiré</option><option>Prospection</option></select></div>
+      <div class="fl f-full"><label>Notes</label><textarea id="sp-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-sp')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveSponsor()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- RDV MODAL -->
+<div class="mo" id="mo-rdv">
+  <div class="mbox">
+    <div class="mh"><div class="mt">Nouveau rendez-vous</div><button class="mc" onclick="closeModal('mo-rdv')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl f-full"><label>Titre / Objet</label><input type="text" id="r-tit"></div>
+      <div class="fl"><label>Date</label><input type="date" id="r-dat"></div>
+      <div class="fl"><label>Heure</label><input type="text" id="r-hre" placeholder="14:00"></div>
+      <div class="fl"><label>Avec (personne / société)</label><input type="text" id="r-ave"></div>
+      <div class="fl"><label>Athlète(s) concerné(s)</label><input type="text" id="r-ath"></div>
+      <div class="fl"><label>Type</label><select class="isel" id="r-typ"><option>Réunion</option><option>Négociation contrat</option><option>Sponsor</option><option>Médias</option><option>Suivi médical</option><option>Entraînement</option><option>Autre</option></select></div>
+      <div class="fl"><label>Lieu / Visio</label><input type="text" id="r-lie"></div>
+      <div class="fl"><label>Statut</label><select class="isel" id="r-sta"><option>Planifié</option><option>Confirmé</option><option>Annulé</option><option>Effectué</option></select></div>
+      <div class="fl f-full"><label>Notes / Ordre du jour</label><textarea id="r-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-rdv')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveRdv()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL MODAL -->
+<div class="mo" id="mo-soc">
+  <div class="mbox">
+    <div class="mh"><div class="mt">Action réseaux sociaux</div><button class="mc" onclick="closeModal('mo-soc')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl"><label>Athlète</label><input type="text" id="s-ath"></div>
+      <div class="fl"><label>Plateforme</label><select class="isel" id="s-plt"><option>Instagram</option><option>TikTok</option><option>X / Twitter</option><option>YouTube</option><option>Facebook</option></select></div>
+      <div class="fl"><label>Type de contenu</label><select class="isel" id="s-typ"><option>Post photo</option><option>Réel / Vidéo courte</option><option>Story</option><option>Interview</option><option>Annonce combat</option><option>Behind the scenes</option><option>Partenariat sponsor</option></select></div>
+      <div class="fl"><label>Date prévue</label><input type="date" id="s-dat"></div>
+      <div class="fl f-full"><label>Objectif</label><input type="text" id="s-obj" placeholder="Visibilité, sponsor, annonce combat..."></div>
+      <div class="fl"><label>Statut</label><select class="isel" id="s-sta"><option>À préparer</option><option>En production</option><option>Publié</option><option>Reporté</option></select></div>
+      <div class="fl f-full"><label>Brief / Notes</label><textarea id="s-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-soc')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveSocial()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVITE MODAL -->
+<div class="mo" id="mo-act">
+  <div class="mbox">
+    <div class="mh"><div class="mt">Indicateurs d'activité</div><button class="mc" onclick="closeModal('mo-act')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl"><label>Athlète</label><input type="text" id="ac-ath"></div>
+      <div class="fl"><label>Période</label><input type="text" id="ac-per" placeholder="Mars 2025"></div>
+      <div class="fl"><label>Nb combats disputés</label><input type="number" id="ac-cbt" placeholder="0"></div>
+      <div class="fl"><label>Nb séances entraînement</label><input type="number" id="ac-ses" placeholder="0"></div>
+      <div class="fl"><label>Abonnés Instagram</label><input type="number" id="ac-ig" placeholder="0"></div>
+      <div class="fl"><label>Abonnés TikTok</label><input type="number" id="ac-tt" placeholder="0"></div>
+      <div class="fl"><label>Couvertures médias</label><input type="number" id="ac-med" placeholder="0"></div>
+      <div class="fl"><label>CA généré (€)</label><input type="number" id="ac-ca" placeholder="0"></div>
+      <div class="fl f-full"><label>Observations</label><textarea id="ac-not"></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-act')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveActivite()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCOUTING MODAL -->
+<div class="mo" id="mo-sct">
+  <div class="mbox wide">
+    <div class="mh"><div class="mt">Nouveau prospect</div><button class="mc" onclick="closeModal('mo-sct')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fl"><label>Prénom</label><input type="text" id="sc-pre" placeholder="Prénom"></div>
+      <div class="fl"><label>Nom</label><input type="text" id="sc-nom" placeholder="Nom"></div>
+      <div class="fl"><label>Surnom / Alias</label><input type="text" id="sc-ali" placeholder='"The Beast"'></div>
+      <div class="fl"><label>Nationalité</label><input type="text" id="sc-nat"></div>
+      <div class="fl"><label>Catégorie de poids</label><select class="isel" id="sc-cat"><option>Poids mouche</option><option>Poids coq</option><option>Poids plume</option><option>Poids léger</option><option>Super léger</option><option>Poids welter</option><option>Super welter</option><option>Poids moyen</option><option>Super moyen</option><option>Mi-lourd</option><option>Lourd-léger</option><option>Poids lourd</option></select></div>
+      <div class="fl"><label>Priorité</label><select class="isel" id="sc-pri"><option>🔴 Haute</option><option>🟡 Moyenne</option><option>🟢 Veille</option></select></div>
+      <div class="fl"><label>Victoires</label><input type="number" id="sc-v" placeholder="0" min="0"></div>
+      <div class="fl"><label>Défaites</label><input type="number" id="sc-d" placeholder="0" min="0"></div>
+      <div class="fl"><label>Nuls</label><input type="number" id="sc-n" placeholder="0" min="0"></div>
+      <div class="fl"><label>KO infligés</label><input type="number" id="sc-ko" placeholder="0" min="0"></div>
+      <div class="fl"><label>ID BoxRec <span style="color:var(--iv3);font-size:8px">(ex: 659842)</span></label><input type="text" id="sc-bid" placeholder="Numéro dans l'URL BoxRec"></div>
+      <div class="fl"><label>Manager connu</label><input type="text" id="sc-man"></div>
+      <div class="fl"><label>Promoteur connu</label><input type="text" id="sc-pro"></div>
+      <div class="fl"><label>Source du repérage</label><input type="text" id="sc-src" placeholder="BoxRec, événement, recommandation..."></div>
+      <div class="fl"><label>Date repérage</label><input type="date" id="sc-dat"></div>
+      <div class="fl"><label>Statut suivi</label><select class="isel" id="sc-sta"><option>À contacter</option><option>Contacté</option><option>En discussion</option><option>Signé</option><option>Abandonné</option></select></div>
+      <div class="fl f-full"><label>Points forts / style</label><textarea id="sc-pts" placeholder="Style de boxe, points forts, potentiel..."></textarea></div>
+      <div class="fl f-full"><label>Notes de scouting</label><textarea id="sc-not" placeholder="Observations, contexte, prochaines étapes..."></textarea></div>
+    </div>
+    <div class="fa"><button class="hbtn" onclick="closeModal('mo-sct')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveScout()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFIL MODAL -->
+<div class="mo" id="mo-profil">
+  <div class="mbox wide">
+    <div class="mh"><div class="mt" id="mo-profil-t">—</div><button class="mc" onclick="closeModal('mo-profil')">✕</button></div>
+    <div class="mb" id="mo-profil-b"></div>
+  </div>
+</div>
+
+<script type="module">
+// ═══════════════════════════════════════
+// FIREBASE CONFIG
+// ═══════════════════════════════════════
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDUrVgQ8SmW-mHvmjLMk1T2d94dgWkTocI",
+  authDomain: "ring-office-rancho.firebaseapp.com",
+  databaseURL: "https://ring-office-rancho-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "ring-office-rancho",
+  storageBucket: "ring-office-rancho.firebasestorage.app",
+  messagingSenderId: "482687120311",
+  appId: "1:482687120311:web:cf853f0ac94d7e93096e32"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db_firebase = getDatabase(firebaseApp);
+const DB_REF = ref(db_firebase, 'ringoffice');
+
+// ═══════════════════════════════════════
+// DB
+// ═══════════════════════════════════════
+let DB={boxeurs:[],contacts:[],combats:[],incidents:[],ca:[],invoices:[],docs:[],athletes:[],sponsors:[],rdvs:[],socials:[],activites:[],scouts:[]};
+let DB_LOADED = false;
+
+function loadDB(){
+  // Indicateur de chargement
+  document.getElementById('fb-status').textContent = '⟳ Connexion Firebase...';
+  document.getElementById('fb-status').style.color = 'var(--gold2)';
+
+  onValue(DB_REF, (snapshot) => {
+    const data = snapshot.val();
+    if(data){
+      // Fusionner en s'assurant que chaque collection existe
+      DB.boxeurs   = data.boxeurs   || [];
+      DB.contacts  = data.contacts  || [];
+      DB.combats   = data.combats   || [];
+      DB.incidents = data.incidents || [];
+      DB.ca        = data.ca        || [];
+      DB.invoices  = data.invoices  || [];
+      DB.docs      = data.docs      || [];
+      DB.athletes  = data.athletes  || [];
+      DB.sponsors  = data.sponsors  || [];
+      DB.rdvs      = data.rdvs      || [];
+      DB.socials   = data.socials   || [];
+      DB.activites = data.activites || [];
+      DB.scouts    = data.scouts    || [];
+    } else {
+      // Première connexion : on seed les données d'exemple
+      seedDB();
+      return;
+    }
+    DB_LOADED = true;
+    document.getElementById('fb-status').textContent = '● Firebase connecté';
+    document.getElementById('fb-status').style.color = 'var(--grn)';
+    refresh();
+    renderDash();
+  }, (error) => {
+    document.getElementById('fb-status').textContent = '✕ Erreur Firebase';
+    document.getElementById('fb-status').style.color = 'var(--red)';
+    console.error('Firebase error:', error);
+    // Fallback localStorage si Firebase échoue
+    const s = localStorage.getItem('ro-db-v2');
+    if(s){ DB = JSON.parse(s); }
+    else { seedDB(); return; }
+    DB_LOADED = true;
+    refresh();
+    renderDash();
+  });
+}
+
+function saveDB(){
+  // Sauvegarde Firebase (source principale)
+  set(DB_REF, DB).catch(err => {
+    console.error('Firebase save error:', err);
+    // Fallback localStorage
+    localStorage.setItem('ro-db-v2', JSON.stringify(DB));
+  });
+  // Backup localStorage en parallèle
+  localStorage.setItem('ro-db-v2', JSON.stringify(DB));
+  refresh();
+}
+
+function seedDB(){
+  DB.boxeurs=[
+    {id:1,pre:'Raphaël',nom:'Monny',ali:'"The Predator"',nat:'Française',cat:'Poids welter',sta:'Actif',v:18,d:2,n:0,ko:12,man:'Antoine — HPB',pro:'Zuffa Boxing',ent:'Jessy Ross Thompson',bid:'',not:'Excellente main droite. Cherche titre EU 2025.',maj:'2025-03-10'},
+    {id:2,pre:'Maxime',nom:'Vaz',ali:'"Max Power"',nat:'Française',cat:'Super léger',sta:'Actif',v:14,d:1,n:1,ko:9,man:'Antoine — HPB',pro:'Zuffa Boxing',ent:'Jessy Ross Thompson',bid:'',not:'Polyvalent, bon timing.',maj:'2025-03-08'},
+    {id:3,pre:'Kevin',nom:'Boakye-Schumann',ali:'"KB"',nat:'Allemande',cat:'Poids lourd',sta:'Actif',v:22,d:3,n:0,ko:18,man:'Antoine — HPB',pro:'Zuffa Boxing',ent:'',bid:'',not:'Puissance exceptionnelle. KO rate > 80%.',maj:'2025-02-28'},
+  ];
+  DB.contacts=[
+    {id:1,pre:'Jessy',nom:'Ross Thompson',rol:'Entraîneur',pay:'USA',eml:'jrt@ipbc.com',tel:'+1...',box:'Monny, Vaz, KB',can:'Email',dat:'2025-03-15',obj:'Préparation The Dream 1 — Abidjan',not:'Fondateur IPBCA. Relation de confiance totale.'},
+    {id:2,pre:'Tom',nom:'Williams',rol:'Manager',pay:'Royaume-Uni',eml:'tom@ukboxing.co.uk',tel:'+44...',box:'James Carter',can:'WhatsApp',dat:'2025-03-01',obj:'Proposition Monny vs Carter',not:'Réactif mais dur en négociation sur la bourse.'},
+  ];
+  DB.combats=[
+    {id:1,ba:'Raphaël Monny',bb:'James Carter',cat:'Poids welter',typ:'Titre international',dat:'2025-06-14',lie:"Abidjan, Côte d'Ivoire",con:'Tom Williams',sta:'En négociation',brs:15000,com:15,not:"Carter demande prime supérieure. Réponse avant 20 mars."},
+  ];
+  DB.ca=[
+    {id:1,lib:'Commission Monny vs Carter',ath:'Raphaël Monny',dat:'2025-06-14',mnt:2250,sta:'Confirmé',typ:'Commission combat',not:'15% de 15 000€'},
+    {id:2,lib:'Management fee Q2 Monny',ath:'Raphaël Monny',dat:'2025-06-01',mnt:1500,sta:'Projeté',typ:'Management fee',not:''},
+    {id:3,lib:'Commission Vaz — titre national',ath:'Maxime Vaz',dat:'2025-09-20',mnt:1800,sta:'Projeté',typ:'Commission combat',not:''},
+  ];
+  DB.invoices=[
+    {id:1,tit:'Commission combat Monny vs Carter',ath:'Raphaël Monny',des:'Dream Ring Promotion',mnt:2250,dc:'2025-06-14',dat:'2025-06-15',sta:'A émettre',rap:1,not:'Facture à émettre J+1 combat. Escrow libéré.'},
+  ];
+  DB.docs=[
+    {id:1,tit:'Contrat Boxeur — The Dream 1',typ:'Contrat de combat',ath:'Raphaël Monny',par:'Monny, Dream Ring Promotion',dat:'2025-03-05',lnk:'',not:'Clause escrow incluse. Signé.'},
+    {id:2,tit:'Accord management Zuffa Boxing',typ:'Contrat de management',ath:'Monny, Vaz, KB',par:'HPB, Zuffa Boxing',dat:'2025-01-15',lnk:'',not:'Contrat 3 ans. Commission 20%.'},
+  ];
+  DB.athletes=[
+    {id:1,nom:'Raphaël Monny',cat:'Poids welter',nat:'Française',dcd:'2024-01-01',dcf:'2026-12-31',com:15,ig:'@raphaelmonny',igs:8500,tt:'',tts:0,obj:'Titre international WBC 2025',sta:'Actif',not:'Priorité absolue cette année.'},
+    {id:2,nom:'Maxime Vaz',cat:'Super léger',nat:'Française',dcd:'2024-03-01',dcf:'2026-02-28',com:15,ig:'@maxvaz_boxing',igs:4200,tt:'@maxvaz',tts:1100,obj:'Titre national français',sta:'Actif',not:'Monter sa visibilité sur TikTok.'},
+  ];
+  DB.sponsors=[];
+  DB.rdvs=[
+    {id:1,tit:'Négociation combat Monny vs Carter',dat:'2025-03-25',hre:'15:00',ave:'Tom Williams',ath:'Raphaël Monny',typ:'Négociation contrat',lie:'Visio Zoom',sta:'Planifié',not:'Préparer contre-offre bourse.'},
+  ];
+  DB.socials=[];
+  DB.activites=[];
+  DB.scouts=[
+    {id:1,pre:'Marcus',nom:'Johnson',ali:'"The Surgeon"',nat:'Américaine',cat:'Poids moyen',pri:'🔴 Haute',v:19,d:1,n:0,ko:14,bid:'',man:'Top Rank',pro:'Top Rank',src:'BoxRec — classement WBC',dat:'2025-03-01',sta:'À contacter',pts:'Gaucher exceptionnel, énorme potentiel commercial. Classé WBC #8.',not:'Contrat Top Rank se termine en décembre 2025. Fenêtre à saisir.'},
+    {id:2,pre:'Yusuf',nom:'Al-Rashid',ali:'',nat:'Britannique',cat:'Super léger',pri:'🟡 Moyenne',v:11,d:0,n:0,ko:8,bid:'',man:'',pro:'',src:'Événement Londres — Mars 2025',dat:'2025-03-10',sta:'Contacté',pts:'Invaincu, KO rate élevé, sans gros promoteur. Profil idéal.',not:'A répondu positivement par email. RDV à planifier.'},
+  ];
+  saveDB();
+}
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+let currentMod='match';
+
+function switchMod(m){
+  currentMod=m;
+  document.getElementById('mod-match').classList.toggle('on',m==='match');
+  document.getElementById('mod-athlete').classList.toggle('on',m==='athlete');
+  document.getElementById('nav-match').style.display=m==='match'?'block':'none';
+  document.getElementById('nav-athlete').style.display=m==='athlete'?'block':'none';
+  if(m==='match'){showView('dash');setNav('n-dash');}
+  else{showView('athletes');setNav('n-athletes');}
+}
+
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  const el=document.getElementById('view-'+id);
+  if(el)el.classList.add('on');
+  const renders={'dash':renderDash,'boxeurs':renderBoxeurs,'eligib':renderEligib,'combats':renderCombats,'contacts':renderContacts,'incidents':renderIncidents,'ca':renderCA,'facturas':renderInvoices,'docs':renderDocs,'athletes':renderAthletes,'sponsors':renderSponsors,'rdv':renderRdvs,'social':renderSocials,'activite':renderActivite,'scouting':renderScouts};
+  if(renders[id])renders[id]();
+}
+
+function setNav(id){
+  document.querySelectorAll('.nav').forEach(n=>n.classList.remove('on'));
+  const el=document.getElementById(id);
+  if(el)el.classList.add('on');
+}
+
+// ═══════════════════════════════════════
+// REFRESH / COUNTS
+// ═══════════════════════════════════════
+function refresh(){
+  document.getElementById('cnt-box').textContent=DB.boxeurs.length;
+  document.getElementById('cnt-cbt').textContent=DB.combats.length;
+  document.getElementById('cnt-cts').textContent=DB.contacts.length;
+  document.getElementById('cnt-sct').textContent=DB.scouts.length;
+  document.getElementById('k-box').textContent=DB.boxeurs.length;
+  document.getElementById('k-cbt').textContent=DB.combats.filter(c=>c.sta==='En négociation').length;
+  const totalCA=DB.ca.reduce((a,c)=>a+(+c.mnt||0),0);
+  document.getElementById('k-ca').textContent=fmtEur(totalCA);
+  const urgInv=DB.invoices.filter(i=>i.sta==='A émettre'||i.sta==='En retard');
+  document.getElementById('k-inv').textContent=urgInv.length;
+  document.getElementById('alert-dot').style.display=urgInv.length?'block':'none';
+  document.getElementById('hd-date').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+
+// ═══════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════
+function renderDash(){
+  // combats
+  const dcl=document.getElementById('d-cbt-list');
+  const cbtSlice=DB.combats.slice(-3).reverse();
+  dcl.innerHTML=cbtSlice.length?cbtSlice.map(c=>`
+    <div class="panel-row">
+      <div><div style="font-family:'Playfair Display',serif;font-size:13px;font-weight:600">${c.ba} <span style="color:var(--gold)">vs</span> ${c.bb}</div><div style="font-size:10px;color:var(--iv3)">${c.lie} · ${fmtDate(c.dat)}</div></div>
+      <div>${bstat(c.sta)}</div>
+    </div>`).join(''):'<div class="empty-txt" style="padding:10px 0;font-size:13px">Aucune proposition.</div>';
+  // invoices
+  const dil=document.getElementById('d-inv-list');
+  const urgInv=DB.invoices.filter(i=>i.sta==='A émettre'||i.sta==='En retard').slice(0,3);
+  dil.innerHTML=urgInv.length?urgInv.map(i=>`
+    <div class="panel-row">
+      <div><div style="font-family:'Playfair Display',serif;font-size:13px;font-weight:600">${i.tit}</div><div style="font-size:10px;color:var(--iv3)">${i.ath} · ${fmtDate(i.dat)}</div></div>
+      <div style="text-align:right"><div style="font-family:'Playfair Display',serif;color:var(--gold2)">${fmtEur(i.mnt)}</div>${bstat(i.sta)}</div>
+    </div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:10px 0;font-family:Cormorant Garamond,serif;font-style:italic">Aucun rappel urgent.</div>';
+  // contacts
+  const dctl=document.getElementById('d-cts-list');
+  dctl.innerHTML=DB.contacts.slice(-3).reverse().map(c=>`
+    <div class="panel-row">
+      <div><div style="font-family:'Playfair Display',serif;font-size:13px;font-weight:600">${c.pre} ${c.nom}</div><div style="font-size:10px;color:var(--iv3)">${c.rol} · ${c.pay}</div></div>
+      <div style="text-align:right;font-size:10px;color:var(--iv3)">${fmtDate(c.dat)}<div style="color:var(--iv4)">${c.can}</div></div>
+    </div>`).join('')||'<div class="empty-txt" style="padding:10px 0">Aucun contact.</div>';
+  // rdv
+  const drl=document.getElementById('d-rdv-list');
+  const upcoming=DB.rdvs.filter(r=>r.sta==='Planifié'||r.sta==='Confirmé').sort((a,b)=>new Date(a.dat)-new Date(b.dat)).slice(0,3);
+  drl.innerHTML=upcoming.length?upcoming.map(r=>`
+    <div class="panel-row">
+      <div><div style="font-family:'Playfair Display',serif;font-size:13px;font-weight:600">${r.tit}</div><div style="font-size:10px;color:var(--iv3)">${r.ave} · ${r.lie||''}</div></div>
+      <div style="text-align:right;font-size:10px;color:var(--gold2)">${fmtDate(r.dat)} ${r.hre||''}</div>
+    </div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:10px 0;font-family:Cormorant Garamond,serif;font-style:italic">Aucun RDV à venir.</div>';
+}
+
+// ═══════════════════════════════════════
+// BOXEURS
+// ═══════════════════════════════════════
+function renderBoxeurs(list){
+  list=list||DB.boxeurs;
+  const tb=document.getElementById('tb-box');
+  const em=document.getElementById('empty-box');
+  if(!list.length){tb.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  tb.innerHTML=list.map(b=>`
+    <tr onclick="openProfil(${b.id})">
+      <td><div class="tn">${b.pre} ${b.nom}</div><div class="ta">${b.ali||''}</div></td>
+      <td><span class="ts">${b.nat||'—'}</span></td>
+      <td><span class="ts">${b.cat}</span></td>
+      <td><span class="rec"><span class="rw">${b.v}V</span> <span class="rl">${b.d}D</span> <span class="rd">${b.n}N</span></span><div class="tm">${b.ko} KO</div></td>
+      <td>${b.sta==='Actif'?'<span class="b ba">Actif</span>':'<span class="b bi">Inactif</span>'}</td>
+      <td><div class="ts">${b.man||'—'}</div><div class="tm">${b.pro||''}</div></td>
+      <td>${b.bid
+        ? `<div style="display:flex;flex-direction:column;gap:4px">
+            <a href="https://boxrec.com/boxer/${b.bid}" target="_blank" onclick="event.stopPropagation()" style="color:var(--gold2);font-size:10px;letter-spacing:1px;text-decoration:none;border:1px solid var(--gold);padding:2px 7px;display:inline-block">Profil ↗</a>
+            <a href="https://boxrec.com/search?name=${encodeURIComponent(b.pre+' '+b.nom)}" target="_blank" onclick="event.stopPropagation()" style="color:var(--iv3);font-size:9px;letter-spacing:1px;text-decoration:none">Rechercher</a>
+           </div>`
+        : `<a href="https://boxrec.com/search?name=${encodeURIComponent(b.pre+' '+b.nom)}" target="_blank" onclick="event.stopPropagation()" style="color:var(--iv3);font-size:10px;letter-spacing:1px;text-decoration:none">Rechercher ↗</a>`
+      }</td>
+    </tr>`).join('');
+}
+
+function filterBoxeurs(q,cat,sta){
+  q=q??document.querySelector('#view-boxeurs .sw input')?.value??'';
+  cat=cat??''; sta=sta??'';
+  let l=DB.boxeurs.filter(b=>{
+    const n=`${b.pre} ${b.nom} ${b.ali||''}`.toLowerCase();
+    return(!q||n.includes(q.toLowerCase()))&&(!cat||b.cat===cat)&&(!sta||b.sta===sta);
+  });
+  renderBoxeurs(l);
+}
+
+function openProfil(id){
+  const b=DB.boxeurs.find(x=>x.id===id);if(!b)return;
+  const rel=DB.combats.filter(c=>c.ba.includes(b.nom)||c.bb.includes(b.nom));
+  const relDocs=DB.docs.filter(d=>d.ath&&d.ath.includes(b.nom));
+  const relInv=DB.invoices.filter(i=>i.ath&&i.ath.includes(b.nom));
+  document.getElementById('mo-profil-t').textContent=`${b.pre} ${b.nom} ${b.ali||''}`;
+  document.getElementById('mo-profil-b').innerHTML=`
+    <div class="pg">
+      <div class="ps"><div class="psl">Nationalité</div><div class="psv">${b.nat||'—'}</div></div>
+      <div class="ps"><div class="psl">Catégorie</div><div class="psv">${b.cat}</div></div>
+      <div class="ps"><div class="psl">Bilan</div><div class="psv"><span style="color:var(--grn)">${b.v}V</span> <span style="color:var(--red)">${b.d}D</span> <span style="color:var(--gold2)">${b.n}N</span></div></div>
+      <div class="ps"><div class="psl">KO infligés</div><div class="psv" style="color:var(--red)">${b.ko}</div></div>
+      <div class="ps"><div class="psl">Manager</div><div class="psv" style="font-size:14px">${b.man||'—'}</div></div>
+      <div class="ps"><div class="psl">Promoteur</div><div class="psv" style="font-size:14px">${b.pro||'—'}</div></div>
+      <div class="ps"><div class="psl">Entraîneur</div><div class="psv" style="font-size:14px">${b.ent||'—'}</div></div>
+      <div class="ps"><div class="psl">Dernière MAJ</div><div class="psv" style="font-size:14px">${fmtDate(b.maj)}</div></div>
+    </div>
+    ${b.not?`<div style="margin-top:14px;background:var(--surf);border:1px solid var(--l1);border-left:2px solid var(--gold);padding:13px 15px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--iv2);font-size:14px">${b.not}</div>`:''}
+    <div class="tl mt16"><div class="tl-hd">Propositions liées</div>
+    ${rel.length?rel.map(c=>`<div class="tli"><div class="tld ${c.sta==='Accepté'?'g':c.sta==='Refusé'?'r':''}"></div><div class="tlc"><div class="tl-date">${fmtDate(c.dat)} · ${c.lie}</div><div class="tl-txt">${c.ba} vs ${c.bb} — ${c.typ}</div><div class="tl-note">${bstat(c.sta)} ${c.not?'· '+c.not:''}</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:8px 0">Aucune proposition liée.</div>'}
+    </div>
+    <div class="tl mt8"><div class="tl-hd">Documents liés</div>
+    ${relDocs.length?relDocs.map(d=>`<div class="tli"><div class="tld b"></div><div class="tlc"><div class="tl-date">${fmtDate(d.dat)} · ${d.typ}</div><div class="tl-txt">${d.tit}</div>${d.lnk?`<a href="${d.lnk}" target="_blank" style="font-size:10px;color:var(--gold2);letter-spacing:1px">Ouvrir ↗</a>`:''}</div></div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:8px 0">Aucun document lié.</div>'}
+    </div>
+    <div class="tl mt8"><div class="tl-hd">Factures liées</div>
+    ${relInv.length?relInv.map(i=>`<div class="tli"><div class="tld ${i.sta==='Réglée'?'g':i.sta==='En retard'?'r':''}"></div><div class="tlc"><div class="tl-date">${fmtDate(i.dat)} · ${i.des}</div><div class="tl-txt">${i.tit} — <span style="color:var(--gold2);font-family:'Playfair Display',serif">${fmtEur(i.mnt)}</span></div><div class="tl-note">${bstat(i.sta)}</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:8px 0">Aucune facture liée.</div>'}
+    </div>
+    <div class="fa">
+      ${b.bid
+        ? `<a href="https://boxrec.com/boxer/${b.bid}" target="_blank"><button class="hbtn" style="color:var(--gold2);border-color:var(--gold)">BoxRec — Profil ↗</button></a>`
+        : `<a href="https://boxrec.com/search?name=${encodeURIComponent(b.pre+' '+b.nom)}" target="_blank"><button class="hbtn" style="color:var(--iv2)">Rechercher sur BoxRec ↗</button></a>`
+      }
+      <button class="hbtn" style="color:var(--red);border-color:var(--red)" onclick="delBoxeur(${b.id})">Supprimer</button><button class="hbtn" onclick="closeModal('mo-profil')">Fermer</button></div>`;
+  openModal('mo-profil');
+}
+
+// ═══════════════════════════════════════
+// ÉLIGIBILITÉ
+// ═══════════════════════════════════════
+function renderEligib(list){
+  list=list||DB.boxeurs;
+  document.getElementById('tb-el').innerHTML=list.map(b=>{
+    const total=b.v+b.d+b.n;
+    const elig=b.sta==='Actif'&&total>=5;
+    const titreFR=b.nat&&(b.nat.toLowerCase().includes('français')||b.nat.toLowerCase().includes('france'));
+    const motif=!elig?total<5?'< 5 combats pro':'Statut inactif':'';
+    return`<tr>
+      <td><div class="tn">${b.pre} ${b.nom}</div></td>
+      <td><span class="ts">${b.nat||'—'}</span></td>
+      <td><span style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold2)">${total}</span></td>
+      <td>${b.sta==='Actif'?'<span class="b ba">Actif</span>':'<span class="b bi">Inactif</span>'}</td>
+      <td>${titreFR?'<span class="b be">Oui</span>':'<span class="b bn">Non</span>'}</td>
+      <td>${elig?'<span class="b be">Éligible</span>':'<span class="b bn">Non éligible</span>'}</td>
+      <td><span class="tm">${motif}</span></td>
+    </tr>`;
+  }).join('');
+}
+function filterEligib(q,v){
+  let l=DB.boxeurs.filter(b=>{
+    if(q&&!`${b.pre} ${b.nom}`.toLowerCase().includes(q.toLowerCase()))return false;
+    if(v){const e=b.sta==='Actif'&&(b.v+b.d+b.n)>=5;if(v==='ok'&&!e)return false;if(v==='ko'&&e)return false;}
+    return true;
+  });
+  renderEligib(l);
+}
+
+// ═══════════════════════════════════════
+// COMBATS
+// ═══════════════════════════════════════
+function renderCombats(list){
+  list=list||DB.combats;
+  const el=document.getElementById('list-cbt');
+  const em=document.getElementById('empty-cbt');
+  if(!list.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=list.map(c=>`
+    <div class="fc">
+      <div class="fc-mu">
+        <div><div class="fc-bn">${c.ba}</div><div class="fc-bs">Notre camp</div></div>
+        <div class="fc-vs">vs</div>
+        <div style="text-align:right"><div class="fc-bn">${c.bb}</div><div class="fc-bs">Adversaire</div></div>
+      </div>
+      <div class="fc-ft">
+        <div style="display:flex;gap:16px;align-items:center">
+          <span>📅 ${fmtDate(c.dat)}</span><span>📍 ${c.lie}</span>
+          <span>👤 ${c.con}</span><span style="color:var(--gold2)">💰 ${fmtEur((+c.brs||0)*((+c.com||0)/100))}</span>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">${bstat(c.sta)}<span class="b bb">${c.cat}</span></div>
+      </div>
+    </div>`).join('');
+}
+function filterCombats(sta,cat){
+  sta=sta??'';cat=cat??'';
+  renderCombats(DB.combats.filter(c=>(!sta||c.sta===sta)&&(!cat||c.cat===cat)));
+}
+
+// ═══════════════════════════════════════
+// CONTACTS
+// ═══════════════════════════════════════
+function renderContacts(list){
+  list=list||DB.contacts;
+  const el=document.getElementById('list-cts');
+  const em=document.getElementById('empty-cts');
+  if(!list.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=list.map(c=>`
+    <div class="cc" onclick="openContactDetail(${c.id})">
+      <div>
+        <div class="cc-name">${c.pre} ${c.nom}</div>
+        <div class="cc-role">${c.rol} · ${c.pay}</div>
+        <div class="cc-meta"><strong>Boxeurs :</strong> ${c.box||'—'} &nbsp; <strong>Email :</strong> ${c.eml||'—'} &nbsp; <strong>Tél :</strong> ${c.tel||'—'}</div>
+        ${c.not?`<div style="margin-top:8px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--iv3)">${c.not.substring(0,120)}${c.not.length>120?'…':''}</div>`:''}
+      </div>
+      <div class="cc-last">
+        <div class="cc-ll">Dernier contact</div>
+        <div class="cc-ld">${c.dat?fmtDateShort(c.dat):'—'}</div>
+        <div class="cc-lc">via ${c.can||'—'}</div>
+        <div style="font-size:11px;color:var(--iv3);margin-top:5px;max-width:140px;text-align:left">${c.obj||''}</div>
+      </div>
+    </div>`).join('');
+}
+function filterContacts(q,rol){
+  q=q??'';rol=rol??'';
+  renderContacts(DB.contacts.filter(c=>{
+    const n=`${c.pre} ${c.nom} ${c.box||''}`.toLowerCase();
+    return(!q||n.includes(q.toLowerCase()))&&(!rol||c.rol===rol);
+  }));
+}
+function openContactDetail(id){
+  const c=DB.contacts.find(x=>x.id===id);if(!c)return;
+  const rel=DB.combats.filter(f=>f.con&&f.con.toLowerCase().includes(c.nom.toLowerCase()));
+  document.getElementById('mo-profil-t').textContent=`${c.pre} ${c.nom} — ${c.rol}`;
+  document.getElementById('mo-profil-b').innerHTML=`
+    <div class="pg">
+      <div class="ps"><div class="psl">Rôle</div><div class="psv" style="font-size:15px">${c.rol}</div></div>
+      <div class="ps"><div class="psl">Pays</div><div class="psv" style="font-size:15px">${c.pay||'—'}</div></div>
+      <div class="ps"><div class="psl">Email</div><div class="psv" style="font-size:13px">${c.eml||'—'}</div></div>
+      <div class="ps"><div class="psl">Téléphone</div><div class="psv" style="font-size:13px">${c.tel||'—'}</div></div>
+      <div class="ps"><div class="psl">Canal préféré</div><div class="psv" style="font-size:15px">${c.can||'—'}</div></div>
+      <div class="ps"><div class="psl">Boxeurs représentés</div><div class="psv" style="font-size:13px">${c.box||'—'}</div></div>
+    </div>
+    ${c.not?`<div style="margin-top:14px;background:var(--surf);border:1px solid var(--l1);border-left:2px solid var(--gold);padding:13px 15px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--iv2);font-size:14px">${c.not}</div>`:''}
+    <div class="tl mt16"><div class="tl-hd">Dernier échange</div>
+      <div class="tli"><div class="tld"></div><div class="tlc"><div class="tl-date">${fmtDate(c.dat)} · via ${c.can}</div><div class="tl-txt">${c.obj||'—'}</div></div></div>
+    </div>
+    ${rel.length?`<div class="tl mt8"><div class="tl-hd">Propositions liées</div>${rel.map(f=>`<div class="tli"><div class="tld ${f.sta==='Accepté'?'g':f.sta==='Refusé'?'r':''}"></div><div class="tlc"><div class="tl-date">${fmtDate(f.dat)}</div><div class="tl-txt">${f.ba} vs ${f.bb}</div><div class="tl-note">${bstat(f.sta)}</div></div></div>`).join('')}</div>`:''}
+    <div class="fa"><button class="hbtn" style="color:var(--red);border-color:var(--red)" onclick="delContact(${c.id})">Supprimer</button><button class="hbtn" onclick="closeModal('mo-profil')">Fermer</button></div>`;
+  openModal('mo-profil');
+}
+
+// ═══════════════════════════════════════
+// INCIDENTS
+// ═══════════════════════════════════════
+function renderIncidents(){
+  const el=document.getElementById('list-inc');
+  const em=document.getElementById('empty-inc');
+  if(!DB.incidents.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=DB.incidents.map(i=>`
+    <div style="background:var(--card);border:1px solid var(--l1);border-left:3px solid ${i.sev==='Grave'?'var(--red)':i.sev==='Moyen'?'var(--gold)':'var(--l2)'};padding:18px 22px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:600">${i.tit}</div>
+        <div style="display:flex;gap:6px">${bstat(i.sta)}<span class="b ${i.sev==='Grave'?'bn':i.sev==='Moyen'?'bp':'bi'}">${i.sev}</span></div>
+      </div>
+      <div style="font-size:10px;color:var(--iv3);margin-bottom:8px;letter-spacing:1px">📅 ${fmtDate(i.dat)} · Parties : ${i.par||'—'}</div>
+      <div style="font-size:12px;color:var(--ivory);margin-bottom:6px">${i.des||''}</div>
+      ${i.act?`<div style="font-size:11px;color:var(--iv3);font-family:'Cormorant Garamond',serif;font-style:italic">→ ${i.act}</div>`:''}
+      <div style="margin-top:10px"><button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="delItem('incidents',${i.id},renderIncidents)">Supprimer</button></div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════
+// CA PROJECTION
+// ═══════════════════════════════════════
+function renderCA(){
+  const total=DB.ca.reduce((a,c)=>a+(+c.mnt||0),0);
+  const enc=DB.ca.filter(c=>c.sta==='Encaissé').reduce((a,c)=>a+(+c.mnt||0),0);
+  document.getElementById('ca-total-v').textContent=fmtEur(total);
+  document.getElementById('ca-encaisse-v').textContent=fmtEur(enc);
+  document.getElementById('ca-attente-v').textContent=fmtEur(total-enc);
+  // Chart by month
+  const months={};
+  DB.ca.forEach(c=>{
+    if(!c.dat)return;
+    const k=c.dat.substring(0,7);
+    months[k]=(months[k]||0)+(+c.mnt||0);
+  });
+  const sorted=Object.keys(months).sort();
+  const maxV=Math.max(...Object.values(months),1);
+  const chart=document.getElementById('ca-chart');
+  if(!sorted.length){chart.innerHTML='<div class="empty-txt" style="padding:20px 0">Aucune donnée.</div>';return;}
+  chart.innerHTML=`
+    <div style="font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--gold2)">${fmtEur(total)}</div>
+    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--iv3);margin-bottom:20px">CA total projeté</div>
+    <div style="display:flex;align-items:flex-end;gap:8px;height:90px">
+      ${sorted.map(k=>`
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+          <div style="font-size:8px;color:var(--gold2)">${fmtEur(months[k])}</div>
+          <div style="width:100%;background:linear-gradient(to top,var(--gold),var(--gold3));height:${Math.round((months[k]/maxV)*70)+4}px;border-radius:1px 1px 0 0;min-height:4px"></div>
+          <div style="font-size:8px;color:var(--iv3);letter-spacing:1px">${k.substring(5)}</div>
+        </div>`).join('')}
+    </div>`;
+  // List
+  const em=document.getElementById('empty-ca');
+  const list=document.getElementById('ca-list');
+  if(!DB.ca.length){list.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  list.innerHTML=DB.ca.map(c=>`
+    <div class="proj-row">
+      <div class="proj-label">${c.lib}<div style="font-size:10px;color:var(--iv3)">${c.ath||''} · ${fmtDate(c.dat)} · ${c.typ}</div></div>
+      <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:${Math.round(((+c.mnt||0)/Math.max(...DB.ca.map(x=>+x.mnt||0),1))*100)}%"></div></div>
+      <div class="proj-amount">${fmtEur(c.mnt)}</div>
+      <div class="proj-status">${bstat(c.sta)}</div>
+      <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:3px 8px;cursor:pointer" onclick="delItem('ca',${c.id},renderCA)">✕</button>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════
+// FACTURATION
+// ═══════════════════════════════════════
+function renderInvoices(list){
+  list=list||DB.invoices;
+  const el=document.getElementById('list-inv');
+  const em=document.getElementById('empty-inv');
+  if(!list.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=list.map(i=>`
+    <div class="inv-card ${i.sta==='En retard'?'urgent':i.sta==='Réglée'?'done':''}">
+      <div class="inv-info">
+        <div class="inv-title">${i.tit}</div>
+        <div class="inv-meta">Athlète : ${i.ath||'—'} &nbsp;·&nbsp; Destinataire : ${i.des||'—'} &nbsp;·&nbsp; Combat : ${fmtDate(i.dc)} &nbsp;·&nbsp; Émission : ${fmtDate(i.dat)}</div>
+        ${i.not?`<div style="font-size:11px;color:var(--iv3);font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:4px">${i.not}</div>`:''}
+        ${i.rap==1?'<div style="font-size:9px;color:var(--gold2);margin-top:4px;letter-spacing:1px">⏰ RAPPEL J+1 ACTIVÉ</div>':''}
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div class="inv-amount">${fmtEur(i.mnt)}</div>
+        <div class="inv-due">${bstat(i.sta)}</div>
+        <div style="display:flex;gap:6px;margin-top:10px;justify-content:flex-end">
+          ${i.sta!=='Réglée'?`<button class="hbtn" style="font-size:9px;color:var(--grn);border-color:var(--grn);padding:4px 10px;cursor:pointer" onclick="markInvDone(${i.id})">✓ Réglée</button>`:''}
+          <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:4px 10px;cursor:pointer" onclick="delItem('invoices',${i.id},renderInvoices)">✕</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function filterInv(sta){renderInvoices(sta?DB.invoices.filter(i=>i.sta===sta):DB.invoices);}
+function markInvDone(id){const i=DB.invoices.find(x=>x.id===id);if(i){i.sta='Réglée';saveDB();renderInvoices();}}
+
+// ═══════════════════════════════════════
+// DOCS
+// ═══════════════════════════════════════
+function renderDocs(list){
+  list=list||DB.docs;
+  const el=document.getElementById('list-docs');
+  const em=document.getElementById('empty-docs');
+  if(!list.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=list.map(d=>`
+    <div class="dr">
+      <div>
+        <div class="dr-t">${d.tit}</div>
+        <div class="dr-m"><span class="b bp">${d.typ}</span> &nbsp; ${d.ath?'Athlète : '+d.ath+' &nbsp;·&nbsp;':''} Parties : ${d.par||'—'} &nbsp;·&nbsp; ${fmtDate(d.dat)}</div>
+        ${d.not?`<div style="font-size:11px;color:var(--iv3);font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:4px">${d.not}</div>`:''}
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        ${d.lnk?`<a href="${d.lnk}" target="_blank"><button class="hbtn" style="font-size:10px;padding:5px 12px;cursor:pointer">Ouvrir ↗</button></a>`:''}
+        <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:5px 10px;cursor:pointer" onclick="delItem('docs',${d.id},renderDocs)">✕</button>
+      </div>
+    </div>`).join('');
+}
+function filterDocs(q,typ){
+  q=q??'';typ=typ??'';
+  renderDocs(DB.docs.filter(d=>{
+    const t=`${d.tit} ${d.ath||''} ${d.par||''}`.toLowerCase();
+    return(!q||t.includes(q.toLowerCase()))&&(!typ||d.typ===typ);
+  }));
+}
+
+// ═══════════════════════════════════════
+// ATHLETES
+// ═══════════════════════════════════════
+function renderAthletes(){
+  const el=document.getElementById('list-ath');
+  const em=document.getElementById('empty-ath');
+  if(!DB.athletes.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=DB.athletes.map(a=>`
+    <div class="athl-card" onclick="openAthleteDetail(${a.id})">
+      <div class="athl-head">
+        <div><div class="athl-name">${a.nom}</div><div class="athl-cat">${a.cat} · ${a.nat}</div></div>
+        <div style="text-align:right">${bstat(a.sta)}<div style="font-size:10px;color:var(--iv3);margin-top:4px">Contrat jusqu'au ${fmtDate(a.dcf)}</div></div>
+      </div>
+      <div class="athl-grid">
+        <div class="athl-stat"><div class="athl-sl">Commission</div><div class="athl-sv">${a.com||'—'}%</div></div>
+        <div class="athl-stat"><div class="athl-sl">Instagram</div><div class="athl-sv">${a.ig||'—'} <span style="font-size:12px;color:var(--iv3)">(${fmtNum(a.igs)})</span></div></div>
+        <div class="athl-stat"><div class="athl-sl">TikTok</div><div class="athl-sv">${a.tt||'—'} <span style="font-size:12px;color:var(--iv3)">(${fmtNum(a.tts)})</span></div></div>
+        <div class="athl-stat f-full" style="grid-column:1/-1"><div class="athl-sl">Objectif prochain combat</div><div class="athl-sv" style="font-size:14px">${a.obj||'—'}</div></div>
+      </div>
+    </div>`).join('');
+}
+function openAthleteDetail(id){
+  const a=DB.athletes.find(x=>x.id===id);if(!a)return;
+  const relCA=DB.ca.filter(c=>c.ath&&c.ath.includes(a.nom));
+  const relDocs=DB.docs.filter(d=>d.ath&&d.ath.includes(a.nom));
+  const relRdv=DB.rdvs.filter(r=>r.ath&&r.ath.includes(a.nom));
+  const relSoc=DB.socials.filter(s=>s.ath&&s.ath.includes(a.nom));
+  document.getElementById('mo-profil-t').textContent=a.nom;
+  document.getElementById('mo-profil-b').innerHTML=`
+    <div class="pg">
+      <div class="ps"><div class="psl">Catégorie</div><div class="psv">${a.cat}</div></div>
+      <div class="ps"><div class="psl">Nationalité</div><div class="psv">${a.nat}</div></div>
+      <div class="ps"><div class="psl">Commission</div><div class="psv" style="color:var(--gold2)">${a.com}%</div></div>
+      <div class="ps"><div class="psl">Contrat</div><div class="psv" style="font-size:13px">${fmtDate(a.dcd)} → ${fmtDate(a.dcf)}</div></div>
+      <div class="ps"><div class="psl">Instagram</div><div class="psv" style="font-size:14px">${a.ig||'—'} &nbsp;<span style="font-size:12px;color:var(--iv3)">${fmtNum(a.igs)} abonnés</span></div></div>
+      <div class="ps"><div class="psl">TikTok</div><div class="psv" style="font-size:14px">${a.tt||'—'} &nbsp;<span style="font-size:12px;color:var(--iv3)">${fmtNum(a.tts)} abonnés</span></div></div>
+      <div class="ps" style="grid-column:1/-1"><div class="psl">Objectif</div><div class="psv" style="font-size:15px">${a.obj||'—'}</div></div>
+    </div>
+    ${a.not?`<div style="margin-top:14px;background:var(--surf);border:1px solid var(--l1);border-left:2px solid var(--gold);padding:13px 15px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--iv2);font-size:14px">${a.not}</div>`:''}
+    <div class="tl mt16"><div class="tl-hd">Revenus projetés</div>
+    ${relCA.length?relCA.map(c=>`<div class="tli"><div class="tld"></div><div class="tlc"><div class="tl-date">${fmtDate(c.dat)} · ${c.typ}</div><div class="tl-txt">${c.lib} — <span style="color:var(--gold2);font-family:'Playfair Display',serif">${fmtEur(c.mnt)}</span></div><div class="tl-note">${bstat(c.sta)}</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:8px 0">Aucun revenu lié.</div>'}
+    </div>
+    <div class="tl mt8"><div class="tl-hd">Actions réseaux sociaux</div>
+    ${relSoc.length?relSoc.map(s=>`<div class="tli"><div class="tld b"></div><div class="tlc"><div class="tl-date">${fmtDate(s.dat)} · ${s.plt}</div><div class="tl-txt">${s.typ} — ${s.obj||''}</div><div class="tl-note">${bstat(s.sta)}</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:8px 0">Aucune action planifiée.</div>'}
+    </div>
+    <div class="tl mt8"><div class="tl-hd">RDV liés</div>
+    ${relRdv.length?relRdv.map(r=>`<div class="tli"><div class="tld"></div><div class="tlc"><div class="tl-date">${fmtDate(r.dat)} ${r.hre||''} · ${r.typ}</div><div class="tl-txt">${r.tit}</div><div class="tl-note">avec ${r.ave||'—'} · ${bstat(r.sta)}</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:8px 0">Aucun RDV lié.</div>'}
+    </div>
+    <div class="tl mt8"><div class="tl-hd">Documents liés</div>
+    ${relDocs.length?relDocs.map(d=>`<div class="tli"><div class="tld b"></div><div class="tlc"><div class="tl-date">${fmtDate(d.dat)} · ${d.typ}</div><div class="tl-txt">${d.tit}</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:8px 0">Aucun document lié.</div>'}
+    </div>
+    <div class="fa"><button class="hbtn" style="color:var(--red);border-color:var(--red)" onclick="delItem('athletes',${a.id},()=>{closeModal('mo-profil');renderAthletes()})">Supprimer</button><button class="hbtn" onclick="closeModal('mo-profil')">Fermer</button></div>`;
+  openModal('mo-profil');
+}
+
+// ═══════════════════════════════════════
+// SPONSORS
+// ═══════════════════════════════════════
+function renderSponsors(){
+  const em=document.getElementById('empty-sp');
+  const tb=document.getElementById('tb-sp');
+  if(!DB.sponsors.length){tb.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  tb.innerHTML=DB.sponsors.map(s=>`<tr>
+    <td><div class="tn">${s.nom}</div></td>
+    <td><span class="ts">${s.ath||'—'}</span></td>
+    <td><span class="ts">${s.sec||'—'}</span></td>
+    <td><span style="font-family:'Playfair Display',serif;color:var(--gold2);font-size:15px">${fmtEur(s.val)}</span></td>
+    <td><span class="ts">${fmtDate(s.fin)}</span></td>
+    <td>${bstat(s.sta)}</td>
+    <td><span class="ts">${s.con||'—'}</span></td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════
+// RDV
+// ═══════════════════════════════════════
+function renderRdvs(){
+  const em=document.getElementById('empty-rdv');
+  const tb=document.getElementById('tb-rdv');
+  const sorted=[...DB.rdvs].sort((a,b)=>new Date(a.dat)-new Date(b.dat));
+  if(!sorted.length){tb.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  tb.innerHTML=sorted.map(r=>`<tr>
+    <td><span style="font-family:'Playfair Display',serif;font-size:14px;color:var(--gold2)">${fmtDate(r.dat)}</span><div class="tm">${r.hre||''}</div></td>
+    <td><div class="tn" style="font-size:14px">${r.tit}</div></td>
+    <td><span class="ts">${r.ave||'—'}</span></td>
+    <td><span class="ts">${r.ath||'—'}</span></td>
+    <td><span class="b bb">${r.typ}</span></td>
+    <td>${bstat(r.sta)}</td>
+    <td><span class="tm">${(r.not||'').substring(0,60)}</span></td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════
+// SOCIALS
+// ═══════════════════════════════════════
+function renderSocials(){
+  const em=document.getElementById('empty-soc');
+  const tb=document.getElementById('tb-soc');
+  if(!DB.socials.length){tb.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  tb.innerHTML=DB.socials.map(s=>`<tr>
+    <td><span style="font-family:'Playfair Display',serif;font-size:13px;color:var(--gold2)">${fmtDate(s.dat)}</span></td>
+    <td><span class="ts">${s.ath}</span></td>
+    <td><span class="b bb">${s.plt}</span></td>
+    <td><span class="ts">${s.typ}</span></td>
+    <td><span class="ts">${s.obj||'—'}</span></td>
+    <td>${bstat(s.sta)}</td>
+    <td><span class="tm">${(s.not||'').substring(0,50)}</span></td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════
+// ACTIVITE
+// ═══════════════════════════════════════
+function renderActivite(){
+  const el=document.getElementById('list-act');
+  const em=document.getElementById('empty-act');
+  if(!DB.activites.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=DB.activites.map(a=>`
+    <div style="background:var(--card);border:1px solid var(--l1);padding:18px 22px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:14px">
+        <div><div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:600">${a.ath}</div><div style="font-size:10px;color:var(--iv3);letter-spacing:2px;text-transform:uppercase">${a.per}</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+        <div class="ps"><div class="psl">Combats</div><div class="psv">${a.cbt}</div></div>
+        <div class="ps"><div class="psl">Séances</div><div class="psv">${a.ses}</div></div>
+        <div class="ps"><div class="psl">IG abonnés</div><div class="psv">${fmtNum(a.ig)}</div></div>
+        <div class="ps"><div class="psl">TikTok</div><div class="psv">${fmtNum(a.tt)}</div></div>
+        <div class="ps"><div class="psl">Médias</div><div class="psv">${a.med}</div></div>
+        <div class="ps"><div class="psl">CA généré</div><div class="psv" style="color:var(--gold2)">${fmtEur(a.ca)}</div></div>
+      </div>
+      ${a.not?`<div style="margin-top:10px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--iv3)">${a.not}</div>`:''}
+      <div style="margin-top:10px"><button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="delItem('activites',${a.id},renderActivite)">Supprimer</button></div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════
+// MODAL HELPERS
+// ═══════════════════════════════════════
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function openQuickAdd(){openModal('mo-quick');}
+function openBoxeurModal(){clearPfx('b-');document.getElementById('b-bid').value='';openModal('mo-box');}
+function openContactModal(){clearPfx('c-');openModal('mo-cts');}
+function openCombatModal(){clearPfx('f-');openModal('mo-cbt');}
+function openIncidentModal(){clearPfx('i-');openModal('mo-inc');}
+function openCAModal(){clearPfx('ca-');openModal('mo-ca');}
+function openInvModal(){clearPfx('inv-');openModal('mo-inv');}
+function openDocModal(){clearPfx('d-');openModal('mo-doc');}
+function openAthleteModal(){clearPfx('a-');openModal('mo-ath');}
+function openSponsorModal(){clearPfx('sp-');openModal('mo-sp');}
+function openRdvModal(){clearPfx('r-');openModal('mo-rdv');}
+function openSocialModal(){clearPfx('s-');openModal('mo-soc');}
+function openActiviteModal(){clearPfx('ac-');openModal('mo-act');}
+function openScoutModal(){clearPfx('sc-');openModal('mo-sct');}
+
+function clearPfx(pfx){document.querySelectorAll(`[id^="${pfx}"]`).forEach(el=>{if(el.tagName!=='SELECT')el.value='';});}
+
+// ═══════════════════════════════════════
+// SAVE FUNCTIONS
+// ═══════════════════════════════════════
+function g(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+
+function saveBoxeur(){
+  const nom=g('b-nom');if(!nom)return alert('Le nom est requis.');
+  DB.boxeurs.push({id:Date.now(),pre:g('b-pre'),nom,ali:g('b-ali'),nat:g('b-nat'),cat:g('b-cat'),sta:g('b-sta'),v:+g('b-v')||0,d:+g('b-d')||0,n:+g('b-n')||0,ko:+g('b-ko')||0,man:g('b-man'),pro:g('b-pro'),ent:g('b-ent'),bid:g('b-bid'),not:g('b-not'),maj:new Date().toISOString().split('T')[0]});
+  saveDB();closeModal('mo-box');renderBoxeurs();
+}
+function saveContact(){
+  const nom=g('c-nom');if(!nom)return alert('Le nom est requis.');
+  DB.contacts.push({id:Date.now(),pre:g('c-pre'),nom,rol:g('c-rol'),pay:g('c-pay'),eml:g('c-eml'),tel:g('c-tel'),box:g('c-box'),can:g('c-can'),dat:g('c-dat'),obj:g('c-obj'),not:g('c-not')});
+  saveDB();closeModal('mo-cts');renderContacts();
+}
+function saveCombat(){
+  const ba=g('f-ba'),bb=g('f-bb');if(!ba||!bb)return alert('Les deux boxeurs sont requis.');
+  DB.combats.push({id:Date.now(),ba,bb,cat:g('f-cat'),typ:g('f-typ'),dat:g('f-dat'),lie:g('f-lie'),con:g('f-con'),sta:g('f-sta'),brs:+g('f-brs')||0,com:+g('f-com')||15,not:g('f-not')});
+  saveDB();closeModal('mo-cbt');renderCombats();
+}
+function saveIncident(){
+  const tit=g('i-tit');if(!tit)return alert('Le titre est requis.');
+  DB.incidents.push({id:Date.now(),tit,sev:g('i-sev'),sta:g('i-sta'),par:g('i-par'),dat:g('i-dat'),des:g('i-des'),act:g('i-act')});
+  saveDB();closeModal('mo-inc');renderIncidents();
+}
+function saveCA(){
+  const lib=g('ca-lib');if(!lib)return alert('Le libellé est requis.');
+  DB.ca.push({id:Date.now(),lib,ath:g('ca-ath'),dat:g('ca-dat'),mnt:+g('ca-mnt')||0,sta:g('ca-sta'),typ:g('ca-typ'),not:g('ca-not')});
+  saveDB();closeModal('mo-ca');renderCA();
+}
+function saveInv(){
+  const tit=g('inv-tit');if(!tit)return alert('Le titre est requis.');
+  DB.invoices.push({id:Date.now(),tit,ath:g('inv-ath'),des:g('inv-des'),mnt:+g('inv-mnt')||0,dc:g('inv-dc'),dat:g('inv-dat'),sta:g('inv-sta'),rap:+g('inv-rap'),not:g('inv-not')});
+  saveDB();closeModal('mo-inv');renderInvoices();
+}
+function saveDoc(){
+  const tit=g('d-tit');if(!tit)return alert('Le titre est requis.');
+  DB.docs.push({id:Date.now(),tit,typ:g('d-typ'),ath:g('d-ath'),par:g('d-par'),dat:g('d-dat'),lnk:g('d-lnk'),not:g('d-not')});
+  saveDB();closeModal('mo-doc');renderDocs();
+}
+function saveAthlete(){
+  const nom=g('a-nom');if(!nom)return alert('Le nom est requis.');
+  DB.athletes.push({id:Date.now(),nom,cat:g('a-cat'),nat:g('a-nat'),dcd:g('a-dcd'),dcf:g('a-dcf'),com:+g('a-com')||0,ig:g('a-ig'),igs:+g('a-igs')||0,tt:g('a-tt'),tts:+g('a-tts')||0,obj:g('a-obj'),sta:g('a-sta'),not:g('a-not')});
+  saveDB();closeModal('mo-ath');renderAthletes();
+}
+function saveSponsor(){
+  const nom=g('sp-nom');if(!nom)return alert('Le nom est requis.');
+  DB.sponsors.push({id:Date.now(),nom,sec:g('sp-sec'),ath:g('sp-ath'),con:g('sp-con'),val:+g('sp-val')||0,fin:g('sp-fin'),sta:g('sp-sta'),not:g('sp-not')});
+  saveDB();closeModal('mo-sp');renderSponsors();
+}
+function saveRdv(){
+  const tit=g('r-tit');if(!tit)return alert('Le titre est requis.');
+  DB.rdvs.push({id:Date.now(),tit,dat:g('r-dat'),hre:g('r-hre'),ave:g('r-ave'),ath:g('r-ath'),typ:g('r-typ'),lie:g('r-lie'),sta:g('r-sta'),not:g('r-not')});
+  saveDB();closeModal('mo-rdv');renderRdvs();
+}
+function saveSocial(){
+  const ath=g('s-ath');if(!ath)return alert('L\'athlète est requis.');
+  DB.socials.push({id:Date.now(),ath,plt:g('s-plt'),typ:g('s-typ'),dat:g('s-dat'),obj:g('s-obj'),sta:g('s-sta'),not:g('s-not')});
+  saveDB();closeModal('mo-soc');renderSocials();
+}
+function saveActivite(){
+  const ath=g('ac-ath');if(!ath)return alert('L\'athlète est requis.');
+  DB.activites.push({id:Date.now(),ath,per:g('ac-per'),cbt:+g('ac-cbt')||0,ses:+g('ac-ses')||0,ig:+g('ac-ig')||0,tt:+g('ac-tt')||0,med:+g('ac-med')||0,ca:+g('ac-ca')||0,not:g('ac-not')});
+  saveDB();closeModal('mo-act');renderActivite();
+}
+function saveScout(){
+  const nom=g('sc-nom');if(!nom)return alert('Le nom est requis.');
+  DB.scouts.push({id:Date.now(),pre:g('sc-pre'),nom,ali:g('sc-ali'),nat:g('sc-nat'),cat:g('sc-cat'),pri:g('sc-pri'),v:+g('sc-v')||0,d:+g('sc-d')||0,n:+g('sc-n')||0,ko:+g('sc-ko')||0,bid:g('sc-bid'),man:g('sc-man'),pro:g('sc-pro'),src:g('sc-src'),dat:g('sc-dat'),sta:g('sc-sta'),pts:g('sc-pts'),not:g('sc-not')});
+  saveDB();closeModal('mo-sct');renderScouts();
+}
+
+// ═══════════════════════════════════════
+// DELETE
+// ═══════════════════════════════════════
+function delItem(col,id,cb){if(!confirm('Supprimer ?'))return;DB[col]=DB[col].filter(x=>x.id!==id);saveDB();if(cb)cb();}
+function delBoxeur(id){delItem('boxeurs',id,()=>{closeModal('mo-profil');renderBoxeurs();});}
+function delContact(id){delItem('contacts',id,()=>{closeModal('mo-profil');renderContacts();});}
+
+// ═══════════════════════════════════════
+// SCOUTING
+// ═══════════════════════════════════════
+function renderScouts(list){
+  list=list||DB.scouts;
+  const el=document.getElementById('list-sct');
+  const em=document.getElementById('empty-sct');
+  if(!list.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=list.map(s=>`
+    <div style="background:var(--card);border:1px solid var(--l1);border-left:3px solid ${s.pri==='🔴 Haute'?'var(--red)':s.pri==='🟡 Moyenne'?'var(--gold)':'var(--grn)'};padding:20px 24px;margin-bottom:10px;transition:border-color .2s" onmouseenter="this.style.borderColor='var(--l2)'" onmouseleave="this.style.borderLeftColor='${s.pri==='🔴 Haute'?'var(--red)':s.pri==='🟡 Moyenne'?'var(--gold)':'var(--grn)'}'">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700">${s.pre} ${s.nom} ${s.ali?'<span style="font-style:italic;color:var(--iv3);font-size:14px">'+s.ali+'</span>':''}</div>
+          <div style="font-size:9px;color:var(--iv3);letter-spacing:3px;text-transform:uppercase;margin-top:2px">${s.cat} · ${s.nat||'—'}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-size:11px;color:var(--iv3);letter-spacing:1px">${s.pri}</span>
+          ${bstat(s.sta)}
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+        <div class="ps"><div class="psl">Bilan</div><div style="font-family:'Playfair Display',serif;font-size:15px"><span style="color:var(--grn)">${s.v}V</span> <span style="color:var(--red)">${s.d}D</span> <span style="color:var(--gold2)">${s.n}N</span></div></div>
+        <div class="ps"><div class="psl">KO</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--red)">${s.ko}</div></div>
+        <div class="ps"><div class="psl">Manager</div><div style="font-size:12px;color:var(--iv2)">${s.man||'—'}</div></div>
+        <div class="ps"><div class="psl">Repéré le</div><div style="font-size:12px;color:var(--iv2)">${fmtDate(s.dat)}</div></div>
+      </div>
+      ${s.pts?`<div style="background:var(--surf);border:1px solid var(--l1);padding:10px 13px;margin-bottom:10px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--iv2)">⭐ ${s.pts}</div>`:''}
+      ${s.not?`<div style="font-size:11px;color:var(--iv3);margin-bottom:10px">${s.not}</div>`:''}
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        ${s.bid
+          ?`<a href="https://boxrec.com/boxer/${s.bid}" target="_blank"><button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:5px 12px;cursor:pointer">BoxRec — Profil ↗</button></a>`
+          :`<a href="https://boxrec.com/search?name=${encodeURIComponent(s.pre+' '+s.nom)}" target="_blank"><button class="hbtn" style="font-size:9px;color:var(--iv2);padding:5px 12px;cursor:pointer">Rechercher BoxRec ↗</button></a>`
+        }
+        <span style="font-size:10px;color:var(--iv4)">Source : ${s.src||'—'}</span>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="hbtn" style="font-size:9px;color:var(--grn);border-color:var(--grn);padding:5px 12px;cursor:pointer" onclick="promoteScout(${s.id})">→ Intégrer comme athlète</button>
+          <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:5px 10px;cursor:pointer" onclick="delItem('scouts',${s.id},renderScouts)">✕</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function filterScouts(q,cat,pri){
+  q=q??''; cat=cat??''; pri=pri??'';
+  renderScouts(DB.scouts.filter(s=>{
+    const n=`${s.pre} ${s.nom} ${s.ali||''}`.toLowerCase();
+    return(!q||n.includes(q.toLowerCase()))&&(!cat||s.cat===cat)&&(!pri||s.pri===pri);
+  }));
+}
+function promoteScout(id){
+  const s=DB.scouts.find(x=>x.id===id);if(!s)return;
+  if(!confirm(`Intégrer ${s.pre} ${s.nom} comme athlète suivi ?`))return;
+  DB.athletes.push({id:Date.now(),nom:`${s.pre} ${s.nom}`,cat:s.cat,nat:s.nat||'',dcd:new Date().toISOString().split('T')[0],dcf:'',com:0,ig:'',igs:0,tt:'',tts:0,obj:'',sta:'En négociation',not:`Promu depuis scouting. ${s.pts||''} ${s.not||''}`});
+  DB.scouts=DB.scouts.filter(x=>x.id!==id);
+  saveDB();renderScouts();
+  alert('Athlète ajouté dans "Mes athlètes" !');
+}
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+function fmtDate(d){if(!d)return'—';const dt=new Date(d);return dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtDateShort(d){if(!d)return'—';const dt=new Date(d);return dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});}
+function fmtEur(n){n=+n||0;if(n>=1000)return(n/1000).toFixed(1).replace('.0','')+'k€';return n+'€';}
+function fmtNum(n){n=+n||0;if(n>=1000)return(n/1000).toFixed(1).replace('.0','')+'k';return n.toString();}
+
+const BMAP={'En négociation':'bp','Accepté':'bac','Refusé':'br','Sans réponse':'bx','Actif':'ba','Inactif':'bi','A émettre':'bn','Envoyée':'bp','Réglée':'bac','En retard':'br','Ouvert':'bn','En cours':'bp','Résolu':'bac','Projeté':'bx','Confirmé':'bp','Encaissé':'bac','Planifié':'bp','Effectué':'bac','Annulé':'br','À préparer':'bx','En production':'bp','Publié':'bac','Reporté':'br','Prospection':'bx','Expiré':'br','En négociation_sp':'bp'};
+function bstat(s){const cls=BMAP[s]||'bx';return`<span class="b ${cls}">${s}</span>`;}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+// Expose functions needed by onclick handlers to window scope
+window.showView=showView; window.setNav=setNav; window.switchMod=switchMod;
+window.openQuickAdd=openQuickAdd; window.openBoxeurModal=openBoxeurModal;
+window.openContactModal=openContactModal; window.openCombatModal=openCombatModal;
+window.openIncidentModal=openIncidentModal; window.openCAModal=openCAModal;
+window.openInvModal=openInvModal; window.openDocModal=openDocModal;
+window.openAthleteModal=openAthleteModal; window.openSponsorModal=openSponsorModal;
+window.openRdvModal=openRdvModal; window.openSocialModal=openSocialModal;
+window.openActiviteModal=openActiviteModal; window.openScoutModal=openScoutModal;
+window.closeModal=closeModal;
+window.saveBoxeur=saveBoxeur; window.saveContact=saveContact; window.saveCombat=saveCombat;
+window.saveIncident=saveIncident; window.saveCA=saveCA; window.saveInv=saveInv;
+window.saveDoc=saveDoc; window.saveAthlete=saveAthlete; window.saveSponsor=saveSponsor;
+window.saveRdv=saveRdv; window.saveSocial=saveSocial; window.saveActivite=saveActivite;
+window.saveScout=saveScout;
+window.filterBoxeurs=filterBoxeurs; window.filterContacts=filterContacts;
+window.filterCombats=filterCombats; window.filterEligib=filterEligib;
+window.filterScouts=filterScouts; window.filterInv=filterInv; window.filterDocs=filterDocs;
+window.openProfil=openProfil; window.openContactDetail=openContactDetail;
+window.openAthleteDetail=openAthleteDetail; window.delBoxeur=delBoxeur;
+window.delContact=delContact; window.delItem=delItem; window.markInvDone=markInvDone;
+window.promoteScout=promoteScout;
+
+// Date header
+document.getElementById('hd-date').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+// Modal close on overlay click
+document.querySelectorAll('.mo').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+// Start — Firebase listener lancé ici, les renders se font dans le callback onValue
+loadDB();
+</script>
+</body>
+</html>
