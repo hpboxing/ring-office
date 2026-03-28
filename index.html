@@ -979,7 +979,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>ID BoxRec <span style="color:var(--iv3);font-size:8px">(ex: 659842)</span></label><input type="text" id="b-bid" placeholder="Numéro dans l'URL BoxRec"></div>
       <div class="fl f-full"><label>Notes internes</label><textarea id="b-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-box')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveBoxeur()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-box-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delBoxeur(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-box')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveBoxeur()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1001,7 +1001,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Objet dernier contact</label><input type="text" id="c-obj"></div>
       <div class="fl f-full"><label>Notes / historique</label><textarea id="c-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-cts')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveContact()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-cts-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delContact(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-cts')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveContact()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1023,7 +1023,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Commission agence (%)</label><input type="number" id="f-com" placeholder="15" min="0" max="100"></div>
       <div class="fl f-full"><label>Notes / négociation</label><textarea id="f-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-cbt')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveCombat()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-cbt-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delCombat(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-cbt')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveCombat()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1041,7 +1041,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl f-full"><label>Description</label><textarea id="i-des"></textarea></div>
       <div class="fl f-full"><label>Actions / suivi</label><textarea id="i-act"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-inc')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveIncident()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-inc-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delIncident(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-inc')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveIncident()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1059,7 +1059,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Type</label><select class="isel" id="ca-typ"><option>Commission combat</option><option>Management fee</option><option>Sponsor</option><option>Consulting</option><option>Autre</option></select></div>
       <div class="fl f-full"><label>Notes</label><textarea id="ca-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-ca')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveCA()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-ca-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delCA(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-ca')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveCA()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1079,7 +1079,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Rappel automatique J+1 combat</label><select class="isel" id="inv-rap"><option value="1">Oui — rappel activé</option><option value="0">Non</option></select></div>
       <div class="fl f-full"><label>Notes</label><textarea id="inv-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-inv')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveInv()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-inv-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delInv(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-inv')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveInv()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1097,7 +1097,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Lien / emplacement</label><input type="text" id="d-lnk" placeholder="Drive, Dropbox, chemin..."></div>
       <div class="fl f-full"><label>Notes</label><textarea id="d-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-doc')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveDoc()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-doc-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delDoc(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-doc')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveDoc()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1121,7 +1121,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Statut contrat</label><select class="isel" id="a-sta"><option>Actif</option><option>En négociation</option><option>Expiré</option></select></div>
       <div class="fl f-full"><label>Notes stratégiques</label><textarea id="a-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-ath')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveAthlete()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-ath-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delAthlete(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-ath')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveAthlete()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1140,7 +1140,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl f-full"><label>Statut</label><select class="isel" id="sp-sta"><option>Actif</option><option>En négociation</option><option>Expiré</option><option>Prospection</option></select></div>
       <div class="fl f-full"><label>Notes</label><textarea id="sp-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-sp')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveSponsor()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-sp-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delSponsor(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-sp')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveSponsor()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1160,7 +1160,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Statut</label><select class="isel" id="r-sta"><option>Planifié</option><option>Confirmé</option><option>Annulé</option><option>Effectué</option></select></div>
       <div class="fl f-full"><label>Notes / Ordre du jour</label><textarea id="r-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-rdv')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveRdv()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-rdv-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delRdv(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-rdv')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveRdv()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1178,7 +1178,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Statut</label><select class="isel" id="s-sta"><option>À préparer</option><option>En production</option><option>Publié</option><option>Reporté</option></select></div>
       <div class="fl f-full"><label>Brief / Notes</label><textarea id="s-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-soc')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveSocial()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-soc-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delSocial(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-soc')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveSocial()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1198,7 +1198,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>CA généré (€)</label><input type="number" id="ac-ca" placeholder="0"></div>
       <div class="fl f-full"><label>Observations</label><textarea id="ac-not"></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-act')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveActivite()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-act-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delActivite(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-act')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveActivite()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1227,7 +1227,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl f-full"><label>Points forts / style</label><textarea id="sc-pts" placeholder="Style de boxe, points forts, potentiel..."></textarea></div>
       <div class="fl f-full"><label>Notes de scouting</label><textarea id="sc-not" placeholder="Observations, contexte, prochaines étapes..."></textarea></div>
     </div>
-    <div class="fa"><button class="hbtn" onclick="closeModal('mo-sct')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveScout()">Enregistrer</button></div>
+    <div class="fa"><button class="hbtn" id="mo-sct-del" style="display:none;color:var(--red);border-color:var(--red);margin-right:auto" onclick="window._editId&&window.delScout(window._editId)">🗑 Supprimer</button><button class="hbtn" onclick="closeModal('mo-sct')">Annuler</button><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="saveScout()">Enregistrer</button></div>
     </div>
   </div>
 </div>
@@ -1579,22 +1579,21 @@ function openProfil(id){
 }
 
 function editBoxeur(id){
-  const b=DB.boxeurs.find(x=>x.id===id);if(!b)return;
+  const b=DB.boxeurs.find(x=>+x.id===+id);if(!b)return;
   closeModal('mo-profil');
-  // Pré-remplir le modal
   document.getElementById('mo-box-t').textContent='Modifier le boxeur';
   sv('b-pre',b.pre); sv('b-nom',b.nom); sv('b-ali',b.ali||'');
   sv('b-nat',b.nat||''); sv('b-cat',b.cat); sv('b-sta',b.sta);
   sv('b-v',b.v); sv('b-d',b.d); sv('b-n',b.n); sv('b-ko',b.ko);
   sv('b-man',b.man||''); sv('b-pro',b.pro||''); sv('b-ent',b.ent||'');
   sv('b-bid',b.bid||''); sv('b-not',b.not||'');
-  // Changer le bouton save pour update
   document.querySelector('#mo-box .fa button:last-child').onclick = ()=>updateBoxeur(id);
+  showDelBtn('mo-box', id);
   openModal('mo-box');
 }
 
 function updateBoxeur(id){
-  const idx=DB.boxeurs.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.boxeurs.findIndex(x=>+x.id===+id);if(idx===-1)return;
   const nom=g('b-nom');if(!nom)return alert('Le nom est requis.');
   DB.boxeurs[idx]={...DB.boxeurs[idx],
     pre:g('b-pre'),nom,ali:g('b-ali'),nat:g('b-nat'),cat:g('b-cat'),sta:g('b-sta'),
@@ -1603,7 +1602,6 @@ function updateBoxeur(id){
     maj:new Date().toISOString().split('T')[0]
   };
   saveDB(); closeModal('mo-box');
-  // Reset bouton save
   document.querySelector('#mo-box .fa button:last-child').onclick = saveBoxeur;
   document.getElementById('mo-box-t').textContent='Nouveau boxeur';
   renderBoxeurs();
@@ -2029,7 +2027,12 @@ function renderActivite(){
 // MODAL HELPERS
 // ═══════════════════════════════════════
 function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  const delBtn=document.getElementById(id+'-del');
+  if(delBtn)delBtn.style.display='none';
+  window._editId=null;
+}
 function openQuickAdd(){openModal('mo-quick');}
 function openBoxeurModal(){clearPfx('b-');document.getElementById('b-bid').value='';openModal('mo-box');}
 function openContactModal(){clearPfx('c-');openModal('mo-cts');}
@@ -2054,19 +2057,27 @@ function g(id){const el=document.getElementById(id);return el?el.value.trim():''
 // sv = set value (pour pré-remplir les modals en mode édition)
 function sv(id,val){const el=document.getElementById(id);if(!el)return;el.tagName==='SELECT'?(el.value=val):(el.value=val??'');}
 
-// ─── EDIT CONTACT ───
+// ─── HELPERS EDIT MODE ───
+function showDelBtn(modalId, id){
+  window._editId = +id;
+  const btn = document.getElementById(modalId+'-del');
+  if(btn) btn.style.display='inline-flex';
+}
+
+// ─── EDIT BOXEUR ───
 function editContact(id){
-  const c=DB.contacts.find(x=>x.id===id);if(!c)return;
-  closeModal('mo-profil');closeModal('mo-contact-detail');
+  const c=DB.contacts.find(x=>+x.id===+id);if(!c)return;
+  closeModal('mo-profil');
   document.querySelector('#mo-cts .mt').textContent='Modifier le contact';
   sv('c-pre',c.pre);sv('c-nom',c.nom);sv('c-rol',c.rol);sv('c-pay',c.pay||'');
   sv('c-eml',c.eml||'');sv('c-tel',c.tel||'');sv('c-box',c.box||'');
   sv('c-can',c.can);sv('c-dat',c.dat||'');sv('c-obj',c.obj||'');sv('c-not',c.not||'');
   document.querySelector('#mo-cts .fa button:last-child').onclick=()=>updateContact(id);
+  showDelBtn('mo-cts', id);
   openModal('mo-cts');
 }
 function updateContact(id){
-  const idx=DB.contacts.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.contacts.findIndex(x=>+x.id===+id);if(idx===-1)return;
   const nom=g('c-nom');if(!nom)return alert('Le nom est requis.');
   DB.contacts[idx]={...DB.contacts[idx],pre:g('c-pre'),nom,rol:g('c-rol'),pay:g('c-pay'),
     eml:g('c-eml'),tel:g('c-tel'),box:g('c-box'),can:g('c-can'),
@@ -2079,16 +2090,17 @@ function updateContact(id){
 
 // ─── EDIT COMBAT ───
 function editCombat(id){
-  const c=DB.combats.find(x=>x.id===id);if(!c)return;
+  const c=DB.combats.find(x=>+x.id===+id);if(!c)return;
   document.querySelector('#mo-cbt .mt').textContent='Modifier la proposition';
   sv('f-ba',c.ba);sv('f-bb',c.bb);sv('f-cat',c.cat);sv('f-typ',c.typ);
   sv('f-dat',c.dat||'');sv('f-lie',c.lie||'');sv('f-con',c.con||'');
   sv('f-sta',c.sta);sv('f-brs',c.brs||'');sv('f-com',c.com||'');sv('f-not',c.not||'');
   document.querySelector('#mo-cbt .fa button:last-child').onclick=()=>updateCombat(id);
+  showDelBtn('mo-cbt', id);
   openModal('mo-cbt');
 }
 function updateCombat(id){
-  const idx=DB.combats.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.combats.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.combats[idx]={...DB.combats[idx],ba:g('f-ba'),bb:g('f-bb'),cat:g('f-cat'),typ:g('f-typ'),
     dat:g('f-dat'),lie:g('f-lie'),con:g('f-con'),sta:g('f-sta'),
     brs:+g('f-brs')||0,com:+g('f-com')||15,not:g('f-not')};
@@ -2100,15 +2112,16 @@ function updateCombat(id){
 
 // ─── EDIT INCIDENT ───
 function editIncident(id){
-  const i=DB.incidents.find(x=>x.id===id);if(!i)return;
+  const i=DB.incidents.find(x=>+x.id===+id);if(!i)return;
   document.querySelector('#mo-inc .mt').textContent='Modifier l\'incident';
   sv('i-tit',i.tit);sv('i-sev',i.sev);sv('i-sta',i.sta);
   sv('i-par',i.par||'');sv('i-dat',i.dat||'');sv('i-des',i.des||'');sv('i-act',i.act||'');
   document.querySelector('#mo-inc .fa button:last-child').onclick=()=>updateIncident(id);
+  showDelBtn('mo-inc', id);
   openModal('mo-inc');
 }
 function updateIncident(id){
-  const idx=DB.incidents.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.incidents.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.incidents[idx]={...DB.incidents[idx],tit:g('i-tit'),sev:g('i-sev'),sta:g('i-sta'),
     par:g('i-par'),dat:g('i-dat'),des:g('i-des'),act:g('i-act')};
   saveDB();closeModal('mo-inc');
@@ -2119,15 +2132,16 @@ function updateIncident(id){
 
 // ─── EDIT CA ───
 function editCA(id){
-  const c=DB.ca.find(x=>x.id===id);if(!c)return;
+  const c=DB.ca.find(x=>+x.id===+id);if(!c)return;
   document.querySelector('#mo-ca .mt').textContent='Modifier le revenu';
   sv('ca-lib',c.lib);sv('ca-ath',c.ath||'');sv('ca-dat',c.dat||'');
   sv('ca-mnt',c.mnt||'');sv('ca-sta',c.sta);sv('ca-typ',c.typ);sv('ca-not',c.not||'');
   document.querySelector('#mo-ca .fa button:last-child').onclick=()=>updateCA(id);
+  showDelBtn('mo-ca', id);
   openModal('mo-ca');
 }
 function updateCA(id){
-  const idx=DB.ca.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.ca.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.ca[idx]={...DB.ca[idx],lib:g('ca-lib'),ath:g('ca-ath'),dat:g('ca-dat'),
     mnt:+g('ca-mnt')||0,sta:g('ca-sta'),typ:g('ca-typ'),not:g('ca-not')};
   saveDB();closeModal('mo-ca');
@@ -2138,16 +2152,17 @@ function updateCA(id){
 
 // ─── EDIT INVOICE ───
 function editInv(id){
-  const i=DB.invoices.find(x=>x.id===id);if(!i)return;
+  const i=DB.invoices.find(x=>+x.id===+id);if(!i)return;
   document.querySelector('#mo-inv .mt').textContent='Modifier la facture';
   sv('inv-tit',i.tit);sv('inv-ath',i.ath||'');sv('inv-des',i.des||'');
   sv('inv-mnt',i.mnt||'');sv('inv-dc',i.dc||'');sv('inv-dat',i.dat||'');
   sv('inv-sta',i.sta);sv('inv-rap',i.rap||'0');sv('inv-not',i.not||'');
   document.querySelector('#mo-inv .fa button:last-child').onclick=()=>updateInv(id);
+  showDelBtn('mo-inv', id);
   openModal('mo-inv');
 }
 function updateInv(id){
-  const idx=DB.invoices.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.invoices.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.invoices[idx]={...DB.invoices[idx],tit:g('inv-tit'),ath:g('inv-ath'),des:g('inv-des'),
     mnt:+g('inv-mnt')||0,dc:g('inv-dc'),dat:g('inv-dat'),sta:g('inv-sta'),
     rap:+g('inv-rap'),not:g('inv-not')};
@@ -2159,15 +2174,16 @@ function updateInv(id){
 
 // ─── EDIT DOC ───
 function editDoc(id){
-  const d=DB.docs.find(x=>x.id===id);if(!d)return;
+  const d=DB.docs.find(x=>+x.id===+id);if(!d)return;
   document.querySelector('#mo-doc .mt').textContent='Modifier le document';
   sv('d-tit',d.tit);sv('d-typ',d.typ);sv('d-ath',d.ath||'');
   sv('d-par',d.par||'');sv('d-dat',d.dat||'');sv('d-lnk',d.lnk||'');sv('d-not',d.not||'');
   document.querySelector('#mo-doc .fa button:last-child').onclick=()=>updateDoc(id);
+  showDelBtn('mo-doc', id);
   openModal('mo-doc');
 }
 function updateDoc(id){
-  const idx=DB.docs.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.docs.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.docs[idx]={...DB.docs[idx],tit:g('d-tit'),typ:g('d-typ'),ath:g('d-ath'),
     par:g('d-par'),dat:g('d-dat'),lnk:g('d-lnk'),not:g('d-not')};
   saveDB();closeModal('mo-doc');
@@ -2178,7 +2194,7 @@ function updateDoc(id){
 
 // ─── EDIT ATHLETE ───
 function editAthlete(id){
-  const a=DB.athletes.find(x=>x.id===id);if(!a)return;
+  const a=DB.athletes.find(x=>+x.id===+id);if(!a)return;
   closeModal('mo-profil');
   document.querySelector('#mo-ath .mt').textContent='Modifier l\'athlète';
   sv('a-nom',a.nom);sv('a-cat',a.cat);sv('a-nat',a.nat||'');
@@ -2186,10 +2202,11 @@ function editAthlete(id){
   sv('a-ig',a.ig||'');sv('a-igs',a.igs||'');sv('a-tt',a.tt||'');
   sv('a-tts',a.tts||'');sv('a-obj',a.obj||'');sv('a-sta',a.sta);sv('a-not',a.not||'');
   document.querySelector('#mo-ath .fa button:last-child').onclick=()=>updateAthlete(id);
+  showDelBtn('mo-ath', id);
   openModal('mo-ath');
 }
 function updateAthlete(id){
-  const idx=DB.athletes.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.athletes.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.athletes[idx]={...DB.athletes[idx],nom:g('a-nom'),cat:g('a-cat'),nat:g('a-nat'),
     dcd:g('a-dcd'),dcf:g('a-dcf'),com:+g('a-com')||0,ig:g('a-ig'),igs:+g('a-igs')||0,
     tt:g('a-tt'),tts:+g('a-tts')||0,obj:g('a-obj'),sta:g('a-sta'),not:g('a-not')};
@@ -2201,16 +2218,17 @@ function updateAthlete(id){
 
 // ─── EDIT SPONSOR ───
 function editSponsor(id){
-  const s=DB.sponsors.find(x=>x.id===id);if(!s)return;
+  const s=DB.sponsors.find(x=>+x.id===+id);if(!s)return;
   document.querySelector('#mo-sp .mt').textContent='Modifier le sponsor';
   sv('sp-nom',s.nom);sv('sp-sec',s.sec||'');sv('sp-ath',s.ath||'');
   sv('sp-con',s.con||'');sv('sp-val',s.val||'');sv('sp-fin',s.fin||'');
   sv('sp-sta',s.sta);sv('sp-not',s.not||'');
   document.querySelector('#mo-sp .fa button:last-child').onclick=()=>updateSponsor(id);
+  showDelBtn('mo-sp', id);
   openModal('mo-sp');
 }
 function updateSponsor(id){
-  const idx=DB.sponsors.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.sponsors.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.sponsors[idx]={...DB.sponsors[idx],nom:g('sp-nom'),sec:g('sp-sec'),ath:g('sp-ath'),
     con:g('sp-con'),val:+g('sp-val')||0,fin:g('sp-fin'),sta:g('sp-sta'),not:g('sp-not')};
   saveDB();closeModal('mo-sp');
@@ -2221,16 +2239,17 @@ function updateSponsor(id){
 
 // ─── EDIT RDV ───
 function editRdv(id){
-  const r=DB.rdvs.find(x=>x.id===id);if(!r)return;
+  const r=DB.rdvs.find(x=>+x.id===+id);if(!r)return;
   document.querySelector('#mo-rdv .mt').textContent='Modifier le RDV';
   sv('r-tit',r.tit);sv('r-dat',r.dat||'');sv('r-hre',r.hre||'');
   sv('r-ave',r.ave||'');sv('r-ath',r.ath||'');sv('r-typ',r.typ);
   sv('r-lie',r.lie||'');sv('r-sta',r.sta);sv('r-not',r.not||'');
   document.querySelector('#mo-rdv .fa button:last-child').onclick=()=>updateRdv(id);
+  showDelBtn('mo-rdv', id);
   openModal('mo-rdv');
 }
 function updateRdv(id){
-  const idx=DB.rdvs.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.rdvs.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.rdvs[idx]={...DB.rdvs[idx],tit:g('r-tit'),dat:g('r-dat'),hre:g('r-hre'),
     ave:g('r-ave'),ath:g('r-ath'),typ:g('r-typ'),lie:g('r-lie'),sta:g('r-sta'),not:g('r-not')};
   saveDB();closeModal('mo-rdv');
@@ -2241,15 +2260,16 @@ function updateRdv(id){
 
 // ─── EDIT SOCIAL ───
 function editSocial(id){
-  const s=DB.socials.find(x=>x.id===id);if(!s)return;
+  const s=DB.socials.find(x=>+x.id===+id);if(!s)return;
   document.querySelector('#mo-soc .mt').textContent='Modifier l\'action';
   sv('s-ath',s.ath);sv('s-plt',s.plt);sv('s-typ',s.typ);
   sv('s-dat',s.dat||'');sv('s-obj',s.obj||'');sv('s-sta',s.sta);sv('s-not',s.not||'');
   document.querySelector('#mo-soc .fa button:last-child').onclick=()=>updateSocial(id);
+  showDelBtn('mo-soc', id);
   openModal('mo-soc');
 }
 function updateSocial(id){
-  const idx=DB.socials.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.socials.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.socials[idx]={...DB.socials[idx],ath:g('s-ath'),plt:g('s-plt'),typ:g('s-typ'),
     dat:g('s-dat'),obj:g('s-obj'),sta:g('s-sta'),not:g('s-not')};
   saveDB();closeModal('mo-soc');
@@ -2260,7 +2280,7 @@ function updateSocial(id){
 
 // ─── EDIT SCOUT ───
 function editScout(id){
-  const s=DB.scouts.find(x=>x.id===id);if(!s)return;
+  const s=DB.scouts.find(x=>+x.id===+id);if(!s)return;
   document.querySelector('#mo-sct .mt').textContent='Modifier le prospect';
   sv('sc-pre',s.pre);sv('sc-nom',s.nom);sv('sc-ali',s.ali||'');sv('sc-nat',s.nat||'');
   sv('sc-cat',s.cat);sv('sc-pri',s.pri);sv('sc-v',s.v);sv('sc-d',s.d);
@@ -2268,10 +2288,11 @@ function editScout(id){
   sv('sc-pro',s.pro||'');sv('sc-src',s.src||'');sv('sc-dat',s.dat||'');
   sv('sc-sta',s.sta);sv('sc-pts',s.pts||'');sv('sc-not',s.not||'');
   document.querySelector('#mo-sct .fa button:last-child').onclick=()=>updateScout(id);
+  showDelBtn('mo-sct', id);
   openModal('mo-sct');
 }
 function updateScout(id){
-  const idx=DB.scouts.findIndex(x=>x.id===id);if(idx===-1)return;
+  const idx=DB.scouts.findIndex(x=>+x.id===+id);if(idx===-1)return;
   DB.scouts[idx]={...DB.scouts[idx],pre:g('sc-pre'),nom:g('sc-nom'),ali:g('sc-ali'),
     nat:g('sc-nat'),cat:g('sc-cat'),pri:g('sc-pri'),v:+g('sc-v')||0,d:+g('sc-d')||0,
     n:+g('sc-n')||0,ko:+g('sc-ko')||0,bid:g('sc-bid'),man:g('sc-man'),pro:g('sc-pro'),
