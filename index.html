@@ -15,6 +15,118 @@
   --grn:#219150; --grnf:rgba(33,145,80,0.10);
   --blu:#2980B9; --bluf:rgba(41,128,185,0.10);
 }
+
+/* LOGIN SCREEN */
+.login-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.login-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='.035'/%3E%3C/svg%3E");
+  background-size: 200px;
+  pointer-events: none;
+}
+.login-box {
+  background: var(--deep);
+  border: 1px solid var(--l1);
+  padding: 48px 52px;
+  width: 420px;
+  max-width: 95vw;
+  position: relative;
+  animation: fu .4s ease;
+}
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.login-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--ivory);
+  text-align: center;
+  margin-bottom: 4px;
+}
+.login-logo span { color: var(--gold2); }
+.login-sub {
+  font-size: 8px;
+  letter-spacing: 5px;
+  color: var(--iv3);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 36px;
+}
+.login-label {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--iv3);
+  display: block;
+  margin-bottom: 8px;
+}
+.login-input {
+  width: 100%;
+  background: var(--surf);
+  border: 1px solid var(--l2);
+  color: var(--ivory);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  padding: 13px 16px;
+  outline: none;
+  text-align: center;
+  transition: border-color .2s;
+  margin-bottom: 20px;
+}
+.login-input:focus { border-color: var(--gold); }
+.login-btn {
+  width: 100%;
+  background: var(--gold);
+  border: none;
+  color: var(--ink);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 14px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.login-btn:hover { background: var(--gold2); }
+.login-err {
+  text-align: center;
+  font-size: 10px;
+  color: var(--red);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 14px;
+  min-height: 16px;
+}
+.login-hint {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--iv4);
+  margin-top: 28px;
+}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--ink);color:var(--ivory);font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:13px;min-height:100vh;overflow-x:hidden}
@@ -300,6 +412,19 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
 </style>
 </head>
 <body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Ring <span>Office</span></div>
+    <div class="login-sub">Matchmaking & Athlete Intelligence</div>
+    <label class="login-label" for="login-pwd">Mot de passe</label>
+    <input class="login-input" type="password" id="login-pwd" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')checkLogin()">
+    <button class="login-btn" onclick="checkLogin()">Accéder à Ring Office</button>
+    <div class="login-err" id="login-err"></div>
+    <div class="login-hint">High Performance Boxing · Accès privé</div>
+  </div>
+</div>
 
 <!-- ══════════ HEADER ══════════ -->
 <header class="hd">
@@ -932,6 +1057,52 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
 </div>
 
 <script type="module">
+// ═══════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════
+const PWD_HASH = 'b7e6c3a2f1d4e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3'; // Monny26
+
+function hashStr(str){
+  // Simple hash pour vérification côté client
+  let hash = 0;
+  for(let i=0;i<str.length;i++){
+    const char = str.charCodeAt(i);
+    hash = ((hash<<5)-hash)+char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash).toString(16);
+}
+
+const CORRECT_HASH = hashStr('Monny26');
+
+function checkLogin(){
+  const val = document.getElementById('login-pwd').value;
+  const err = document.getElementById('login-err');
+  if(hashStr(val) === CORRECT_HASH){
+    sessionStorage.setItem('ro-auth', CORRECT_HASH);
+    document.getElementById('login-screen').style.display = 'none';
+    loadDB();
+  } else {
+    err.textContent = 'Mot de passe incorrect';
+    document.getElementById('login-pwd').value = '';
+    document.getElementById('login-pwd').style.borderColor = 'var(--red)';
+    setTimeout(()=>{
+      err.textContent='';
+      document.getElementById('login-pwd').style.borderColor='var(--l2)';
+    }, 2000);
+  }
+}
+
+function checkSession(){
+  if(sessionStorage.getItem('ro-auth') === CORRECT_HASH){
+    document.getElementById('login-screen').style.display = 'none';
+    return true;
+  }
+  return false;
+}
+
+window.checkLogin = checkLogin;
+
 // ═══════════════════════════════════════
 // FIREBASE CONFIG
 // ═══════════════════════════════════════
@@ -1797,8 +1968,11 @@ document.getElementById('hd-date').textContent = new Date().toLocaleDateString('
 // Modal close on overlay click
 document.querySelectorAll('.mo').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
 
-// Start — Firebase listener lancé ici, les renders se font dans le callback onValue
-loadDB();
+// Vérifier session existante ou attendre le login
+if(checkSession()){
+  loadDB();
+}
+// Sinon l'écran de login reste affiché et loadDB() est appelé par checkLogin()
 </script>
 </body>
 </html>
