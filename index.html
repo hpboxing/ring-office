@@ -409,6 +409,190 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
 .spacer{flex:1}
 
 @media(max-width:900px){.shell{flex-direction:column}.sb{display:none}.cnt{margin-left:0}.kpi-row{grid-template-columns:1fr 1fr}}
+
+/* ══════════════════════════════════════
+   MOBILE — Navigation basse + layout adapté
+══════════════════════════════════════ */
+@media(max-width:768px){
+
+  /* Header */
+  .hd{padding:0 16px;height:52px}
+  .logo-main{font-size:15px;letter-spacing:4px}
+  .logo-sub{display:none}
+  .hd-date{display:none}
+  #fb-status{display:none}
+  .hbtn{padding:6px 10px;font-size:9px;letter-spacing:1px}
+
+  /* Shell */
+  .shell{flex-direction:column;padding-top:52px;padding-bottom:72px}
+
+  /* Sidebar masquée */
+  .sb{display:none}
+
+  /* Content */
+  .cnt{margin-left:0;padding:20px 16px}
+
+  /* Page header */
+  .ph{margin-bottom:20px;padding-bottom:14px;flex-wrap:wrap;gap:10px}
+  .ph-t{font-size:26px}
+  .ph-s{font-size:13px}
+
+  /* KPI */
+  .kpi-row{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+  .kpi{padding:14px 12px 12px}
+  .kpi-v{font-size:30px}
+  .kpi-l{font-size:7px;letter-spacing:2px}
+
+  /* Dashboard panels */
+  .dash-2col{grid-template-columns:1fr;gap:12px}
+
+  /* Tables → cards sur mobile */
+  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{min-width:600px}
+  thead th{padding:8px 10px;font-size:7px}
+  tbody td{padding:10px 10px}
+
+  /* Fight cards */
+  .fc{padding:14px 16px}
+  .fc-mu{grid-template-columns:1fr 50px 1fr;gap:8px}
+  .fc-bn{font-size:14px}
+  .fc-vs{font-size:20px}
+  .fc-ft{flex-direction:column;align-items:flex-start;gap:8px;font-size:9px}
+
+  /* Contact cards */
+  .cc{grid-template-columns:1fr;gap:10px;padding:14px 16px}
+  .cc-last{text-align:left;border-top:1px solid var(--l1);padding-top:10px}
+  .cc-name{font-size:16px}
+
+  /* Athlete cards */
+  .athl-card{padding:14px 16px}
+  .athl-name{font-size:17px}
+  .athl-grid{grid-template-columns:1fr 1fr}
+
+  /* Invoice cards */
+  .inv-card{flex-direction:column;align-items:flex-start;gap:12px;padding:14px 16px}
+  .inv-amount{font-size:18px}
+
+  /* Proj rows */
+  .proj-row{flex-wrap:wrap;gap:8px}
+  .proj-label{min-width:100%;font-size:13px}
+  .proj-bar-bg{min-width:60%}
+  .proj-amount{min-width:auto}
+
+  /* Modals */
+  .mbox{width:100%!important;max-width:100%;max-height:95vh;border-left:none;border-right:none;border-bottom:none;border-radius:0;position:fixed;bottom:0;left:0;right:0;animation:slideUp .25s ease}
+  .mbox.wide{width:100%!important}
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .mb{padding:18px 16px}
+  .fg{grid-template-columns:1fr}
+  .f-full{grid-column:1}
+  .mh{padding:16px 16px}
+  .mt{font-size:18px}
+
+  /* Profile grid */
+  .pg{grid-template-columns:1fr 1fr}
+
+  /* Quick add */
+  #mo-quick .mbox{width:100%!important}
+
+  /* Toolbar */
+  .tb{gap:8px}
+  .sw input{font-size:12px}
+  select{font-size:11px}
+}
+
+/* ══════════════════════════════════════
+   BARRE DE NAVIGATION MOBILE (bas d'écran)
+══════════════════════════════════════ */
+.mob-nav{
+  display:none;
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:64px;
+  background:var(--deep);
+  border-top:1px solid var(--l1);
+  z-index:700;
+  padding:0 4px;
+}
+.mob-nav::before{
+  content:'';
+  position:absolute;
+  top:0;left:16px;right:16px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.3;
+}
+.mob-nav-inner{
+  display:flex;
+  height:100%;
+  align-items:stretch;
+}
+.mob-tab{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  cursor:pointer;
+  color:var(--iv3);
+  font-size:7px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  transition:color .15s;
+  padding:0 2px;
+  border-top:2px solid transparent;
+  margin-top:-1px;
+}
+.mob-tab:hover,.mob-tab.on{color:var(--gold2);border-top-color:var(--gold)}
+.mob-tab-ico{font-size:18px;line-height:1}
+.mob-tab-pill{
+  background:var(--red);
+  color:white;
+  font-size:7px;
+  padding:1px 4px;
+  border-radius:8px;
+  position:absolute;
+  top:8px;
+  margin-left:14px;
+}
+
+/* Menu module mobile */
+.mob-more-menu{
+  display:none;
+  position:fixed;
+  bottom:64px;left:0;right:0;
+  background:var(--deep);
+  border-top:1px solid var(--l1);
+  z-index:699;
+  padding:12px 0;
+  animation:slideUp .2s ease;
+}
+.mob-more-menu.open{display:block}
+.mob-more-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 24px;
+  cursor:pointer;
+  color:var(--iv3);
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  transition:all .15s;
+}
+.mob-more-item:hover,.mob-more-item.on{color:var(--gold2);background:var(--goldf)}
+.mob-more-item span{font-size:16px;width:20px;text-align:center}
+
+.mob-more-section{
+  font-size:7px;font-weight:600;letter-spacing:4px;
+  text-transform:uppercase;color:var(--iv4);
+  padding:10px 24px 4px;
+}
+
+@media(max-width:768px){
+  .mob-nav{display:block}
+  .mob-nav-inner{display:flex}
+}
 </style>
 </head>
 <body>
@@ -1379,11 +1563,45 @@ function openProfil(id){
     </div>
     <div class="fa">
       ${b.bid
-        ? `<a href="https://boxrec.com/boxer/${b.bid}" target="_blank"><button class="hbtn" style="color:var(--gold2);border-color:var(--gold)">BoxRec — Profil ↗</button></a>`
-        : `<a href="https://boxrec.com/search?name=${encodeURIComponent(b.pre+' '+b.nom)}" target="_blank"><button class="hbtn" style="color:var(--iv2)">Rechercher sur BoxRec ↗</button></a>`
+        ? `<a href="https://boxrec.com/boxer/${b.bid}" target="_blank"><button class="hbtn" style="color:var(--gold2);border-color:var(--gold)">BoxRec ↗</button></a>`
+        : `<a href="https://boxrec.com/search?name=${encodeURIComponent(b.pre+' '+b.nom)}" target="_blank"><button class="hbtn" style="color:var(--iv2)">BoxRec ↗</button></a>`
       }
-      <button class="hbtn" style="color:var(--red);border-color:var(--red)" onclick="delBoxeur(${b.id})">Supprimer</button><button class="hbtn" onclick="closeModal('mo-profil')">Fermer</button></div>`;
+      <button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="editBoxeur(${b.id})">✏ Modifier</button>
+      <button class="hbtn" style="color:var(--red);border-color:var(--red)" onclick="delBoxeur(${b.id})">Supprimer</button>
+      <button class="hbtn" onclick="closeModal('mo-profil')">Fermer</button>
+    </div>`;
   openModal('mo-profil');
+}
+
+function editBoxeur(id){
+  const b=DB.boxeurs.find(x=>x.id===id);if(!b)return;
+  closeModal('mo-profil');
+  // Pré-remplir le modal
+  document.getElementById('mo-box-t').textContent='Modifier le boxeur';
+  sv('b-pre',b.pre); sv('b-nom',b.nom); sv('b-ali',b.ali||'');
+  sv('b-nat',b.nat||''); sv('b-cat',b.cat); sv('b-sta',b.sta);
+  sv('b-v',b.v); sv('b-d',b.d); sv('b-n',b.n); sv('b-ko',b.ko);
+  sv('b-man',b.man||''); sv('b-pro',b.pro||''); sv('b-ent',b.ent||'');
+  sv('b-bid',b.bid||''); sv('b-not',b.not||'');
+  // Changer le bouton save pour update
+  document.querySelector('#mo-box .fa button:last-child').onclick = ()=>updateBoxeur(id);
+  openModal('mo-box');
+}
+
+function updateBoxeur(id){
+  const idx=DB.boxeurs.findIndex(x=>x.id===id);if(idx===-1)return;
+  const nom=g('b-nom');if(!nom)return alert('Le nom est requis.');
+  DB.boxeurs[idx]={...DB.boxeurs[idx],
+    pre:g('b-pre'),nom,ali:g('b-ali'),nat:g('b-nat'),cat:g('b-cat'),sta:g('b-sta'),
+    v:+g('b-v')||0,d:+g('b-d')||0,n:+g('b-n')||0,ko:+g('b-ko')||0,
+    man:g('b-man'),pro:g('b-pro'),ent:g('b-ent'),bid:g('b-bid'),not:g('b-not'),
+    maj:new Date().toISOString().split('T')[0]
+  };
+  saveDB(); closeModal('mo-box');
+  // Reset bouton save
+  document.querySelector('#mo-box .fa button:last-child').onclick = saveBoxeur;
+  document.getElementById('mo-box-t').textContent='Nouveau boxeur';
+  renderBoxeurs();
 }
 
 // ═══════════════════════════════════════
@@ -1433,11 +1651,15 @@ function renderCombats(list){
         <div style="text-align:right"><div class="fc-bn">${c.bb}</div><div class="fc-bs">Adversaire</div></div>
       </div>
       <div class="fc-ft">
-        <div style="display:flex;gap:16px;align-items:center">
+        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
           <span>📅 ${fmtDate(c.dat)}</span><span>📍 ${c.lie}</span>
           <span>👤 ${c.con}</span><span style="color:var(--gold2)">💰 ${fmtEur((+c.brs||0)*((+c.com||0)/100))}</span>
         </div>
-        <div style="display:flex;gap:6px;align-items:center">${bstat(c.sta)}<span class="b bb">${c.cat}</span></div>
+        <div style="display:flex;gap:6px;align-items:center">
+          ${bstat(c.sta)}<span class="b bb">${c.cat}</span>
+          <button class="hbtn" style="font-size:9px;padding:3px 10px;cursor:pointer;color:var(--gold2);border-color:var(--gold)" onclick="event.stopPropagation();editCombat(${c.id})">✏</button>
+          <button class="hbtn" style="font-size:9px;padding:3px 8px;cursor:pointer;color:var(--red);border-color:var(--red)" onclick="event.stopPropagation();delItem('combats',${c.id},renderCombats)">✕</button>
+        </div>
       </div>
     </div>`).join('');
 }
@@ -1496,7 +1718,7 @@ function openContactDetail(id){
       <div class="tli"><div class="tld"></div><div class="tlc"><div class="tl-date">${fmtDate(c.dat)} · via ${c.can}</div><div class="tl-txt">${c.obj||'—'}</div></div></div>
     </div>
     ${rel.length?`<div class="tl mt8"><div class="tl-hd">Propositions liées</div>${rel.map(f=>`<div class="tli"><div class="tld ${f.sta==='Accepté'?'g':f.sta==='Refusé'?'r':''}"></div><div class="tlc"><div class="tl-date">${fmtDate(f.dat)}</div><div class="tl-txt">${f.ba} vs ${f.bb}</div><div class="tl-note">${bstat(f.sta)}</div></div></div>`).join('')}</div>`:''}
-    <div class="fa"><button class="hbtn" style="color:var(--red);border-color:var(--red)" onclick="delContact(${c.id})">Supprimer</button><button class="hbtn" onclick="closeModal('mo-profil')">Fermer</button></div>`;
+    <div class="fa"><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="editContact(${c.id})">✏ Modifier</button><button class="hbtn" style="color:var(--red);border-color:var(--red)" onclick="delContact(${c.id})">Supprimer</button><button class="hbtn" onclick="closeModal('mo-profil')">Fermer</button></div>`;
   openModal('mo-profil');
 }
 
@@ -1517,7 +1739,10 @@ function renderIncidents(){
       <div style="font-size:10px;color:var(--iv3);margin-bottom:8px;letter-spacing:1px">📅 ${fmtDate(i.dat)} · Parties : ${i.par||'—'}</div>
       <div style="font-size:12px;color:var(--ivory);margin-bottom:6px">${i.des||''}</div>
       ${i.act?`<div style="font-size:11px;color:var(--iv3);font-family:'Cormorant Garamond',serif;font-style:italic">→ ${i.act}</div>`:''}
-      <div style="margin-top:10px"><button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="delItem('incidents',${i.id},renderIncidents)">Supprimer</button></div>
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:4px 10px;cursor:pointer" onclick="editIncident(${i.id})">✏ Modifier</button>
+        <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="delItem('incidents',${i.id},renderIncidents)">Supprimer</button>
+      </div>
     </div>`).join('');
 }
 
@@ -1563,7 +1788,10 @@ function renderCA(){
       <div class="proj-bar-bg"><div class="proj-bar-fill" style="width:${Math.round(((+c.mnt||0)/Math.max(...DB.ca.map(x=>+x.mnt||0),1))*100)}%"></div></div>
       <div class="proj-amount">${fmtEur(c.mnt)}</div>
       <div class="proj-status">${bstat(c.sta)}</div>
-      <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:3px 8px;cursor:pointer" onclick="delItem('ca',${c.id},renderCA)">✕</button>
+      <div style="display:flex;gap:4px">
+        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="editCA(${c.id})">✏</button>
+        <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:3px 8px;cursor:pointer" onclick="delItem('ca',${c.id},renderCA)">✕</button>
+      </div>
     </div>`).join('');
 }
 
@@ -1589,6 +1817,7 @@ function renderInvoices(list){
         <div class="inv-due">${bstat(i.sta)}</div>
         <div style="display:flex;gap:6px;margin-top:10px;justify-content:flex-end">
           ${i.sta!=='Réglée'?`<button class="hbtn" style="font-size:9px;color:var(--grn);border-color:var(--grn);padding:4px 10px;cursor:pointer" onclick="markInvDone(${i.id})">✓ Réglée</button>`:''}
+          <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:4px 10px;cursor:pointer" onclick="editInv(${i.id})">✏</button>
           <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:4px 10px;cursor:pointer" onclick="delItem('invoices',${i.id},renderInvoices)">✕</button>
         </div>
       </div>
@@ -1615,6 +1844,7 @@ function renderDocs(list){
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         ${d.lnk?`<a href="${d.lnk}" target="_blank"><button class="hbtn" style="font-size:10px;padding:5px 12px;cursor:pointer">Ouvrir ↗</button></a>`:''}
+        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:5px 10px;cursor:pointer" onclick="editDoc(${d.id})">✏</button>
         <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:5px 10px;cursor:pointer" onclick="delItem('docs',${d.id},renderDocs)">✕</button>
       </div>
     </div>`).join('');
@@ -1679,7 +1909,7 @@ function openAthleteDetail(id){
     <div class="tl mt8"><div class="tl-hd">Documents liés</div>
     ${relDocs.length?relDocs.map(d=>`<div class="tli"><div class="tld b"></div><div class="tlc"><div class="tl-date">${fmtDate(d.dat)} · ${d.typ}</div><div class="tl-txt">${d.tit}</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--iv3);padding:8px 0">Aucun document lié.</div>'}
     </div>
-    <div class="fa"><button class="hbtn" style="color:var(--red);border-color:var(--red)" onclick="delItem('athletes',${a.id},()=>{closeModal('mo-profil');renderAthletes()})">Supprimer</button><button class="hbtn" onclick="closeModal('mo-profil')">Fermer</button></div>`;
+    <div class="fa"><button class="hbtn" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600" onclick="editAthlete(${a.id})">✏ Modifier</button><button class="hbtn" style="color:var(--red);border-color:var(--red)" onclick="delItem('athletes',${a.id},()=>{closeModal('mo-profil');renderAthletes()})">Supprimer</button><button class="hbtn" onclick="closeModal('mo-profil')">Fermer</button></div>`;
   openModal('mo-profil');
 }
 
@@ -1699,6 +1929,10 @@ function renderSponsors(){
     <td><span class="ts">${fmtDate(s.fin)}</span></td>
     <td>${bstat(s.sta)}</td>
     <td><span class="ts">${s.con||'—'}</span></td>
+    <td style="white-space:nowrap">
+      <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="editSponsor(${s.id})">✏</button>
+      <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 8px;cursor:pointer;margin-left:4px" onclick="delItem('sponsors',${s.id},renderSponsors)">✕</button>
+    </td>
   </tr>`).join('');
 }
 
@@ -1719,6 +1953,10 @@ function renderRdvs(){
     <td><span class="b bb">${r.typ}</span></td>
     <td>${bstat(r.sta)}</td>
     <td><span class="tm">${(r.not||'').substring(0,60)}</span></td>
+    <td style="white-space:nowrap">
+      <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="editRdv(${r.id})">✏</button>
+      <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 8px;cursor:pointer;margin-left:4px" onclick="delItem('rdvs',${r.id},renderRdvs)">✕</button>
+    </td>
   </tr>`).join('');
 }
 
@@ -1738,6 +1976,10 @@ function renderSocials(){
     <td><span class="ts">${s.obj||'—'}</span></td>
     <td>${bstat(s.sta)}</td>
     <td><span class="tm">${(s.not||'').substring(0,50)}</span></td>
+    <td style="white-space:nowrap">
+      <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="editSocial(${s.id})">✏</button>
+      <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 8px;cursor:pointer;margin-left:4px" onclick="delItem('socials',${s.id},renderSocials)">✕</button>
+    </td>
   </tr>`).join('');
 }
 
@@ -1793,6 +2035,236 @@ function clearPfx(pfx){document.querySelectorAll(`[id^="${pfx}"]`).forEach(el=>{
 // SAVE FUNCTIONS
 // ═══════════════════════════════════════
 function g(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+// sv = set value (pour pré-remplir les modals en mode édition)
+function sv(id,val){const el=document.getElementById(id);if(!el)return;el.tagName==='SELECT'?(el.value=val):(el.value=val??'');}
+
+// ─── EDIT CONTACT ───
+function editContact(id){
+  const c=DB.contacts.find(x=>x.id===id);if(!c)return;
+  closeModal('mo-profil');closeModal('mo-contact-detail');
+  document.querySelector('#mo-cts .mt').textContent='Modifier le contact';
+  sv('c-pre',c.pre);sv('c-nom',c.nom);sv('c-rol',c.rol);sv('c-pay',c.pay||'');
+  sv('c-eml',c.eml||'');sv('c-tel',c.tel||'');sv('c-box',c.box||'');
+  sv('c-can',c.can);sv('c-dat',c.dat||'');sv('c-obj',c.obj||'');sv('c-not',c.not||'');
+  document.querySelector('#mo-cts .fa button:last-child').onclick=()=>updateContact(id);
+  openModal('mo-cts');
+}
+function updateContact(id){
+  const idx=DB.contacts.findIndex(x=>x.id===id);if(idx===-1)return;
+  const nom=g('c-nom');if(!nom)return alert('Le nom est requis.');
+  DB.contacts[idx]={...DB.contacts[idx],pre:g('c-pre'),nom,rol:g('c-rol'),pay:g('c-pay'),
+    eml:g('c-eml'),tel:g('c-tel'),box:g('c-box'),can:g('c-can'),
+    dat:g('c-dat'),obj:g('c-obj'),not:g('c-not')};
+  saveDB();closeModal('mo-cts');
+  document.querySelector('#mo-cts .fa button:last-child').onclick=saveContact;
+  document.querySelector('#mo-cts .mt').textContent='Nouveau contact';
+  renderContacts();
+}
+
+// ─── EDIT COMBAT ───
+function editCombat(id){
+  const c=DB.combats.find(x=>x.id===id);if(!c)return;
+  document.querySelector('#mo-cbt .mt').textContent='Modifier la proposition';
+  sv('f-ba',c.ba);sv('f-bb',c.bb);sv('f-cat',c.cat);sv('f-typ',c.typ);
+  sv('f-dat',c.dat||'');sv('f-lie',c.lie||'');sv('f-con',c.con||'');
+  sv('f-sta',c.sta);sv('f-brs',c.brs||'');sv('f-com',c.com||'');sv('f-not',c.not||'');
+  document.querySelector('#mo-cbt .fa button:last-child').onclick=()=>updateCombat(id);
+  openModal('mo-cbt');
+}
+function updateCombat(id){
+  const idx=DB.combats.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.combats[idx]={...DB.combats[idx],ba:g('f-ba'),bb:g('f-bb'),cat:g('f-cat'),typ:g('f-typ'),
+    dat:g('f-dat'),lie:g('f-lie'),con:g('f-con'),sta:g('f-sta'),
+    brs:+g('f-brs')||0,com:+g('f-com')||15,not:g('f-not')};
+  saveDB();closeModal('mo-cbt');
+  document.querySelector('#mo-cbt .fa button:last-child').onclick=saveCombat;
+  document.querySelector('#mo-cbt .mt').textContent='Nouvelle proposition';
+  renderCombats();
+}
+
+// ─── EDIT INCIDENT ───
+function editIncident(id){
+  const i=DB.incidents.find(x=>x.id===id);if(!i)return;
+  document.querySelector('#mo-inc .mt').textContent='Modifier l\'incident';
+  sv('i-tit',i.tit);sv('i-sev',i.sev);sv('i-sta',i.sta);
+  sv('i-par',i.par||'');sv('i-dat',i.dat||'');sv('i-des',i.des||'');sv('i-act',i.act||'');
+  document.querySelector('#mo-inc .fa button:last-child').onclick=()=>updateIncident(id);
+  openModal('mo-inc');
+}
+function updateIncident(id){
+  const idx=DB.incidents.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.incidents[idx]={...DB.incidents[idx],tit:g('i-tit'),sev:g('i-sev'),sta:g('i-sta'),
+    par:g('i-par'),dat:g('i-dat'),des:g('i-des'),act:g('i-act')};
+  saveDB();closeModal('mo-inc');
+  document.querySelector('#mo-inc .fa button:last-child').onclick=saveIncident;
+  document.querySelector('#mo-inc .mt').textContent='Signaler un incident';
+  renderIncidents();
+}
+
+// ─── EDIT CA ───
+function editCA(id){
+  const c=DB.ca.find(x=>x.id===id);if(!c)return;
+  document.querySelector('#mo-ca .mt').textContent='Modifier le revenu';
+  sv('ca-lib',c.lib);sv('ca-ath',c.ath||'');sv('ca-dat',c.dat||'');
+  sv('ca-mnt',c.mnt||'');sv('ca-sta',c.sta);sv('ca-typ',c.typ);sv('ca-not',c.not||'');
+  document.querySelector('#mo-ca .fa button:last-child').onclick=()=>updateCA(id);
+  openModal('mo-ca');
+}
+function updateCA(id){
+  const idx=DB.ca.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.ca[idx]={...DB.ca[idx],lib:g('ca-lib'),ath:g('ca-ath'),dat:g('ca-dat'),
+    mnt:+g('ca-mnt')||0,sta:g('ca-sta'),typ:g('ca-typ'),not:g('ca-not')};
+  saveDB();closeModal('mo-ca');
+  document.querySelector('#mo-ca .fa button:last-child').onclick=saveCA;
+  document.querySelector('#mo-ca .mt').textContent='Ajouter un revenu projeté';
+  renderCA();
+}
+
+// ─── EDIT INVOICE ───
+function editInv(id){
+  const i=DB.invoices.find(x=>x.id===id);if(!i)return;
+  document.querySelector('#mo-inv .mt').textContent='Modifier la facture';
+  sv('inv-tit',i.tit);sv('inv-ath',i.ath||'');sv('inv-des',i.des||'');
+  sv('inv-mnt',i.mnt||'');sv('inv-dc',i.dc||'');sv('inv-dat',i.dat||'');
+  sv('inv-sta',i.sta);sv('inv-rap',i.rap||'0');sv('inv-not',i.not||'');
+  document.querySelector('#mo-inv .fa button:last-child').onclick=()=>updateInv(id);
+  openModal('mo-inv');
+}
+function updateInv(id){
+  const idx=DB.invoices.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.invoices[idx]={...DB.invoices[idx],tit:g('inv-tit'),ath:g('inv-ath'),des:g('inv-des'),
+    mnt:+g('inv-mnt')||0,dc:g('inv-dc'),dat:g('inv-dat'),sta:g('inv-sta'),
+    rap:+g('inv-rap'),not:g('inv-not')};
+  saveDB();closeModal('mo-inv');
+  document.querySelector('#mo-inv .fa button:last-child').onclick=saveInv;
+  document.querySelector('#mo-inv .mt').textContent='Nouvelle facture';
+  renderInvoices();
+}
+
+// ─── EDIT DOC ───
+function editDoc(id){
+  const d=DB.docs.find(x=>x.id===id);if(!d)return;
+  document.querySelector('#mo-doc .mt').textContent='Modifier le document';
+  sv('d-tit',d.tit);sv('d-typ',d.typ);sv('d-ath',d.ath||'');
+  sv('d-par',d.par||'');sv('d-dat',d.dat||'');sv('d-lnk',d.lnk||'');sv('d-not',d.not||'');
+  document.querySelector('#mo-doc .fa button:last-child').onclick=()=>updateDoc(id);
+  openModal('mo-doc');
+}
+function updateDoc(id){
+  const idx=DB.docs.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.docs[idx]={...DB.docs[idx],tit:g('d-tit'),typ:g('d-typ'),ath:g('d-ath'),
+    par:g('d-par'),dat:g('d-dat'),lnk:g('d-lnk'),not:g('d-not')};
+  saveDB();closeModal('mo-doc');
+  document.querySelector('#mo-doc .fa button:last-child').onclick=saveDoc;
+  document.querySelector('#mo-doc .mt').textContent='Référencer un document';
+  renderDocs();
+}
+
+// ─── EDIT ATHLETE ───
+function editAthlete(id){
+  const a=DB.athletes.find(x=>x.id===id);if(!a)return;
+  closeModal('mo-profil');
+  document.querySelector('#mo-ath .mt').textContent='Modifier l\'athlète';
+  sv('a-nom',a.nom);sv('a-cat',a.cat);sv('a-nat',a.nat||'');
+  sv('a-dcd',a.dcd||'');sv('a-dcf',a.dcf||'');sv('a-com',a.com||'');
+  sv('a-ig',a.ig||'');sv('a-igs',a.igs||'');sv('a-tt',a.tt||'');
+  sv('a-tts',a.tts||'');sv('a-obj',a.obj||'');sv('a-sta',a.sta);sv('a-not',a.not||'');
+  document.querySelector('#mo-ath .fa button:last-child').onclick=()=>updateAthlete(id);
+  openModal('mo-ath');
+}
+function updateAthlete(id){
+  const idx=DB.athletes.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.athletes[idx]={...DB.athletes[idx],nom:g('a-nom'),cat:g('a-cat'),nat:g('a-nat'),
+    dcd:g('a-dcd'),dcf:g('a-dcf'),com:+g('a-com')||0,ig:g('a-ig'),igs:+g('a-igs')||0,
+    tt:g('a-tt'),tts:+g('a-tts')||0,obj:g('a-obj'),sta:g('a-sta'),not:g('a-not')};
+  saveDB();closeModal('mo-ath');
+  document.querySelector('#mo-ath .fa button:last-child').onclick=saveAthlete;
+  document.querySelector('#mo-ath .mt').textContent='Fiche athlète';
+  renderAthletes();
+}
+
+// ─── EDIT SPONSOR ───
+function editSponsor(id){
+  const s=DB.sponsors.find(x=>x.id===id);if(!s)return;
+  document.querySelector('#mo-sp .mt').textContent='Modifier le sponsor';
+  sv('sp-nom',s.nom);sv('sp-sec',s.sec||'');sv('sp-ath',s.ath||'');
+  sv('sp-con',s.con||'');sv('sp-val',s.val||'');sv('sp-fin',s.fin||'');
+  sv('sp-sta',s.sta);sv('sp-not',s.not||'');
+  document.querySelector('#mo-sp .fa button:last-child').onclick=()=>updateSponsor(id);
+  openModal('mo-sp');
+}
+function updateSponsor(id){
+  const idx=DB.sponsors.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.sponsors[idx]={...DB.sponsors[idx],nom:g('sp-nom'),sec:g('sp-sec'),ath:g('sp-ath'),
+    con:g('sp-con'),val:+g('sp-val')||0,fin:g('sp-fin'),sta:g('sp-sta'),not:g('sp-not')};
+  saveDB();closeModal('mo-sp');
+  document.querySelector('#mo-sp .fa button:last-child').onclick=saveSponsor;
+  document.querySelector('#mo-sp .mt').textContent='Nouveau sponsor';
+  renderSponsors();
+}
+
+// ─── EDIT RDV ───
+function editRdv(id){
+  const r=DB.rdvs.find(x=>x.id===id);if(!r)return;
+  document.querySelector('#mo-rdv .mt').textContent='Modifier le RDV';
+  sv('r-tit',r.tit);sv('r-dat',r.dat||'');sv('r-hre',r.hre||'');
+  sv('r-ave',r.ave||'');sv('r-ath',r.ath||'');sv('r-typ',r.typ);
+  sv('r-lie',r.lie||'');sv('r-sta',r.sta);sv('r-not',r.not||'');
+  document.querySelector('#mo-rdv .fa button:last-child').onclick=()=>updateRdv(id);
+  openModal('mo-rdv');
+}
+function updateRdv(id){
+  const idx=DB.rdvs.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.rdvs[idx]={...DB.rdvs[idx],tit:g('r-tit'),dat:g('r-dat'),hre:g('r-hre'),
+    ave:g('r-ave'),ath:g('r-ath'),typ:g('r-typ'),lie:g('r-lie'),sta:g('r-sta'),not:g('r-not')};
+  saveDB();closeModal('mo-rdv');
+  document.querySelector('#mo-rdv .fa button:last-child').onclick=saveRdv;
+  document.querySelector('#mo-rdv .mt').textContent='Nouveau rendez-vous';
+  renderRdvs();
+}
+
+// ─── EDIT SOCIAL ───
+function editSocial(id){
+  const s=DB.socials.find(x=>x.id===id);if(!s)return;
+  document.querySelector('#mo-soc .mt').textContent='Modifier l\'action';
+  sv('s-ath',s.ath);sv('s-plt',s.plt);sv('s-typ',s.typ);
+  sv('s-dat',s.dat||'');sv('s-obj',s.obj||'');sv('s-sta',s.sta);sv('s-not',s.not||'');
+  document.querySelector('#mo-soc .fa button:last-child').onclick=()=>updateSocial(id);
+  openModal('mo-soc');
+}
+function updateSocial(id){
+  const idx=DB.socials.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.socials[idx]={...DB.socials[idx],ath:g('s-ath'),plt:g('s-plt'),typ:g('s-typ'),
+    dat:g('s-dat'),obj:g('s-obj'),sta:g('s-sta'),not:g('s-not')};
+  saveDB();closeModal('mo-soc');
+  document.querySelector('#mo-soc .fa button:last-child').onclick=saveSocial;
+  document.querySelector('#mo-soc .mt').textContent='Action réseaux sociaux';
+  renderSocials();
+}
+
+// ─── EDIT SCOUT ───
+function editScout(id){
+  const s=DB.scouts.find(x=>x.id===id);if(!s)return;
+  document.querySelector('#mo-sct .mt').textContent='Modifier le prospect';
+  sv('sc-pre',s.pre);sv('sc-nom',s.nom);sv('sc-ali',s.ali||'');sv('sc-nat',s.nat||'');
+  sv('sc-cat',s.cat);sv('sc-pri',s.pri);sv('sc-v',s.v);sv('sc-d',s.d);
+  sv('sc-n',s.n);sv('sc-ko',s.ko);sv('sc-bid',s.bid||'');sv('sc-man',s.man||'');
+  sv('sc-pro',s.pro||'');sv('sc-src',s.src||'');sv('sc-dat',s.dat||'');
+  sv('sc-sta',s.sta);sv('sc-pts',s.pts||'');sv('sc-not',s.not||'');
+  document.querySelector('#mo-sct .fa button:last-child').onclick=()=>updateScout(id);
+  openModal('mo-sct');
+}
+function updateScout(id){
+  const idx=DB.scouts.findIndex(x=>x.id===id);if(idx===-1)return;
+  DB.scouts[idx]={...DB.scouts[idx],pre:g('sc-pre'),nom:g('sc-nom'),ali:g('sc-ali'),
+    nat:g('sc-nat'),cat:g('sc-cat'),pri:g('sc-pri'),v:+g('sc-v')||0,d:+g('sc-d')||0,
+    n:+g('sc-n')||0,ko:+g('sc-ko')||0,bid:g('sc-bid'),man:g('sc-man'),pro:g('sc-pro'),
+    src:g('sc-src'),dat:g('sc-dat'),sta:g('sc-sta'),pts:g('sc-pts'),not:g('sc-not')};
+  saveDB();closeModal('mo-sct');
+  document.querySelector('#mo-sct .fa button:last-child').onclick=saveScout;
+  document.querySelector('#mo-sct .mt').textContent='Nouveau prospect';
+  renderScouts();
+}
 
 function saveBoxeur(){
   const nom=g('b-nom');if(!nom)return alert('Le nom est requis.');
@@ -1904,6 +2376,7 @@ function renderScouts(list){
         <span style="font-size:10px;color:var(--iv4)">Source : ${s.src||'—'}</span>
         <div style="margin-left:auto;display:flex;gap:6px">
           <button class="hbtn" style="font-size:9px;color:var(--grn);border-color:var(--grn);padding:5px 12px;cursor:pointer" onclick="promoteScout(${s.id})">→ Intégrer comme athlète</button>
+          <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:5px 10px;cursor:pointer" onclick="editScout(${s.id})">✏ Modifier</button>
           <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:5px 10px;cursor:pointer" onclick="delItem('scouts',${s.id},renderScouts)">✕</button>
         </div>
       </div>
@@ -1962,6 +2435,53 @@ window.openAthleteDetail=openAthleteDetail; window.delBoxeur=delBoxeur;
 window.delContact=delContact; window.delItem=delItem; window.markInvDone=markInvDone;
 window.promoteScout=promoteScout;
 
+window.editBoxeur=editBoxeur; window.updateBoxeur=updateBoxeur;
+window.editContact=editContact; window.updateContact=updateContact;
+window.editCombat=editCombat; window.updateCombat=updateCombat;
+window.editIncident=editIncident; window.updateIncident=updateIncident;
+window.editCA=editCA; window.updateCA=updateCA;
+window.editInv=editInv; window.updateInv=updateInv;
+window.editDoc=editDoc; window.updateDoc=updateDoc;
+window.editAthlete=editAthlete; window.updateAthlete=updateAthlete;
+window.editSponsor=editSponsor; window.updateSponsor=updateSponsor;
+window.editRdv=editRdv; window.updateRdv=updateRdv;
+window.editSocial=editSocial; window.updateSocial=updateSocial;
+window.editScout=editScout; window.updateScout=updateScout;
+
+// ── MOBILE NAV ──
+function mobNav(view, tabId){
+  showView(view);
+  // Sync sidebar nav
+  const map={
+    'dash':'n-dash','boxeurs':'n-boxeurs','combats':'n-combats',
+    'contacts':'n-contacts','eligib':'n-eligib','incidents':'n-incidents',
+    'ca':'n-ca','facturas':'n-facturas','docs':'n-docs',
+    'athletes':'n-athletes','scouting':'n-scouting','sponsors':'n-sponsors',
+    'rdv':'n-rdv','social':'n-social','activite':'n-activite'
+  };
+  if(map[view]) setNav(map[view]);
+  // Highlight mobile tab
+  document.querySelectorAll('.mob-tab').forEach(t=>t.classList.remove('on'));
+  if(tabId) document.getElementById(tabId)?.classList.add('on');
+}
+function toggleMobMore(){
+  document.getElementById('mob-more-menu').classList.toggle('open');
+}
+function closeMobMore(){
+  document.getElementById('mob-more-menu').classList.remove('open');
+}
+// Fermer le menu "plus" si on clique ailleurs
+document.addEventListener('click', e=>{
+  const menu=document.getElementById('mob-more-menu');
+  const btn=document.getElementById('mt-more');
+  if(menu && btn && !menu.contains(e.target) && !btn.contains(e.target)){
+    menu.classList.remove('open');
+  }
+});
+window.mobNav=mobNav;
+window.toggleMobMore=toggleMobMore;
+window.closeMobMore=closeMobMore;
+
 // Date header
 document.getElementById('hd-date').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
@@ -1974,5 +2494,52 @@ if(checkSession()){
 }
 // Sinon l'écran de login reste affiché et loadDB() est appelé par checkLogin()
 </script>
+<!-- ══════════ MOBILE NAV ══════════ -->
+<nav class="mob-nav" id="mob-nav">
+  <div class="mob-nav-inner">
+    <div class="mob-tab on" id="mt-dash" onclick="mobNav('dash','mt-dash')">
+      <div class="mob-tab-ico">◈</div>
+      <div>Dashboard</div>
+    </div>
+    <div class="mob-tab" id="mt-boxeurs" onclick="mobNav('boxeurs','mt-boxeurs')">
+      <div class="mob-tab-ico">🥊</div>
+      <div>Boxeurs</div>
+    </div>
+    <div class="mob-tab" id="mt-combats" onclick="mobNav('combats','mt-combats')">
+      <div class="mob-tab-ico">⚔</div>
+      <div>Combats</div>
+    </div>
+    <div class="mob-tab" id="mt-add" onclick="openQuickAdd()">
+      <div style="width:36px;height:36px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--ink);font-weight:300;margin-bottom:2px">+</div>
+      <div>Ajouter</div>
+    </div>
+    <div class="mob-tab" id="mt-contacts" onclick="mobNav('contacts','mt-contacts')">
+      <div class="mob-tab-ico">☎</div>
+      <div>CRM</div>
+    </div>
+    <div class="mob-tab" id="mt-more" onclick="toggleMobMore()">
+      <div class="mob-tab-ico">☰</div>
+      <div>Plus</div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MORE MENU -->
+<div class="mob-more-menu" id="mob-more-menu">
+  <div class="mob-more-section">Matchmaking</div>
+  <div class="mob-more-item" onclick="mobNav('eligib','');closeMobMore()"><span>🇫🇷</span> Éligibilité France</div>
+  <div class="mob-more-item" onclick="mobNav('incidents','');closeMobMore()"><span>⚠</span> Incidents</div>
+  <div class="mob-more-item" onclick="mobNav('ca','');closeMobMore()"><span>📈</span> Projection CA</div>
+  <div class="mob-more-item" onclick="mobNav('facturas','');closeMobMore()"><span>🧾</span> Facturation</div>
+  <div class="mob-more-item" onclick="mobNav('docs','');closeMobMore()"><span>📄</span> Documents</div>
+  <div class="mob-more-section" style="margin-top:8px">Athlètes</div>
+  <div class="mob-more-item" onclick="mobNav('athletes','');closeMobMore()"><span>🏆</span> Mes athlètes</div>
+  <div class="mob-more-item" onclick="mobNav('scouting','');closeMobMore()"><span>🔭</span> Scouting</div>
+  <div class="mob-more-item" onclick="mobNav('sponsors','');closeMobMore()"><span>💼</span> Sponsors</div>
+  <div class="mob-more-item" onclick="mobNav('rdv','');closeMobMore()"><span>📅</span> Rendez-vous</div>
+  <div class="mob-more-item" onclick="mobNav('social','');closeMobMore()"><span>📱</span> Réseaux sociaux</div>
+  <div class="mob-more-item" onclick="mobNav('activite','');closeMobMore()"><span>📊</span> Analyse activité</div>
+</div>
+
 </body>
 </html>
