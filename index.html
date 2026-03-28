@@ -1522,8 +1522,8 @@ function renderBoxeurs(list){
         : `<a href="https://boxrec.com/search?name=${encodeURIComponent(b.pre+' '+b.nom)}" target="_blank" onclick="event.stopPropagation()" style="color:var(--iv3);font-size:10px;letter-spacing:1px;text-decoration:none">Rechercher ↗</a>`
       }</td>
       <td onclick="event.stopPropagation()" style="white-space:nowrap">
-        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 9px;cursor:pointer" onclick="editBoxeur(${b.id})">✏</button>
-        <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 9px;cursor:pointer;margin-left:4px" onclick="if(confirm('Supprimer ce boxeur ?')){delBoxeur(${b.id})}">✕</button>
+        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 9px;cursor:pointer" onclick="window.editBoxeur(${b.id})">✏</button>
+        <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 9px;cursor:pointer;margin-left:4px" onclick="window.delBoxeur(${b.id})">✕</button>
       </td>
     </tr>`).join('');
 }
@@ -1661,8 +1661,8 @@ function renderCombats(list){
         </div>
         <div style="display:flex;gap:6px;align-items:center">
           ${bstat(c.sta)}<span class="b bb">${c.cat}</span>
-          <button class="hbtn" style="font-size:9px;padding:3px 10px;cursor:pointer;color:var(--gold2);border-color:var(--gold)" onclick="event.stopPropagation();editCombat(${c.id})">✏</button>
-          <button class="hbtn" style="font-size:9px;padding:3px 8px;cursor:pointer;color:var(--red);border-color:var(--red)" onclick="event.stopPropagation();delItem('combats',${c.id},renderCombats)">✕</button>
+          <button class="hbtn" style="font-size:9px;padding:3px 10px;cursor:pointer;color:var(--gold2);border-color:var(--gold)" onclick="event.stopPropagation();window.editCombat(${c.id})">✏</button>
+          <button class="hbtn" style="font-size:9px;padding:3px 8px;cursor:pointer;color:var(--red);border-color:var(--red)" onclick="event.stopPropagation();window.delCombat(${c.id})">✕</button>
         </div>
       </div>
     </div>`).join('');
@@ -1689,8 +1689,8 @@ function renderContacts(list){
         <div class="cc-meta"><strong>Boxeurs :</strong> ${c.box||'—'} &nbsp; <strong>Email :</strong> ${c.eml||'—'} &nbsp; <strong>Tél :</strong> ${c.tel||'—'}</div>
         ${c.not?`<div style="margin-top:8px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--iv3)">${c.not.substring(0,120)}${c.not.length>120?'…':''}</div>`:''}
         <div style="margin-top:10px;display:flex;gap:6px">
-          <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:4px 10px;cursor:pointer" onclick="event.stopPropagation();editContact(${c.id})">✏ Modifier</button>
-          <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="event.stopPropagation();if(confirm('Supprimer ce contact ?')){delContact(${c.id})}">✕ Supprimer</button>
+          <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:4px 10px;cursor:pointer" onclick="event.stopPropagation();window.editContact(${c.id})">✏ Modifier</button>
+          <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="event.stopPropagation();window.delContact(${c.id})">✕ Supprimer</button>
         </div>
       </div>
       <div class="cc-last">
@@ -1748,8 +1748,8 @@ function renderIncidents(){
       <div style="font-size:12px;color:var(--ivory);margin-bottom:6px">${i.des||''}</div>
       ${i.act?`<div style="font-size:11px;color:var(--iv3);font-family:'Cormorant Garamond',serif;font-style:italic">→ ${i.act}</div>`:''}
       <div style="margin-top:10px;display:flex;gap:8px">
-        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:4px 10px;cursor:pointer" onclick="editIncident(${i.id})">✏ Modifier</button>
-        <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="delItem('incidents',${i.id},renderIncidents)">Supprimer</button>
+        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:4px 10px;cursor:pointer" onclick="window.editIncident(${i.id})">✏ Modifier</button>
+        <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="window.delIncident(${i.id})">Supprimer</button>
       </div>
     </div>`).join('');
 }
@@ -1797,8 +1797,8 @@ function renderCA(){
       <div class="proj-amount">${fmtEur(c.mnt)}</div>
       <div class="proj-status">${bstat(c.sta)}</div>
       <div style="display:flex;gap:4px">
-        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="editCA(${c.id})">✏</button>
-        <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:3px 8px;cursor:pointer" onclick="delItem('ca',${c.id},renderCA)">✕</button>
+        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="window.editCA(${c.id})">✏</button>
+        <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:3px 8px;cursor:pointer" onclick="window.delCA(${c.id})">✕</button>
       </div>
     </div>`).join('');
 }
@@ -1824,9 +1824,9 @@ function renderInvoices(list){
         <div class="inv-amount">${fmtEur(i.mnt)}</div>
         <div class="inv-due">${bstat(i.sta)}</div>
         <div style="display:flex;gap:6px;margin-top:10px;justify-content:flex-end">
-          ${i.sta!=='Réglée'?`<button class="hbtn" style="font-size:9px;color:var(--grn);border-color:var(--grn);padding:4px 10px;cursor:pointer" onclick="markInvDone(${i.id})">✓ Réglée</button>`:''}
-          <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:4px 10px;cursor:pointer" onclick="editInv(${i.id})">✏</button>
-          <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:4px 10px;cursor:pointer" onclick="delItem('invoices',${i.id},renderInvoices)">✕</button>
+          ${i.sta!=='Réglée'?`<button class="hbtn" style="font-size:9px;color:var(--grn);border-color:var(--grn);padding:4px 10px;cursor:pointer" onclick="window.markInvDone(${i.id})">✓ Réglée</button>`:''}
+          <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:4px 10px;cursor:pointer" onclick="window.editInv(${i.id})">✏</button>
+          <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:4px 10px;cursor:pointer" onclick="window.delInv(${i.id})">✕</button>
         </div>
       </div>
     </div>`).join('');
@@ -1852,8 +1852,8 @@ function renderDocs(list){
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         ${d.lnk?`<a href="${d.lnk}" target="_blank"><button class="hbtn" style="font-size:10px;padding:5px 12px;cursor:pointer">Ouvrir ↗</button></a>`:''}
-        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:5px 10px;cursor:pointer" onclick="editDoc(${d.id})">✏</button>
-        <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:5px 10px;cursor:pointer" onclick="delItem('docs',${d.id},renderDocs)">✕</button>
+        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:5px 10px;cursor:pointer" onclick="window.editDoc(${d.id})">✏</button>
+        <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:5px 10px;cursor:pointer" onclick="window.delDoc(${d.id})">✕</button>
       </div>
     </div>`).join('');
 }
@@ -1881,8 +1881,8 @@ function renderAthletes(){
           ${bstat(a.sta)}
           <div style="font-size:10px;color:var(--iv3)">Contrat jusqu'au ${fmtDate(a.dcf)}</div>
           <div style="display:flex;gap:6px" onclick="event.stopPropagation()">
-            <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 9px;cursor:pointer" onclick="editAthlete(${a.id})">✏</button>
-            <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 9px;cursor:pointer" onclick="if(confirm('Supprimer cet athlète ?')){delItem('athletes',${a.id},renderAthletes)}">✕</button>
+            <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 9px;cursor:pointer" onclick="window.editAthlete(${a.id})">✏</button>
+            <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 9px;cursor:pointer" onclick="window.delAthlete(${a.id})">✕</button>
           </div>
         </div>
       </div>
@@ -1945,8 +1945,8 @@ function renderSponsors(){
     <td>${bstat(s.sta)}</td>
     <td><span class="ts">${s.con||'—'}</span></td>
     <td style="white-space:nowrap">
-      <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="editSponsor(${s.id})">✏</button>
-      <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 8px;cursor:pointer;margin-left:4px" onclick="delItem('sponsors',${s.id},renderSponsors)">✕</button>
+      <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="window.editSponsor(${s.id})">✏</button>
+      <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 8px;cursor:pointer;margin-left:4px" onclick="window.delSponsor(${s.id})">✕</button>
     </td>
   </tr>`).join('');
 }
@@ -1969,8 +1969,8 @@ function renderRdvs(){
     <td>${bstat(r.sta)}</td>
     <td><span class="tm">${(r.not||'').substring(0,60)}</span></td>
     <td style="white-space:nowrap">
-      <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="editRdv(${r.id})">✏</button>
-      <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 8px;cursor:pointer;margin-left:4px" onclick="delItem('rdvs',${r.id},renderRdvs)">✕</button>
+      <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="window.editRdv(${r.id})">✏</button>
+      <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 8px;cursor:pointer;margin-left:4px" onclick="window.delRdv(${r.id})">✕</button>
     </td>
   </tr>`).join('');
 }
@@ -1992,8 +1992,8 @@ function renderSocials(){
     <td>${bstat(s.sta)}</td>
     <td><span class="tm">${(s.not||'').substring(0,50)}</span></td>
     <td style="white-space:nowrap">
-      <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="editSocial(${s.id})">✏</button>
-      <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 8px;cursor:pointer;margin-left:4px" onclick="delItem('socials',${s.id},renderSocials)">✕</button>
+      <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 8px;cursor:pointer" onclick="window.editSocial(${s.id})">✏</button>
+      <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 8px;cursor:pointer;margin-left:4px" onclick="window.delSocial(${s.id})">✕</button>
     </td>
   </tr>`).join('');
 }
@@ -2020,7 +2020,7 @@ function renderActivite(){
         <div class="ps"><div class="psl">CA généré</div><div class="psv" style="color:var(--gold2)">${fmtEur(a.ca)}</div></div>
       </div>
       ${a.not?`<div style="margin-top:10px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--iv3)">${a.not}</div>`:''}
-      <div style="margin-top:10px"><button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="delItem('activites',${a.id},renderActivite)">Supprimer</button></div>
+      <div style="margin-top:10px"><button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="window.delActivite(${a.id})">Supprimer</button></div>
     </div>`).join('');
 }
 
@@ -2406,9 +2406,9 @@ function renderScouts(list){
         }
         <span style="font-size:10px;color:var(--iv4)">Source : ${s.src||'—'}</span>
         <div style="margin-left:auto;display:flex;gap:6px">
-          <button class="hbtn" style="font-size:9px;color:var(--grn);border-color:var(--grn);padding:5px 12px;cursor:pointer" onclick="promoteScout(${s.id})">→ Intégrer comme athlète</button>
-          <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:5px 10px;cursor:pointer" onclick="editScout(${s.id})">✏ Modifier</button>
-          <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:5px 10px;cursor:pointer" onclick="delItem('scouts',${s.id},renderScouts)">✕</button>
+          <button class="hbtn" style="font-size:9px;color:var(--grn);border-color:var(--grn);padding:5px 12px;cursor:pointer" onclick="window.promoteScout(${s.id})">→ Intégrer comme athlète</button>
+          <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:5px 10px;cursor:pointer" onclick="window.editScout(${s.id})">✏ Modifier</button>
+          <button class="hbtn" style="font-size:9px;color:var(--iv3);border-color:var(--l2);padding:5px 10px;cursor:pointer" onclick="window.delScout(${s.id})">✕</button>
         </div>
       </div>
     </div>`).join('');
@@ -2478,6 +2478,28 @@ window.editSponsor=editSponsor; window.updateSponsor=updateSponsor;
 window.editRdv=editRdv; window.updateRdv=updateRdv;
 window.editSocial=editSocial; window.updateSocial=updateSocial;
 window.editScout=editScout; window.updateScout=updateScout;
+
+// Fonctions delete raccourcies — toutes exposées sur window
+window.delCombat   = id => { if(!confirm('Supprimer cette proposition ?'))return; DB.combats=DB.combats.filter(x=>x.id!==id); saveDB(); renderCombats(); };
+window.delIncident = id => { if(!confirm('Supprimer cet incident ?'))return; DB.incidents=DB.incidents.filter(x=>x.id!==id); saveDB(); renderIncidents(); };
+window.delCA       = id => { if(!confirm('Supprimer ce revenu ?'))return; DB.ca=DB.ca.filter(x=>x.id!==id); saveDB(); renderCA(); };
+window.delInv      = id => { if(!confirm('Supprimer cette facture ?'))return; DB.invoices=DB.invoices.filter(x=>x.id!==id); saveDB(); renderInvoices(); };
+window.delDoc      = id => { if(!confirm('Supprimer ce document ?'))return; DB.docs=DB.docs.filter(x=>x.id!==id); saveDB(); renderDocs(); };
+window.delAthlete  = id => { if(!confirm('Supprimer cet athlète ?'))return; DB.athletes=DB.athletes.filter(x=>x.id!==id); saveDB(); renderAthletes(); };
+window.delSponsor  = id => { if(!confirm('Supprimer ce sponsor ?'))return; DB.sponsors=DB.sponsors.filter(x=>x.id!==id); saveDB(); renderSponsors(); };
+window.delRdv      = id => { if(!confirm('Supprimer ce RDV ?'))return; DB.rdvs=DB.rdvs.filter(x=>x.id!==id); saveDB(); renderRdvs(); };
+window.delSocial   = id => { if(!confirm('Supprimer cette action ?'))return; DB.socials=DB.socials.filter(x=>x.id!==id); saveDB(); renderSocials(); };
+window.delScout    = id => { if(!confirm('Supprimer ce prospect ?'))return; DB.scouts=DB.scouts.filter(x=>x.id!==id); saveDB(); renderScouts(); };
+window.delActivite = id => { if(!confirm('Supprimer ces indicateurs ?'))return; DB.activites=DB.activites.filter(x=>x.id!==id); saveDB(); renderActivite(); };
+
+// Render functions exposées pour callbacks inline
+window.renderCombats=renderCombats; window.renderContacts=renderContacts;
+window.renderBoxeurs=renderBoxeurs; window.renderIncidents=renderIncidents;
+window.renderCA=renderCA; window.renderInvoices=renderInvoices;
+window.renderDocs=renderDocs; window.renderAthletes=renderAthletes;
+window.renderSponsors=renderSponsors; window.renderRdvs=renderRdvs;
+window.renderSocials=renderSocials; window.renderScouts=renderScouts;
+window.renderActivite=renderActivite;
 
 // ── MOBILE NAV ──
 function mobNav(view, tabId){
