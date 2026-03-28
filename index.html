@@ -1318,25 +1318,26 @@ function loadDB(){
   document.getElementById('fb-status').textContent = '⟳ Connexion Firebase...';
   document.getElementById('fb-status').style.color = 'var(--gold2)';
 
+// Normalise ce que Firebase retourne — peut être null, array ou objet indexé
+function norm(v){ if(!v) return []; if(Array.isArray(v)) return v.filter(x=>x!=null); return Object.values(v).filter(x=>x!=null); }
+
   onValue(DB_REF, (snapshot) => {
     const data = snapshot.val();
     if(data){
-      // Fusionner en s'assurant que chaque collection existe
-      DB.boxeurs   = data.boxeurs   || [];
-      DB.contacts  = data.contacts  || [];
-      DB.combats   = data.combats   || [];
-      DB.incidents = data.incidents || [];
-      DB.ca        = data.ca        || [];
-      DB.invoices  = data.invoices  || [];
-      DB.docs      = data.docs      || [];
-      DB.athletes  = data.athletes  || [];
-      DB.sponsors  = data.sponsors  || [];
-      DB.rdvs      = data.rdvs      || [];
-      DB.socials   = data.socials   || [];
-      DB.activites = data.activites || [];
-      DB.scouts    = data.scouts    || [];
+      DB.boxeurs   = norm(data.boxeurs);
+      DB.contacts  = norm(data.contacts);
+      DB.combats   = norm(data.combats);
+      DB.incidents = norm(data.incidents);
+      DB.ca        = norm(data.ca);
+      DB.invoices  = norm(data.invoices);
+      DB.docs      = norm(data.docs);
+      DB.athletes  = norm(data.athletes);
+      DB.sponsors  = norm(data.sponsors);
+      DB.rdvs      = norm(data.rdvs);
+      DB.socials   = norm(data.socials);
+      DB.activites = norm(data.activites);
+      DB.scouts    = norm(data.scouts);
     } else {
-      // Première connexion : on seed les données d'exemple
       seedDB();
       return;
     }
@@ -2361,12 +2362,12 @@ function delItem(col,id,cb){
 }
 function delBoxeur(id){
   if(!confirm('Supprimer définitivement ce boxeur ?'))return;
-  DB.boxeurs=DB.boxeurs.filter(x=>x.id!==id);
+  DB.boxeurs=DB.boxeurs.filter(x=>+x.id!==+id);
   saveDB();closeModal('mo-profil');renderBoxeurs();
 }
 function delContact(id){
   if(!confirm('Supprimer définitivement ce contact ?'))return;
-  DB.contacts=DB.contacts.filter(x=>x.id!==id);
+  DB.contacts=DB.contacts.filter(x=>+x.id!==+id);
   saveDB();closeModal('mo-profil');renderContacts();
 }
 
@@ -2480,17 +2481,18 @@ window.editSocial=editSocial; window.updateSocial=updateSocial;
 window.editScout=editScout; window.updateScout=updateScout;
 
 // Fonctions delete raccourcies — toutes exposées sur window
-window.delCombat   = id => { if(!confirm('Supprimer cette proposition ?'))return; DB.combats=DB.combats.filter(x=>x.id!==id); saveDB(); renderCombats(); };
-window.delIncident = id => { if(!confirm('Supprimer cet incident ?'))return; DB.incidents=DB.incidents.filter(x=>x.id!==id); saveDB(); renderIncidents(); };
-window.delCA       = id => { if(!confirm('Supprimer ce revenu ?'))return; DB.ca=DB.ca.filter(x=>x.id!==id); saveDB(); renderCA(); };
-window.delInv      = id => { if(!confirm('Supprimer cette facture ?'))return; DB.invoices=DB.invoices.filter(x=>x.id!==id); saveDB(); renderInvoices(); };
-window.delDoc      = id => { if(!confirm('Supprimer ce document ?'))return; DB.docs=DB.docs.filter(x=>x.id!==id); saveDB(); renderDocs(); };
-window.delAthlete  = id => { if(!confirm('Supprimer cet athlète ?'))return; DB.athletes=DB.athletes.filter(x=>x.id!==id); saveDB(); renderAthletes(); };
-window.delSponsor  = id => { if(!confirm('Supprimer ce sponsor ?'))return; DB.sponsors=DB.sponsors.filter(x=>x.id!==id); saveDB(); renderSponsors(); };
-window.delRdv      = id => { if(!confirm('Supprimer ce RDV ?'))return; DB.rdvs=DB.rdvs.filter(x=>x.id!==id); saveDB(); renderRdvs(); };
-window.delSocial   = id => { if(!confirm('Supprimer cette action ?'))return; DB.socials=DB.socials.filter(x=>x.id!==id); saveDB(); renderSocials(); };
-window.delScout    = id => { if(!confirm('Supprimer ce prospect ?'))return; DB.scouts=DB.scouts.filter(x=>x.id!==id); saveDB(); renderScouts(); };
-window.delActivite = id => { if(!confirm('Supprimer ces indicateurs ?'))return; DB.activites=DB.activites.filter(x=>x.id!==id); saveDB(); renderActivite(); };
+// Note: id vient du HTML comme string, on force +id pour comparaison numérique
+window.delCombat   = id => { if(!confirm('Supprimer cette proposition ?'))return; DB.combats=DB.combats.filter(x=>+x.id!==+id); saveDB(); renderCombats(); };
+window.delIncident = id => { if(!confirm('Supprimer cet incident ?'))return; DB.incidents=DB.incidents.filter(x=>+x.id!==+id); saveDB(); renderIncidents(); };
+window.delCA       = id => { if(!confirm('Supprimer ce revenu ?'))return; DB.ca=DB.ca.filter(x=>+x.id!==+id); saveDB(); renderCA(); };
+window.delInv      = id => { if(!confirm('Supprimer cette facture ?'))return; DB.invoices=DB.invoices.filter(x=>+x.id!==+id); saveDB(); renderInvoices(); };
+window.delDoc      = id => { if(!confirm('Supprimer ce document ?'))return; DB.docs=DB.docs.filter(x=>+x.id!==+id); saveDB(); renderDocs(); };
+window.delAthlete  = id => { if(!confirm('Supprimer cet athlète ?'))return; DB.athletes=DB.athletes.filter(x=>+x.id!==+id); saveDB(); renderAthletes(); };
+window.delSponsor  = id => { if(!confirm('Supprimer ce sponsor ?'))return; DB.sponsors=DB.sponsors.filter(x=>+x.id!==+id); saveDB(); renderSponsors(); };
+window.delRdv      = id => { if(!confirm('Supprimer ce RDV ?'))return; DB.rdvs=DB.rdvs.filter(x=>+x.id!==+id); saveDB(); renderRdvs(); };
+window.delSocial   = id => { if(!confirm('Supprimer cette action ?'))return; DB.socials=DB.socials.filter(x=>+x.id!==+id); saveDB(); renderSocials(); };
+window.delScout    = id => { if(!confirm('Supprimer ce prospect ?'))return; DB.scouts=DB.scouts.filter(x=>+x.id!==+id); saveDB(); renderScouts(); };
+window.delActivite = id => { if(!confirm('Supprimer ces indicateurs ?'))return; DB.activites=DB.activites.filter(x=>+x.id!==+id); saveDB(); renderActivite(); };
 
 // Render functions exposées pour callbacks inline
 window.renderCombats=renderCombats; window.renderContacts=renderContacts;
