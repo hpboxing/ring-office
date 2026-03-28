@@ -1521,6 +1521,10 @@ function renderBoxeurs(list){
            </div>`
         : `<a href="https://boxrec.com/search?name=${encodeURIComponent(b.pre+' '+b.nom)}" target="_blank" onclick="event.stopPropagation()" style="color:var(--iv3);font-size:10px;letter-spacing:1px;text-decoration:none">Rechercher ↗</a>`
       }</td>
+      <td onclick="event.stopPropagation()" style="white-space:nowrap">
+        <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 9px;cursor:pointer" onclick="editBoxeur(${b.id})">✏</button>
+        <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 9px;cursor:pointer;margin-left:4px" onclick="if(confirm('Supprimer ce boxeur ?')){delBoxeur(${b.id})}">✕</button>
+      </td>
     </tr>`).join('');
 }
 
@@ -1684,6 +1688,10 @@ function renderContacts(list){
         <div class="cc-role">${c.rol} · ${c.pay}</div>
         <div class="cc-meta"><strong>Boxeurs :</strong> ${c.box||'—'} &nbsp; <strong>Email :</strong> ${c.eml||'—'} &nbsp; <strong>Tél :</strong> ${c.tel||'—'}</div>
         ${c.not?`<div style="margin-top:8px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--iv3)">${c.not.substring(0,120)}${c.not.length>120?'…':''}</div>`:''}
+        <div style="margin-top:10px;display:flex;gap:6px">
+          <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:4px 10px;cursor:pointer" onclick="event.stopPropagation();editContact(${c.id})">✏ Modifier</button>
+          <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:4px 10px;cursor:pointer" onclick="event.stopPropagation();if(confirm('Supprimer ce contact ?')){delContact(${c.id})}">✕ Supprimer</button>
+        </div>
       </div>
       <div class="cc-last">
         <div class="cc-ll">Dernier contact</div>
@@ -1869,7 +1877,14 @@ function renderAthletes(){
     <div class="athl-card" onclick="openAthleteDetail(${a.id})">
       <div class="athl-head">
         <div><div class="athl-name">${a.nom}</div><div class="athl-cat">${a.cat} · ${a.nat}</div></div>
-        <div style="text-align:right">${bstat(a.sta)}<div style="font-size:10px;color:var(--iv3);margin-top:4px">Contrat jusqu'au ${fmtDate(a.dcf)}</div></div>
+        <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          ${bstat(a.sta)}
+          <div style="font-size:10px;color:var(--iv3)">Contrat jusqu'au ${fmtDate(a.dcf)}</div>
+          <div style="display:flex;gap:6px" onclick="event.stopPropagation()">
+            <button class="hbtn" style="font-size:9px;color:var(--gold2);border-color:var(--gold);padding:3px 9px;cursor:pointer" onclick="editAthlete(${a.id})">✏</button>
+            <button class="hbtn" style="font-size:9px;color:var(--red);border-color:var(--red);padding:3px 9px;cursor:pointer" onclick="if(confirm('Supprimer cet athlète ?')){delItem('athletes',${a.id},renderAthletes)}">✕</button>
+          </div>
+        </div>
       </div>
       <div class="athl-grid">
         <div class="athl-stat"><div class="athl-sl">Commission</div><div class="athl-sv">${a.com||'—'}%</div></div>
@@ -2335,9 +2350,25 @@ function saveScout(){
 // ═══════════════════════════════════════
 // DELETE
 // ═══════════════════════════════════════
-function delItem(col,id,cb){if(!confirm('Supprimer ?'))return;DB[col]=DB[col].filter(x=>x.id!==id);saveDB();if(cb)cb();}
-function delBoxeur(id){delItem('boxeurs',id,()=>{closeModal('mo-profil');renderBoxeurs();});}
-function delContact(id){delItem('contacts',id,()=>{closeModal('mo-profil');renderContacts();});}
+function delItem(col,id,cb){
+  if(!confirm('Supprimer définitivement cet élément ?'))return;
+  // Gestion arrays et objets Firebase (peuvent être des objets indexés)
+  if(Array.isArray(DB[col])){
+    DB[col]=DB[col].filter(x=>x.id!==id);
+  }
+  saveDB();
+  if(cb)cb();
+}
+function delBoxeur(id){
+  if(!confirm('Supprimer définitivement ce boxeur ?'))return;
+  DB.boxeurs=DB.boxeurs.filter(x=>x.id!==id);
+  saveDB();closeModal('mo-profil');renderBoxeurs();
+}
+function delContact(id){
+  if(!confirm('Supprimer définitivement ce contact ?'))return;
+  DB.contacts=DB.contacts.filter(x=>x.id!==id);
+  saveDB();closeModal('mo-profil');renderContacts();
+}
 
 // ═══════════════════════════════════════
 // SCOUTING
