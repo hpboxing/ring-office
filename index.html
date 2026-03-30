@@ -640,7 +640,22 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
     <div class="logo-main">Ring <span>Office</span></div>
     <div class="logo-sub">Matchmaking & Athlete Intelligence</div>
   </div>
-    <!-- MODULE TABS -->
+  <div class="hd-r">
+    <div class="hd-date" id="hd-date"></div>
+    <div id="fb-status" style="font-size:9px;letter-spacing:2px;color:var(--iv3);margin-right:8px;font-family:'Josefin Sans',sans-serif">⟳ Connexion...</div>
+    <div class="alert-badge" onclick="showView('facturas');setNav('n-facturas')" title="Rappels de facturation">
+      <button class="hbtn" style="background:transparent;border:1px solid var(--l2);color:var(--iv2);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;cursor:pointer">⏰ Rappels</button>
+      <div class="alert-dot" id="alert-dot"></div>
+    </div>
+    <button class="hbtn" onclick="openQuickAdd()" style="background:var(--gold);border-color:var(--gold);color:var(--ink);font-family:'Josefin Sans';font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;cursor:pointer;font-weight:600">+ Ajouter</button>
+  </div>
+</header>
+
+<!-- ══════════ SHELL ══════════ -->
+<div class="shell">
+<aside class="sb">
+
+  <!-- MODULE TABS -->
   <div class="mod-tabs">
     <div class="mod-tab on" id="mod-match" onclick="switchMod('match')">⚔ Match</div>
     <div class="mod-tab" id="mod-athlete" onclick="switchMod('athlete')">🏆 Athlète</div>
@@ -697,6 +712,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="nav" id="n-fact-ath" onclick="showView('facturas');setNav('n-fact-ath')"><span class="nav-ico">🧾</span> Facturation</div>
     </div>
   </div>
+
 </aside>
 
 <!-- ══════════ CONTENT ══════════ -->
@@ -952,7 +968,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
 </div>
 
 </main>
-</div>
+</div><!-- /.shell -->
 
 <!-- ══════════════════════════════════════
      MODALS
