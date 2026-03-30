@@ -414,6 +414,17 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
 .avatar-placeholder{width:56px;height:56px;border-radius:50%;background:var(--surf);border:2px solid var(--l2);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--iv4);flex-shrink:0}
 .avatar-placeholder-lg{width:90px;height:90px;border-radius:50%;background:var(--surf);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--iv4);flex-shrink:0}
 
+/* CRM AUTOCOMPLETE */
+.crm-field{position:relative}
+.crm-dropdown{position:absolute;top:100%;left:0;right:0;background:var(--deep);border:1px solid var(--gold);border-top:none;z-index:600;display:none;max-height:200px;overflow-y:auto}
+.crm-dropdown.open{display:block}
+.crm-item{padding:9px 12px;cursor:pointer;font-size:11px;color:var(--iv2);border-bottom:1px solid var(--l1);display:flex;align-items:center;gap:8px;transition:background .15s}
+.crm-item:hover{background:var(--goldf);color:var(--gold2)}
+.crm-item-role{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--iv3);margin-left:auto}
+.crm-create{padding:10px 12px;cursor:pointer;font-size:10px;color:var(--gold2);border-top:1px solid var(--l2);background:var(--surf);display:flex;align-items:center;gap:6px;letter-spacing:1px}
+.crm-create:hover{background:var(--goldf)}
+.crm-linked{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--grn);letter-spacing:1px;pointer-events:none}
+
 @media(max-width:900px){.shell{flex-direction:column}.sb{display:none}.cnt{margin-left:0}.kpi-row{grid-template-columns:1fr 1fr}}
 
 /* ══════════════════════════════════════
@@ -1012,9 +1023,9 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Défaites</label><input type="number" id="b-d" placeholder="0" min="0"></div>
       <div class="fl"><label>Nuls</label><input type="number" id="b-n" placeholder="0" min="0"></div>
       <div class="fl"><label>KO infligés</label><input type="number" id="b-ko" placeholder="0" min="0"></div>
-      <div class="fl"><label>Manager</label><input type="text" id="b-man"></div>
-      <div class="fl"><label>Promoteur</label><input type="text" id="b-pro"></div>
-      <div class="fl"><label>Entraîneur</label><input type="text" id="b-ent"></div>
+      <div class="fl"><label>Manager</label><div class="crm-field" id="crm-b-man"><input type="text" id="b-man" placeholder="Nom du manager..." autocomplete="off" oninput="window.crmSuggest('b-man','Manager')" onfocus="window.crmSuggest('b-man','Manager')" onblur="setTimeout(()=>window.crmHide('b-man'),200)"><div class="crm-dropdown" id="crm-drop-b-man"></div></div></div>
+      <div class="fl"><label>Promoteur</label><div class="crm-field" id="crm-b-pro"><input type="text" id="b-pro" placeholder="Nom du promoteur..." autocomplete="off" oninput="window.crmSuggest('b-pro','Promoteur')" onfocus="window.crmSuggest('b-pro','Promoteur')" onblur="setTimeout(()=>window.crmHide('b-pro'),200)"><div class="crm-dropdown" id="crm-drop-b-pro"></div></div></div>
+      <div class="fl"><label>Entraîneur</label><div class="crm-field" id="crm-b-ent"><input type="text" id="b-ent" placeholder="Nom de l'entraîneur..." autocomplete="off" oninput="window.crmSuggest('b-ent','Entraîneur')" onfocus="window.crmSuggest('b-ent','Entraîneur')" onblur="setTimeout(()=>window.crmHide('b-ent'),200)"><div class="crm-dropdown" id="crm-drop-b-ent"></div></div></div>
       <div class="fl f-full">
         <label>ID BoxRec <span style="color:var(--iv3);font-size:8px">(numéro dans l'URL boxrec.com/boxer/XXXXX)</span></label>
         <div style="display:flex;gap:8px;align-items:center">
@@ -1064,7 +1075,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
       <div class="fl"><label>Type de combat</label><select class="isel" id="f-typ"><option>Combat de classement</option><option>Titre national</option><option>Titre régional</option><option>Titre international</option><option>Titre WBC/WBA/IBF/WBO</option><option>Combat de préparation</option></select></div>
       <div class="fl"><label>Date proposée</label><input type="date" id="f-dat"></div>
       <div class="fl"><label>Lieu / Pays</label><input type="text" id="f-lie"></div>
-      <div class="fl"><label>Contact adverse</label><input type="text" id="f-con"></div>
+      <div class="fl"><label>Contact adverse (manager/promoteur)</label><div class="crm-field"><input type="text" id="f-con" placeholder="Nom du contact..." autocomplete="off" oninput="window.crmSuggest('f-con','Manager')" onfocus="window.crmSuggest('f-con','Manager')" onblur="setTimeout(()=>window.crmHide('f-con'),200)"><div class="crm-dropdown" id="crm-drop-f-con"></div></div></div>
       <div class="fl"><label>Statut</label><select class="isel" id="f-sta"><option>En négociation</option><option>Accepté</option><option>Refusé</option><option>Sans réponse</option></select></div>
       <div class="fl"><label>Bourse estimée (€)</label><input type="number" id="f-brs" placeholder="0"></div>
       <div class="fl"><label>Commission agence (%)</label><input type="number" id="f-com" placeholder="15" min="0" max="100"></div>
@@ -1290,8 +1301,8 @@ textarea{resize:vertical;min-height:72px;line-height:1.6}
         </div>
         <div id="sc-brc-status" style="font-size:10px;margin-top:6px;font-family:'Cormorant Garamond',serif;font-style:italic;min-height:16px"></div>
       </div>
-      <div class="fl"><label>Manager connu</label><input type="text" id="sc-man"></div>
-      <div class="fl"><label>Promoteur connu</label><input type="text" id="sc-pro"></div>
+      <div class="fl"><label>Manager connu</label><div class="crm-field"><input type="text" id="sc-man" placeholder="Nom du manager..." autocomplete="off" oninput="window.crmSuggest('sc-man','Manager')" onfocus="window.crmSuggest('sc-man','Manager')" onblur="setTimeout(()=>window.crmHide('sc-man'),200)"><div class="crm-dropdown" id="crm-drop-sc-man"></div></div></div>
+      <div class="fl"><label>Promoteur connu</label><div class="crm-field"><input type="text" id="sc-pro" placeholder="Nom du promoteur..." autocomplete="off" oninput="window.crmSuggest('sc-pro','Promoteur')" onfocus="window.crmSuggest('sc-pro','Promoteur')" onblur="setTimeout(()=>window.crmHide('sc-pro'),200)"><div class="crm-dropdown" id="crm-drop-sc-pro"></div></div></div>
       <div class="fl"><label>Source du repérage</label><input type="text" id="sc-src" placeholder="BoxRec, événement, recommandation..."></div>
       <div class="fl"><label>Date repérage</label><input type="date" id="sc-dat"></div>
       <div class="fl"><label>Statut suivi</label><select class="isel" id="sc-sta"><option>À contacter</option><option>Contacté</option><option>En discussion</option><option>Signé</option><option>Abandonné</option></select></div>
@@ -1635,6 +1646,142 @@ function setBoxrecPhoto(pfx, imgUrl){
 }
 
 // ═══════════════════════════════════════
+// CRM AUTOCOMPLETE — Connexion contacts
+// ═══════════════════════════════════════
+
+window.crmSuggest = function(fieldId, defaultRole){
+  const input = document.getElementById(fieldId);
+  if(!input) return;
+  const val = input.value.trim().toLowerCase();
+  const drop = document.getElementById('crm-drop-'+fieldId);
+  if(!drop) return;
+
+  // Filter contacts matching the input
+  const matches = DB.contacts.filter(c => {
+    const name = `${c.pre||''} ${c.nom||''}`.trim().toLowerCase();
+    return !val || name.includes(val);
+  }).slice(0, 8);
+
+  let html = '';
+
+  // Existing contacts
+  if(matches.length){
+    html += matches.map(c => {
+      const name = `${c.pre||''} ${c.nom||''}`.trim();
+      return `<div class="crm-item" onmousedown="window.crmSelect('${fieldId}','${name.replace(/'/g,"\\'")}')">
+        <span>${name}</span>
+        <span class="crm-item-role">${c.rol||''}</span>
+      </div>`;
+    }).join('');
+  } else if(val) {
+    html += `<div class="crm-item" style="color:var(--iv4);cursor:default;font-style:italic">Aucun contact trouvé</div>`;
+  }
+
+  // Always show "Create" option if user typed something not exactly matching
+  const exactMatch = DB.contacts.some(c => `${c.pre||''} ${c.nom||''}`.trim().toLowerCase() === val);
+  if(val && !exactMatch){
+    const parts = val.split(' ');
+    const pre = parts.slice(0,-1).map(p=>p.charAt(0).toUpperCase()+p.slice(1)).join(' ');
+    const nom = parts[parts.length-1].charAt(0).toUpperCase()+parts[parts.length-1].slice(1);
+    html += `<div class="crm-create" onmousedown="window.crmCreateContact('${fieldId}','${pre.replace(/'/g,"\\'")}','${nom.replace(/'/g,"\\'")}','${defaultRole}')">
+      ✚ Créer la fiche contact "<strong>${input.value.trim()}</strong>" (${defaultRole})
+    </div>`;
+  }
+
+  drop.innerHTML = html;
+  drop.classList.toggle('open', html.length > 0);
+};
+
+window.crmHide = function(fieldId){
+  const drop = document.getElementById('crm-drop-'+fieldId);
+  if(drop) drop.classList.remove('open');
+};
+
+window.crmSelect = function(fieldId, name){
+  const input = document.getElementById(fieldId);
+  if(input) input.value = name;
+  window.crmHide(fieldId);
+  // Show linked indicator
+  window.crmShowLinked(fieldId);
+};
+
+window.crmShowLinked = function(fieldId){
+  const field = document.querySelector(`#crm-drop-${fieldId}`)?.parentElement;
+  if(!field) return;
+  let badge = field.querySelector('.crm-linked');
+  if(!badge){ badge = document.createElement('div'); badge.className='crm-linked'; badge.textContent='✓ CRM'; field.appendChild(badge); }
+  setTimeout(()=>{ if(badge.parentElement) badge.parentElement.removeChild(badge); }, 3000);
+};
+
+// Ouvre le modal contact pré-rempli, et au retour remplit le champ
+window.crmCreateContact = function(fieldId, pre, nom, defaultRole){
+  window.crmHide(fieldId);
+  // Pre-fill contact modal
+  clearPfx('c-');
+  document.getElementById('c-pre').value = pre;
+  document.getElementById('c-nom').value = nom;
+  // Set role
+  const roleEl = document.getElementById('c-rol');
+  if(roleEl){
+    for(let o of roleEl.options){ if(o.value===defaultRole){ roleEl.value=defaultRole; break; } }
+  }
+  // Store which field to update after save
+  window._crmReturnField = fieldId;
+  window._crmReturnName = (pre+' '+nom).trim();
+  // Override save button temporarily
+  const saveBtn = document.querySelector('#mo-cts .fa button:last-child');
+  if(saveBtn){
+    window._crmOrigSave = saveBtn.onclick;
+    saveBtn.onclick = ()=>window.crmSaveAndReturn();
+  }
+  openModal('mo-cts');
+};
+
+window.crmSaveAndReturn = function(){
+  // Save the contact normally
+  const nom = document.getElementById('c-nom')?.value?.trim();
+  const pre = document.getElementById('c-pre')?.value?.trim();
+  if(!nom){ alert('Le nom est requis.'); return; }
+  // Create contact
+  const newContact = {
+    id: Date.now(),
+    pre, nom,
+    rol: document.getElementById('c-rol')?.value||'',
+    pay: document.getElementById('c-pay')?.value?.trim()||'',
+    eml: document.getElementById('c-eml')?.value?.trim()||'',
+    tel: document.getElementById('c-tel')?.value?.trim()||'',
+    box: document.getElementById('c-box')?.value?.trim()||'',
+    can: document.getElementById('c-can')?.value||'Email',
+    dat: document.getElementById('c-dat')?.value||'',
+    obj: document.getElementById('c-obj')?.value?.trim()||'',
+    not: document.getElementById('c-not')?.value?.trim()||''
+  };
+  DB.contacts.push(newContact);
+  saveDB();
+  closeModal('mo-cts');
+  // Fill the original field
+  if(window._crmReturnField){
+    const input = document.getElementById(window._crmReturnField);
+    if(input) input.value = `${pre} ${nom}`.trim();
+    window.crmShowLinked(window._crmReturnField);
+  }
+  // Restore save button
+  const saveBtn = document.querySelector('#mo-cts .fa button:last-child');
+  if(saveBtn && window._crmOrigSave) saveBtn.onclick = window._crmOrigSave;
+  window._crmReturnField = null;
+  window._crmOrigSave = null;
+  // Show confirmation
+  const name = `${pre} ${nom}`.trim();
+  alert(`✓ Contact "${name}" créé dans le CRM !`);
+};
+
+window.crmSuggest=window.crmSuggest;
+window.crmHide=window.crmHide;
+window.crmSelect=window.crmSelect;
+window.crmCreateContact=window.crmCreateContact;
+window.crmSaveAndReturn=window.crmSaveAndReturn;
+
+// ═══════════════════════════════════════
 // BOXREC AUTO-FETCH
 // ═══════════════════════════════════════
 
@@ -1739,11 +1886,14 @@ window.fetchBoxrec = async function(pfx){
   const bid = bidEl ? bidEl.value.trim() : '';
   if(!bid){ setStatus(pfx,'⚠ Entre un ID BoxRec d\'abord','var(--gold2)'); return; }
 
-  // Afficher le lien BoxRec direct dans tous les cas
   const link = document.getElementById(pfx+'-brc-link');
   if(link){ link.href=`https://boxrec.com/boxer/${bid}`; link.style.display='inline'; }
 
   setStatus(pfx,'⟳ Connexion à BoxRec...','var(--gold2)');
+
+  // Nettoyer les banners CRM précédents
+  const oldBanner = document.getElementById(pfx+'-crm-banner');
+  if(oldBanner) oldBanner.remove();
 
   let success = false;
 
@@ -1764,8 +1914,6 @@ window.fetchBoxrec = async function(pfx){
       }
 
       if(!text || text.length < 500) continue;
-
-      // Vérifier que c'est bien une page BoxRec
       if(!text.includes('boxrec') && !text.includes('BoxRec')) continue;
 
       const parsed = parseBoxrec(text);
@@ -1778,7 +1926,6 @@ window.fetchBoxrec = async function(pfx){
           const el = document.getElementById(elId);
           if(el && !el.value){
             if(el.tagName === 'SELECT'){
-              // Pour les selects, chercher l'option correspondante
               for(let opt of el.options){
                 if(opt.value === parsed[key]){ el.value=parsed[key]; filled++; break; }
               }
@@ -1791,20 +1938,69 @@ window.fetchBoxrec = async function(pfx){
       });
 
       if(filled > 0){
-        // Tenter de charger la photo BoxRec
         if(parsed.photo){
           setBoxrecPhoto(pfx, parsed.photo);
         } else {
-          setStatus(pfx, `✓ ${filled} champ(s) rempli(s) depuis BoxRec. Vérifie et ajuste si besoin.`, 'var(--grn)');
+          setStatus(pfx, `✓ ${filled} champ(s) rempli(s) depuis BoxRec.`, 'var(--grn)');
         }
         success = true;
+
+        // ── CRM AUTO-CRÉATION ──────────────────────────
+        // Chercher manager et promoteur trouvés, proposer création si absents du CRM
+        const crmCandidates = [];
+        if(parsed.man && parsed.man.trim()){
+          const manName = parsed.man.trim();
+          const exists = DB.contacts.some(c =>
+            `${c.pre||''} ${c.nom||''}`.trim().toLowerCase() === manName.toLowerCase()
+          );
+          if(!exists) crmCandidates.push({ name: manName, role: 'Manager', field: pfx+'-man' });
+        }
+        if(parsed.pro && parsed.pro.trim()){
+          const proName = parsed.pro.trim();
+          const exists = DB.contacts.some(c =>
+            `${c.pre||''} ${c.nom||''}`.trim().toLowerCase() === proName.toLowerCase()
+          );
+          if(!exists) crmCandidates.push({ name: proName, role: 'Promoteur', field: pfx+'-pro' });
+        }
+
+        if(crmCandidates.length > 0){
+          // Afficher le banner CRM sous le status
+          const statusEl = document.getElementById(pfx+'-brc-status');
+          if(statusEl){
+            const banner = document.createElement('div');
+            banner.id = pfx+'-crm-banner';
+            banner.style.cssText = 'margin-top:10px;background:var(--surf);border:1px solid var(--gold);padding:12px 14px;border-radius:2px';
+            banner.innerHTML = `
+              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">📋 Contacts trouvés — créer dans le CRM ?</div>
+              ${crmCandidates.map((c,i) => `
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;background:var(--card);padding:8px 10px">
+                  <div>
+                    <span style="font-family:'Playfair Display',serif;font-size:14px;color:var(--ivory)">${c.name}</span>
+                    <span style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--iv3);margin-left:8px">${c.role}</span>
+                  </div>
+                  <div style="display:flex;gap:6px">
+                    <button class="hbtn" style="font-size:9px;padding:5px 10px;cursor:pointer;background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600"
+                      onclick="window.brcCreateCRM('${c.name.replace(/'/g,"\\'")}','${c.role}','${c.field}','${pfx}')">
+                      ✚ Créer
+                    </button>
+                    <button class="hbtn" style="font-size:9px;padding:5px 10px;cursor:pointer;color:var(--iv3)"
+                      onclick="this.closest('[style]').remove()">
+                      Ignorer
+                    </button>
+                  </div>
+                </div>`).join('')}
+            `;
+            statusEl.parentElement.appendChild(banner);
+          }
+        }
+        // ── FIN CRM ────────────────────────────────────
+
       } else {
         setStatus(pfx, '⚠ Profil trouvé mais données non lisibles. Remplis manuellement.', 'var(--gold2)');
-        success = true; // On arrête d'essayer d'autres proxies
+        success = true;
       }
 
     } catch(e) {
-      // Proxy échoué, on essaie le suivant
       continue;
     }
   }
@@ -1815,6 +2011,57 @@ window.fetchBoxrec = async function(pfx){
       'var(--iv3)'
     );
   }
+};
+
+// Créer une fiche CRM depuis BoxRec en 1 clic
+window.brcCreateCRM = function(fullName, role, fieldId, pfx){
+  const parts = fullName.trim().split(' ');
+  const nom = parts[parts.length-1];
+  const pre = parts.slice(0,-1).join(' ');
+
+  // Créer le contact directement sans ouvrir de modal
+  const existing = DB.contacts.find(c =>
+    `${c.pre||''} ${c.nom||''}`.trim().toLowerCase() === fullName.toLowerCase()
+  );
+  if(existing){
+    // Déjà existant, juste remplir le champ
+    const el = document.getElementById(fieldId);
+    if(el) el.value = fullName;
+    setStatus(pfx, `✓ Contact "${fullName}" déjà dans le CRM.`, 'var(--grn)');
+    return;
+  }
+
+  DB.contacts.push({
+    id: Date.now() + Math.random(),
+    pre, nom, rol: role,
+    pay:'', eml:'', tel:'', box:'',
+    can:'Email', dat:'', obj:'BoxRec import', not:'Créé automatiquement depuis BoxRec'
+  });
+  saveDB();
+  renderContacts();
+
+  // Remplir le champ dans le formulaire
+  const el = document.getElementById(fieldId);
+  if(el) el.value = fullName;
+
+  // Retirer ce bouton du banner
+  const banner = document.getElementById(pfx+'-crm-banner');
+  if(banner){
+    // Masquer la ligne correspondante
+    const buttons = banner.querySelectorAll('button');
+    buttons.forEach(btn => {
+      if(btn.textContent.trim()==='✚ Créer'){
+        const row = btn.closest('[style*="display:flex"]');
+        if(row) row.style.opacity='0.4';
+        btn.textContent='✓ Créé';
+        btn.style.background='var(--grn)';
+        btn.style.borderColor='var(--grn)';
+        btn.onclick=null;
+      }
+    });
+  }
+
+  setStatus(pfx, `✓ "${fullName}" créé dans le CRM (${role}).`, 'var(--grn)');
 };
 
 // ═══════════════════════════════════════
@@ -3185,6 +3432,7 @@ window.norm=norm;
 window.setPhotoPreview=setPhotoPreview;
 window.openAthleteDetail=openAthleteDetail;
 window.renderEligib=renderEligib;
+// brcCreateCRM déjà assigné à window directement
 
 // ── MOBILE NAV ──
 function mobNav(view, tabId){
